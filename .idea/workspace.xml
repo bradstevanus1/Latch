@@ -6,74 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73bf0e87-815b-452d-9f65-661ff2298e75" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/gamemaking_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gamemaking.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/alien.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/bardejov.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/breakout/ball.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/breakout/brickie.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/breakout/paddle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/craft.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minesweeper/0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minesweeper/1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minesweeper/10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minesweeper/11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minesweeper/12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minesweeper/2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minesweeper/3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minesweeper/4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minesweeper/5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minesweeper/6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minesweeper/7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minesweeper/8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minesweeper/9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/missile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/pacman/down1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/pacman/down2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/pacman/down3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/pacman/ghost.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/pacman/left1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/pacman/left2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/pacman/left3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/pacman/pacman.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/pacman/right1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/pacman/right2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/pacman/right3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/pacman/up1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/pacman/up2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/pacman/up3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/snake.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/snake/apple.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/snake/dot.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/snake/head.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/sokoban/area.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/sokoban/baggage.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/sokoban/sokoban.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/sokoban/wall.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/spaceinvaders/alien.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/spaceinvaders/bomb.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/spaceinvaders/explosion.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/spaceinvaders/player.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/spaceinvaders/shot.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/_01_basics/com/zetcode/application/Application.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/_01_basics/com/zetcode/application/Board.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/_01_basics/com/zetcode/donut/Board.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/_01_basics/com/zetcode/donut/Donut.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/_01_basics/com/zetcode/drawimage/Board.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/_01_basics/com/zetcode/drawimage/DisplayImage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/_02_animation/com/zetcode/ImageExample.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/_02_animation/com/zetcode/swingtimer/Board.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/_02_animation/com/zetcode/swingtimer/SwingTimerEx.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/example/helloworld/HelloWorld.java" afterDir="false" />
-    </list>
+    <list default="true" id="73bf0e87-815b-452d-9f65-661ff2298e75" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -254,7 +187,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549580199046" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549580791264" />
     <property name="jdk.selected.JAVA_MODULE" value="11" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
