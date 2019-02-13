@@ -3,7 +3,7 @@ package _01_basics.com.zetcode.drawimage;
 import javax.swing.*;
 import java.awt.*;
 
-protected class Board extends JPanel {
+class Board extends JPanel {
 
     private Image bardejov;
 

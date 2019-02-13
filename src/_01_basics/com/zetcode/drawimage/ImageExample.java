@@ -1,6 +1,4 @@
-package _02_animation.com.zetcode;
-
-import _01_basics.com.zetcode.drawimage.Board;
+package _01_basics.com.zetcode.drawimage;
 
 import javax.swing.*;
 import java.awt.*;
