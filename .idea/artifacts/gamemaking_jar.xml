@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="gamemaking:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/gamemaking_jar</output-path>
-    <root id="archive" name="gamemaking.jar">
-      <element id="module-output" name="gamemaking" />
-    </root>
-  </artifact>
-</component>
