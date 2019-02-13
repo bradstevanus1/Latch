@@ -1,0 +1,15 @@
+out
+log
+*.idea
+*.ipr
+*.iml
+*.iws
+*.log
+*.log.gz
+.DS_store
+.idea/*
+.settings
+.project
+.classpath
+.lazybones
+credentials.js
