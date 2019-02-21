@@ -1,8 +1,15 @@
 package com.brad.rain;
 
+import com.brad.rain.graphics.Screen;
+
 import javax.swing.JFrame;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.image.BufferStrategy;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 
 public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
@@ -14,9 +21,17 @@ public class Game extends Canvas implements Runnable {
     private JFrame frame;
     private boolean running = false;
 
+    private Screen screen;
+
+    private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+
     public Game() {
         Dimension size = new Dimension(width*scale, height*scale);
         setPreferredSize(size);
+
+        screen = new Screen(width, height);
+
         frame = new JFrame();
     }
 
@@ -38,8 +53,35 @@ public class Game extends Canvas implements Runnable {
 
     public void run() {
         while (running) {
-
+            update();
+            render();
         }
+    }
+
+    public void update() {
+
+    }
+
+    public void render() {
+        BufferStrategy bs = getBufferStrategy();
+        if (bs == null) {
+            createBufferStrategy(3);
+            return;
+        }
+
+        screen.render();
+
+        for (int i = 0; i < pixels.length; i++) {
+            pixels[i] = screen.pixels[i];
+        }
+
+        Graphics g = bs.getDrawGraphics();
+        g.setColor(new Color(180, 120, 0));
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.drawImage(image, 0, 0, );
+        g.dispose();
+        bs.show();
+
     }
 
     public static void main(String[] args) {
