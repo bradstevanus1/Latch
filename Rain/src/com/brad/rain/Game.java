@@ -14,8 +14,9 @@ import java.awt.image.DataBufferInt;
 public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
     public static int width = 300;
-    public static int height = width / 16 * 9;
+    public static int height = 168;
     public static int scale = 3;
+    public static String title = "Rain";
 
     private Thread thread;
     private JFrame frame;
@@ -52,14 +53,40 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void run() {
+        long lastTime = System.nanoTime();
+        long timer = System.currentTimeMillis();
+        final double ns = 1000000000.0 / 60.0;
+        double delta = 0;
+        int frames = 0;     // For counting frames/s
+        int updates = 0;    // For counting updates/s
         while (running) {
-            update();
+            long now = System.nanoTime();
+            delta += (now - lastTime) / ns;
+            lastTime = now;
+            while (delta >= 1) {
+                update();
+                updates++;
+                delta--;
+            }
             render();
+            frames++;
+
+            if (System.currentTimeMillis() - timer > 1000) {
+                timer += 1000;
+                System.out.println(updates + " ups, " + frames + " fps");
+                frame.setTitle(title + " | " + updates + " ups, " + frames + " fps");
+                updates = 0;
+                frames = 0;
+            }
         }
+        stop();
     }
 
-    public void update() {
+    int x = 0, y = 0;
 
+    public void update() {
+        y++;
+        if (y % 10 == 0) x++;
     }
 
     public void render() {
@@ -69,7 +96,8 @@ public class Game extends Canvas implements Runnable {
             return;
         }
 
-        screen.render();
+        screen.clear();
+        screen.render(x, y);
 
         for (int i = 0; i < pixels.length; i++) {
             pixels[i] = screen.pixels[i];
@@ -85,7 +113,7 @@ public class Game extends Canvas implements Runnable {
     public static void main(String[] args) {
         Game game = new Game();
         game.frame.setResizable(false);
-        game.frame.setTitle("Rain");
+        game.frame.setTitle(Game.title);
         game.frame.add(game);
         game.frame.pack();
         game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
