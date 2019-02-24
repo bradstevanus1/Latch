@@ -1,6 +1,7 @@
 package com.brad.rain;
 
 import com.brad.rain.graphics.Screen;
+import com.brad.rain.input.Keyboard;
 
 import javax.swing.JFrame;
 import java.awt.Canvas;
@@ -20,6 +21,7 @@ public class Game extends Canvas implements Runnable {
 
     private Thread thread;
     private JFrame frame;
+    private Keyboard key;
     private boolean running = false;
 
     private Screen screen;
@@ -32,8 +34,10 @@ public class Game extends Canvas implements Runnable {
         setPreferredSize(size);
 
         screen = new Screen(width, height);
-
         frame = new JFrame();
+        key = new Keyboard();
+
+        addKeyListener(key);
     }
 
     public synchronized void start() {
@@ -73,7 +77,6 @@ public class Game extends Canvas implements Runnable {
 
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
-                System.out.println(updates + " ups, " + frames + " fps");
                 frame.setTitle(title + " | " + updates + " ups, " + frames + " fps");
                 updates = 0;
                 frames = 0;
@@ -85,8 +88,11 @@ public class Game extends Canvas implements Runnable {
     int x = 0, y = 0;
 
     public void update() {
-        y++;
-        if (y % 10 == 0) x++;
+        key.update();
+        if (key.up) y--;
+        if (key.down) y++;
+        if (key.left) x--;
+        if (key.right) x++;
     }
 
     public void render() {
@@ -121,6 +127,7 @@ public class Game extends Canvas implements Runnable {
         game.frame.setVisible(true);
 
         game.start();
+        game.requestFocus();
     }
 
 }
