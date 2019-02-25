@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -63,6 +64,7 @@ public class Game extends Canvas implements Runnable {
         double delta = 0;
         int frames = 0;     // For counting frames/s
         int updates = 0;    // For counting updates/s
+        requestFocus();
         while (running) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
@@ -93,6 +95,8 @@ public class Game extends Canvas implements Runnable {
         if (key.down) y++;
         if (key.left) x--;
         if (key.right) x++;
+        if (key.escape) frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+
     }
 
     public void render() {
@@ -127,7 +131,6 @@ public class Game extends Canvas implements Runnable {
         game.frame.setVisible(true);
 
         game.start();
-        game.requestFocus();
     }
 
 }
