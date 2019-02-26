@@ -3,10 +3,9 @@ package com.brad.rain.level.tile;
 import com.brad.rain.graphics.Screen;
 import com.brad.rain.graphics.Sprite;
 
-// No collision
-public class GrassTile extends Tile {
+public class VoidTile extends Tile {
 
-    public GrassTile(Sprite sprite) {
+    public VoidTile(Sprite sprite) {
         super(sprite);
     }
 
