@@ -8,7 +8,7 @@ import java.awt.event.KeyListener;
 public class Keyboard implements KeyListener {
 
     private boolean[] keys = new boolean[120]; // or 65536
-    public boolean up, down, left, right, escape, screenLockToggle;
+    public boolean up, down, left, right, escape, screenLockToggle, centerCameraOnPlayer;
 
     public void update() {
         up = keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W];
@@ -16,7 +16,8 @@ public class Keyboard implements KeyListener {
         left = keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A];
         right = keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D];
         escape = keys[KeyEvent.VK_ESCAPE];
-        screenLockToggle = keys[KeyEvent.VK_G];
+        screenLockToggle = keys[KeyEvent.VK_Y];
+        centerCameraOnPlayer = keys[KeyEvent.VK_T];
     }
 
     @Override

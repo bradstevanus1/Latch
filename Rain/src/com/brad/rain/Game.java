@@ -104,6 +104,10 @@ public class Game extends Canvas implements Runnable {
             keyReleased = false;
         }
         if (!(key.screenLockToggle || keyReleased)) keyReleased = !keyReleased;
+        if (key.centerCameraOnPlayer) {
+            x = player.x - screen.width / 2;
+            y = player.y - screen.height / 2;
+        }
         key.update();
         player.update();
     }
