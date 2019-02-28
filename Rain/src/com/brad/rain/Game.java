@@ -29,6 +29,9 @@ public class Game extends Canvas implements Runnable {
     private boolean running = false;
 
     private Screen screen;
+    private boolean lockedScreen = true;
+    private boolean keyReleased = true;
+    private int x, y; // For unlocked camera
 
     private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
@@ -94,6 +97,17 @@ public class Game extends Canvas implements Runnable {
 
 
     public void update() {
+        if (key.screenLockToggle && keyReleased) {
+            lockedScreen = !lockedScreen;
+            x = player.x - screen.width / 2;
+            y = player.y - screen.height / 2;
+            keyReleased = false;
+        }
+        if (!(key.screenLockToggle || keyReleased)) keyReleased = !keyReleased;
+        if (key.centerCameraOnPlayer) {
+            x = player.x - screen.width / 2;
+            y = player.y - screen.height / 2;
+        }
         key.update();
         player.update();
     }
@@ -106,8 +120,8 @@ public class Game extends Canvas implements Runnable {
         }
 
         screen.clear();
-        int xScroll = player.x - screen.width / 2;
-        int yScroll = player.y - screen.height / 2;
+        int xScroll = (lockedScreen) ? player.x - screen.width / 2 : x;
+        int yScroll = (lockedScreen) ? player.y - screen.height / 2 : y;
         level.render(xScroll, yScroll, screen);
         player.render(screen);
 
