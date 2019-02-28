@@ -6,7 +6,7 @@ import com.brad.rain.graphics.Sprite;
 public abstract class Mob extends Entity {
 
     protected Sprite sprite;
-    protected int dir = 0;
+    protected int dir = -1;
     protected boolean moving = false;
 
     public void move(int xa, int ya) {
