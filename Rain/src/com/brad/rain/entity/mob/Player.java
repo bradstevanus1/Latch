@@ -7,6 +7,7 @@ import com.brad.rain.input.Keyboard;
 public class Player extends Mob {
 
     private Keyboard input;
+    private Sprite sprite;
 
     public Player(Keyboard input) {
         this.input = input;
@@ -28,7 +29,8 @@ public class Player extends Mob {
     }
 
     public void render(Screen screen) {
-        screen.renderPlayer(x - 16, y - 16, Sprite.player);
+        sprite = Sprite.player_forward;
+        screen.renderPlayer(x - 16, y - 16, sprite);
     }
 
 }
