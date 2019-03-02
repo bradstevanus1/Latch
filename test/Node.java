@@ -16,7 +16,7 @@ public class Node {
             }
         } else {
             if (right == null) {
-                right = new Node(value);
+                right = new Node(value) ;
             } else {
                 right.insert(value);
             }
