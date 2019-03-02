@@ -5,6 +5,7 @@ import com.brad.rain.graphics.Screen;
 import com.brad.rain.input.Keyboard;
 import com.brad.rain.level.Level;
 import com.brad.rain.level.RandomLevel;
+import com.brad.rain.level.SpawnLevel;
 
 import javax.swing.JFrame;
 import java.awt.*;
@@ -41,7 +42,7 @@ public class Game extends Canvas implements Runnable {
         screen = new Screen(width, height);
         frame = new JFrame();
         key = new Keyboard();
-        level = new RandomLevel(64, 64);
+        level = new SpawnLevel("/textures/level.png");
         player = new Player(key);
 
         addKeyListener(key);

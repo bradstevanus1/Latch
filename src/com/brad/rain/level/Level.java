@@ -5,13 +5,14 @@ import com.brad.rain.level.tile.Tile;
 
 public class Level {
 
+    protected Tile tiles[];
     protected int width, height;
-    protected int[] tiles;
+    protected int[] tilesInt;
 
     public Level(int width, int height) {
         this.width = width;
         this.height = height;
-        tiles = new int[width * height];
+        tilesInt = new int[width * height];
         generateLevel();
     }
 
@@ -44,14 +45,19 @@ public class Level {
 
         for (int y = y0; y < y1; y++) {
             for (int x = x0; x < x1; x++) {
-                getRandomTile(x, y).render(x, y, screen);
+                //getRandomTile(x, y).render(x, y, screen);
+                if (x < 0 || y < 0 || x >= width || y >= height) {
+                    Tile.voidTile.render(x, y, screen);
+                } else {
+                    tiles[x + y * 16].render(x, y, screen);
+                }
             }
         }
     }
 
     public Tile getRandomTile(int x, int y) {
         if (x < 0 || y < 0 || x >= width || y >= height) return Tile.voidTile;
-        int spriteNumber = tiles[x + y * width];
+        int spriteNumber = tilesInt[x + y * width];
         switch (spriteNumber) {
             case 0: return Tile.grass;
             case 1: return Tile.flower;

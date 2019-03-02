@@ -8,7 +8,6 @@ import java.io.IOException;
 
 public class SpawnLevel extends Level {
 
-    private Tile tiles[];
     private int levelPixels[];
 
     public SpawnLevel(String path) {
@@ -29,14 +28,14 @@ public class SpawnLevel extends Level {
     }
 
     /*
-     * Grass = 0x00FF00
+     * Grass = 0xFF00
      * Flower = 0xFFFF00
      * Rock = 0x7F7F00
      */
     protected void generateLevel() {
         for (int i = 0; i < levelPixels.length; i++) {
             switch (levelPixels[i]) {
-                case 0x00ff00: tiles[i] = Tile.grass;
+                case 0xff00: tiles[i] = Tile.grass;
                 case 0xffff00: tiles[i] = Tile.flower;
                 case 0x7f7f00: tiles[i] = Tile.rock;
                 default: tiles[i] = Tile.voidTile;
