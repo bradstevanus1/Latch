@@ -8,6 +8,7 @@ public abstract class Mob extends Entity {
     protected Sprite sprite;
     protected int dir = -1;
     protected boolean moving = false;
+    protected int moveSpeed = 1;
 
     public void move(int xa, int ya) {
         if (xa > 0) dir = 1;

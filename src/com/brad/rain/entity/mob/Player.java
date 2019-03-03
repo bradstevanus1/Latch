@@ -14,24 +14,28 @@ public class Player extends Mob {
     private final byte secondAnimationFrame = (animationSpeed * 2) / 3;
     private boolean walking = false;
 
-    public Player(Keyboard input) {
+    public Player(Keyboard input, int moveSpeed) {
         this.input = input;
+        this.moveSpeed = moveSpeed;
         sprite = Sprite.player_forward;
     }
 
-    public Player(int x, int y, Keyboard input) {
+    public Player(int x, int y, Keyboard input, int moveSpeed) {
         this.x = x;
         this.y = y;
+        this.input = input;
+        sprite = sprite.player_forward;
+        this.moveSpeed = moveSpeed;
     }
 
     public void update() {
         int xa = 0, ya = 0;
         if (animate < animationSpeed) animate++;
         else animate = 0;
-        if (input.up) ya--;
-        if (input.down) ya++;
-        if (input.left) xa--;
-        if (input.right) xa++;
+        if (input.up) ya = ya - moveSpeed;
+        if (input.down) ya = ya + moveSpeed;
+        if (input.left) xa = xa - moveSpeed;
+        if (input.right) xa = xa + moveSpeed;
 
         if (xa != 0 || ya != 0) {
             move(xa, ya);
