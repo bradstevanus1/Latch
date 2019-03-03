@@ -3,6 +3,7 @@ package com.brad.rain;
 import com.brad.rain.entity.mob.Player;
 import com.brad.rain.graphics.Screen;
 import com.brad.rain.input.Keyboard;
+import com.brad.rain.input.Mouse;
 import com.brad.rain.level.Level;
 import com.brad.rain.level.SpawnLevel;
 import com.brad.rain.level.TileCoordinate;
@@ -46,7 +47,11 @@ public class Game extends Canvas implements Runnable {
         TileCoordinate playerSpawn = new TileCoordinate(19, 62);
         player = new Player(playerSpawn.getX(), playerSpawn.getY(), key, 1);
         player.init(level);
+
+        Mouse mouse = new Mouse();
         addKeyListener(key);
+        addMouseListener(mouse);
+        addMouseMotionListener(mouse);
     }
 
     public synchronized void start() {
@@ -131,6 +136,10 @@ public class Game extends Canvas implements Runnable {
 
         Graphics g = bs.getDrawGraphics();
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Verdana", 0, 50));
+        g.fillRect(Mouse.getX(), Mouse.getY(), 64, 64);
+        g.drawString("Button: " + Mouse.getButton(), 80, 80);
         g.dispose();
         bs.show();
 
