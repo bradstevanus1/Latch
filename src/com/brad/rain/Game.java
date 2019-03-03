@@ -5,6 +5,7 @@ import com.brad.rain.graphics.Screen;
 import com.brad.rain.input.Keyboard;
 import com.brad.rain.level.Level;
 import com.brad.rain.level.SpawnLevel;
+import com.brad.rain.level.TileCoordinate;
 
 import javax.swing.JFrame;
 import java.awt.*;
@@ -42,8 +43,9 @@ public class Game extends Canvas implements Runnable {
         frame = new JFrame();
         key = new Keyboard();
         level = Level.spawn;
-        player = new Player(30, 30, key, 1);
-
+        TileCoordinate playerSpawn = new TileCoordinate(19, 62);
+        player = new Player(playerSpawn.getX(), playerSpawn.getY(), key, 1);
+        player.init(level);
         addKeyListener(key);
     }
 
