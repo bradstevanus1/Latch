@@ -3,6 +3,7 @@ package com.brad.rain.entity.mob;
 import com.brad.rain.graphics.Screen;
 import com.brad.rain.graphics.Sprite;
 import com.brad.rain.input.Keyboard;
+import com.brad.rain.input.Mouse;
 
 public class Player extends Mob {
 
@@ -36,12 +37,23 @@ public class Player extends Mob {
         if (input.down) ya = ya + moveSpeed;
         if (input.left) xa = xa - moveSpeed;
         if (input.right) xa = xa + moveSpeed;
-
         if (xa != 0 || ya != 0) {
             move(xa, ya);
             walking = true;
         } else {
             walking = false;
+        }
+
+        updateShooting();
+    }
+
+    private void updateShooting() {
+        if (Mouse.getButton() == 1) {
+            // TODO Change this, it currently has the player in the centre only
+            double dx = Mouse.getX() - 150;
+            double dy = Mouse.getY() - 84;
+            double dir = Math.atan2(dy, dx);
+            shoot(x, y, dir);
         }
     }
 

@@ -2,6 +2,7 @@ package com.brad.rain.entity.mob;
 
 import com.brad.rain.entity.Entity;
 import com.brad.rain.graphics.Sprite;
+import com.brad.rain.input.Mouse;
 
 public abstract class Mob extends Entity {
 
@@ -32,6 +33,11 @@ public abstract class Mob extends Entity {
 
     public void update() {
 
+    }
+
+    protected void shoot(int x, int y, double dir) {
+        System.out.println("MouseX: " + Mouse.getX());
+        System.out.println("Angle: " + dir);
     }
 
     private boolean collision(int xa, int ya) {
