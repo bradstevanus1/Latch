@@ -1,5 +1,6 @@
 package com.brad.rain.entity.mob;
 
+import com.brad.rain.Game;
 import com.brad.rain.graphics.Screen;
 import com.brad.rain.graphics.Sprite;
 import com.brad.rain.input.Keyboard;
@@ -50,8 +51,8 @@ public class Player extends Mob {
     private void updateShooting() {
         if (Mouse.getButton() == 1) {
             // TODO Change this, it currently has the player in the centre only
-            double dx = Mouse.getX() - 150;
-            double dy = Mouse.getY() - 84;
+            double dx = Mouse.getX() - Game.getWindowWidth() / 2;
+            double dy = Mouse.getY() - Game.getWindowHeight() / 2;
             double dir = Math.atan2(dy, dx);
             shoot(x, y, dir);
         }

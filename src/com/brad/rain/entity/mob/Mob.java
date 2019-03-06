@@ -1,15 +1,24 @@
 package com.brad.rain.entity.mob;
 
 import com.brad.rain.entity.Entity;
+import com.brad.rain.entity.projectile.Projectile;
+import com.brad.rain.entity.projectile.SpearProjectile;
 import com.brad.rain.graphics.Sprite;
 import com.brad.rain.input.Mouse;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class Mob extends Entity {
 
     protected Sprite sprite;
     protected int dir = -1;
     protected boolean moving = false;
+    protected boolean walking = false;
     protected int moveSpeed = 1;
+
+    protected List<Projectile> projectiles = new ArrayList<Projectile>();
 
     public void move(int xa, int ya) {
         // Use this method, or separate the
@@ -36,8 +45,10 @@ public abstract class Mob extends Entity {
     }
 
     protected void shoot(int x, int y, double dir) {
-        System.out.println("MouseX: " + Mouse.getX());
-        System.out.println("Angle: " + dir);
+        // dir = Math.toDegrees(dir);
+        Projectile p = new SpearProjectile(x, y, dir);
+        projectiles.add(p);
+        level.add(p);
     }
 
     private boolean collision(int xa, int ya) {
