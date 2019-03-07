@@ -29,9 +29,9 @@ public class Game extends Canvas implements Runnable {
     private boolean running = false;
 
     private Screen screen;
-    private boolean lockedScreen = true;
+    public static boolean lockedScreen = true;
     private boolean keyReleased = true;
-    private int x, y; // For unlocked camera
+    public static int x, y; // For unlocked camera
 
     private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
@@ -46,6 +46,8 @@ public class Game extends Canvas implements Runnable {
         level = Level.spawn;
         TileCoordinate playerSpawn = new TileCoordinate(19, 62);
         player = new Player(playerSpawn.getX(), playerSpawn.getY(), key, 1);
+        x = player.x - screen.width / 2;
+        y = player.y - screen.height / 2;
         player.init(level);
 
         Mouse mouse = new Mouse();
@@ -60,6 +62,10 @@ public class Game extends Canvas implements Runnable {
 
     public static int getWindowHeight() {
         return height * scale;
+    }
+
+    public static int getScale() {
+        return scale;
     }
 
     public synchronized void start() {

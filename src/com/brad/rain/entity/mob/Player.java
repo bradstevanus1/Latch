@@ -1,6 +1,7 @@
 package com.brad.rain.entity.mob;
 
 import com.brad.rain.Game;
+import com.brad.rain.entity.projectile.Projectile;
 import com.brad.rain.graphics.Screen;
 import com.brad.rain.graphics.Sprite;
 import com.brad.rain.graphics.SpriteCollection;
@@ -45,15 +46,38 @@ public class Player extends Mob {
         } else {
             walking = false;
         }
-
+        clear();
+        updatePosRelativeToScreen();
         updateShooting();
+    }
+
+    private void clear() {
+        for (int i = 0; i < level.getProjectiles().size(); i++) {
+            Projectile p = level.getProjectiles().get(i);
+            if (p.isRemoved()) level.getProjectiles().remove(i);
+        }
+    }
+
+    private void updatePosRelativeToScreen() {
+        if (Game.lockedScreen) {
+            xRelativeToScreen = Game.getWindowWidth() / 2;
+            yRelativeToScreen = Game.getWindowHeight() / 2;
+        } else {
+            xRelativeToScreen = (x - Game.x)*Game.getScale();
+            yRelativeToScreen = (y - Game.y)*Game.getScale();
+        }
     }
 
     private void updateShooting() {
         if (Mouse.getButton() == 1) {
-            // TODO Change this, it currently has the player in the centre only
-            double dx = Mouse.getX() - Game.getWindowWidth() / 2;
-            double dy = Mouse.getY() - Game.getWindowHeight() / 2;
+            // TODO Change this, it currently fires from the centre only
+
+            double dx = Mouse.getX() - xRelativeToScreen;
+            double dy = Mouse.getY() - yRelativeToScreen;
+            System.out.println("x: " + x + ", y: " + y + ", xGame: " + Game.x +
+                    ", yGame: " + Game.y + ", xRel: " + xRelativeToScreen + ", yRel: " + yRelativeToScreen +
+                    ", xMouse: " + Mouse.getX() + ", yMouse: " + Mouse.getY() +
+                    ", dx: " + dx + ", dy: " + dy);
             double dir = Math.atan2(dy, dx);
             shoot(x, y, dir);
         }

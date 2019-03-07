@@ -1,6 +1,7 @@
 package com.brad.rain.level;
 
 import com.brad.rain.entity.Entity;
+import com.brad.rain.entity.projectile.Projectile;
 import com.brad.rain.graphics.Screen;
 import com.brad.rain.level.tile.Tile;
 import com.brad.rain.level.tile.TileCollection;
@@ -17,6 +18,8 @@ public class Level {
     public static Level spawn = new SpawnLevel("/levels/spawn.png");
 
     private List<Entity> entities = new ArrayList<Entity>();
+    private List<Projectile> projectiles = new ArrayList<Projectile>();
+
 
     public Level(int width, int height) {
         this.width = width;
@@ -39,10 +42,16 @@ public class Level {
     }
 
     public void update() {
-        // TODO update entities that move within the level
         for (int i = 0; i < entities.size(); i++) {
             entities.get(i).update();
         }
+        for (int i = 0; i < projectiles.size(); i++) {
+            projectiles.get(i).update();
+        }
+    }
+
+    public List<Projectile> getProjectiles() {
+        return projectiles;
     }
 
     private void time() {
@@ -66,10 +75,17 @@ public class Level {
         for (int i = 0; i < entities.size(); i++) {
             entities.get(i).render(screen);
         }
+        for (int i = 0; i < projectiles.size(); i++) {
+            projectiles.get(i).render(screen);
+        }
     }
 
     public void add(Entity e) {
         entities.add(e);
+    }
+
+    public void addProjectile(Projectile p) {
+        projectiles.add(p);
     }
 
     /*

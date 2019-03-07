@@ -7,11 +7,11 @@ public class SpearProjectile extends Projectile {
 
     public SpearProjectile(int xOrigin, int yOrigin, double angle) {
         super(xOrigin, yOrigin, angle);
-        range = 200;
-        speed = 4;
+        range = 100 + random.nextInt(50);
+        speed = 1;
         damage = 20;
         rateOfFire = 15;
-        sprite = SpriteCollection.spawn_grass;
+        sprite = SpriteCollection.projectile_spear;
         xMove = speed * Math.cos(angle);
         yMove = speed * Math.sin(angle);
     }
@@ -23,10 +23,11 @@ public class SpearProjectile extends Projectile {
     protected void move() {
         x += xMove;
         y += yMove;
+        if (getDistance() > range) remove();
     }
 
     public void render(Screen screen) {
-        screen.renderTile(x, y, sprite);
+        screen.renderProjectile((int) x - 8, (int) y - 8, this);
     }
 
 }
