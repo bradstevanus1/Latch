@@ -3,6 +3,7 @@ package com.brad.rain.entity.mob;
 import com.brad.rain.Game;
 import com.brad.rain.graphics.Screen;
 import com.brad.rain.graphics.Sprite;
+import com.brad.rain.graphics.SpriteCollection;
 import com.brad.rain.input.Keyboard;
 import com.brad.rain.input.Mouse;
 
@@ -19,14 +20,14 @@ public class Player extends Mob {
     public Player(Keyboard input, int moveSpeed) {
         this.input = input;
         this.moveSpeed = moveSpeed;
-        sprite = Sprite.player_forward;
+        sprite = SpriteCollection.player_forward;
     }
 
     public Player(int x, int y, Keyboard input, int moveSpeed) {
         this.x = x;
         this.y = y;
         this.input = input;
-        sprite = sprite.player_forward;
+        sprite = SpriteCollection.player_forward;
         this.moveSpeed = moveSpeed;
     }
 
@@ -67,31 +68,31 @@ public class Player extends Mob {
     public void render(Screen screen) {
         if (dir == 0) {
             sprite = getAnimatedSpriteDirection(
-                    Sprite.player_forward,
-                    Sprite.player_forward_1,
-                    Sprite.player_forward_2
+                    SpriteCollection.player_forward,
+                    SpriteCollection.player_forward_1,
+                    SpriteCollection.player_forward_2
             );
         }
         if (dir == 1) {
             sprite = getAnimatedSpriteDirection(
-                    Sprite.player_side,
-                    Sprite.player_side_1,
-                    Sprite.player_side_2
+                    SpriteCollection.player_side,
+                    SpriteCollection.player_side_1,
+                    SpriteCollection.player_side_2
             );
         }
         if (dir == 2) {
             sprite = getAnimatedSpriteDirection(
-                    Sprite.player_back,
-                    Sprite.player_back_1,
-                    Sprite.player_back_2
+                    SpriteCollection.player_back,
+                    SpriteCollection.player_back_1,
+                    SpriteCollection.player_back_2
             );
         }
         int flip = 0;
         if (dir == 3) {
             sprite = getAnimatedSpriteDirection(
-                    Sprite.player_side,
-                    Sprite.player_side_1,
-                    Sprite.player_side_2
+                    SpriteCollection.player_side,
+                    SpriteCollection.player_side_1,
+                    SpriteCollection.player_side_2
             );
             flip = 1;
         }

@@ -1,8 +1,7 @@
 package com.brad.rain.entity.projectile;
 
 import com.brad.rain.graphics.Screen;
-import com.brad.rain.graphics.Sprite;
-import com.brad.rain.level.tile.Tile;
+import com.brad.rain.graphics.SpriteCollection;
 
 public class SpearProjectile extends Projectile {
 
@@ -12,7 +11,7 @@ public class SpearProjectile extends Projectile {
         speed = 4;
         damage = 20;
         rateOfFire = 15;
-        sprite = Sprite.grass;
+        sprite = SpriteCollection.spawn_grass;
         xMove = speed * Math.cos(angle);
         yMove = speed * Math.sin(angle);
     }
