@@ -2,6 +2,7 @@ package com.brad.rain.entity.projectile;
 
 import com.brad.rain.graphics.Screen;
 import com.brad.rain.graphics.SpriteCollection;
+import com.brad.rain.level.tile.Tile;
 
 public class SpearProjectile extends Projectile {
 
@@ -27,7 +28,7 @@ public class SpearProjectile extends Projectile {
     }
 
     public void render(Screen screen) {
-        screen.renderProjectile((int) x - 8, (int) y - 8, this);
+        screen.renderProjectile((int) x - Tile.getTileSizeDiv2(), (int) y - Tile.getTileSizeDiv2(), this);
     }
 
 }

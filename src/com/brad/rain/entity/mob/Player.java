@@ -7,6 +7,7 @@ import com.brad.rain.graphics.Sprite;
 import com.brad.rain.graphics.SpriteCollection;
 import com.brad.rain.input.Keyboard;
 import com.brad.rain.input.Mouse;
+import com.brad.rain.level.tile.Tile;
 
 public class Player extends Mob {
 
@@ -17,6 +18,7 @@ public class Player extends Mob {
     private final byte firstAnimationFrame = animationSpeed / 3;
     private final byte secondAnimationFrame = (animationSpeed * 2) / 3;
     private boolean walking = false;
+    private static final int PLAYER_SIZE = 32;
 
     public Player(Keyboard input, int moveSpeed) {
         this.input = input;
@@ -120,7 +122,7 @@ public class Player extends Mob {
             );
             flip = 1;
         }
-        screen.renderPlayer(x - 16, y - 16, sprite, flip);
+        screen.renderPlayer(x - Tile.getTileSize(), y - Tile.getTileSize(), sprite, flip);
     }
 
     private Sprite getAnimatedSpriteDirection(Sprite still, Sprite mov1, Sprite mov2) {
@@ -138,4 +140,7 @@ public class Player extends Mob {
         return sprite;
     }
 
+    public static int getPlayerSize() {
+        return PLAYER_SIZE;
+    }
 }

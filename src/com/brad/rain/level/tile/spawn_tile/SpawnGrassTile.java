@@ -11,6 +11,6 @@ public class SpawnGrassTile extends Tile {
     }
 
     public void render(int x, int y, Screen screen) {
-        screen.renderTile(x << 4, y << 4, this);
+        screen.renderTile(x << Tile.getTileSizeDiv4(), y << Tile.getTileSizeDiv4(), this);
     }
 }

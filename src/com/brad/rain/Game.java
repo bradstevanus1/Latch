@@ -5,8 +5,7 @@ import com.brad.rain.graphics.Screen;
 import com.brad.rain.input.Keyboard;
 import com.brad.rain.input.Mouse;
 import com.brad.rain.level.Level;
-import com.brad.rain.level.SpawnLevel;
-import com.brad.rain.level.TileCoordinate;
+import com.brad.rain.level.tile.TileCoordinate;
 
 import javax.swing.JFrame;
 import java.awt.*;
@@ -14,7 +13,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
-// Canvas is part of JFrame. f
+// Canvas is part of JFrame.
 // Implements runnable to instantiate a thread.
 public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
@@ -35,7 +34,13 @@ public class Game extends Canvas implements Runnable {
     private boolean keyReleased = true;
     public static int x, y; // For unlocked camera
 
+    // BufferedImage extends java.awt.Image and describes this parent class with an
+    // accessible buffer of image data.
     private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+    // Gets the raster of the image object. Then, gets the data buffer associated with that raster.
+    // Then, casts the data buffer to a DataBufferInt object. Then, gets the integer array
+    // of this data buffer. Note: this is only one way to implement graphics.
     private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 
     public Game() {
@@ -87,7 +92,7 @@ public class Game extends Canvas implements Runnable {
         }
     }
 
-    // This runs when the new thread is created
+    // This runs when the new thread is started
     public void run() {
         /*
          * Variables to capture updates/frames per second, and
@@ -143,35 +148,46 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void render() {
+
+        // Sets equal to the buffer strategy of the super, which is canvas
         BufferStrategy bs = getBufferStrategy();
+
+        // If there is not buffer stretegy already, create one
         if (bs == null) {
             createBufferStrategy(3);
             return;
         }
 
+        // Clear the screen of the last frame
         screen.clear();
+
+        // Set the scroll factor based on player's position (locked) or static pos (unlocked).
+        // These variables are set to the top left corner of the screen, so all render methods
+        // start their drawing in some way from these variables. In the case of level,
+        // the offsets are exactly equal to these scrolls.
         int xScroll = (lockedScreen) ? player.x - screen.width / 2 : x;
         int yScroll = (lockedScreen) ? player.y - screen.height / 2 : y;
+
+        // Render all the elements, like how update updates the level, player, and keyboard
         level.render(xScroll, yScroll, screen);
         player.render(screen);
 
+        // When all rendering is finished in the screen object, transfer
+        // the pixels to this array, which is related to the image object
         for (int i = 0; i < pixels.length; i++) {
             pixels[i] = screen.pixels[i];
         }
 
+        // Returns a graphics context for the drawing buffer and draws everything
         Graphics g = bs.getDrawGraphics();
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Verdana", 0, 50));
-        //g.fillRect(Mouse.getX(), Mouse.getY(), 64, 64);
-        //g.drawString("Button: " + Mouse.getButton(), 80, 80);
         g.dispose();
         bs.show();
 
     }
 
     /**
-     * Main starting point for Rain.
+     * Runs Rain.
      * @param args
      */
     public static void main(String[] args) {

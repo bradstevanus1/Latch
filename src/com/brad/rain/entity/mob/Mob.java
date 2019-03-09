@@ -6,6 +6,7 @@ import com.brad.rain.entity.projectile.SpearProjectile;
 import com.brad.rain.graphics.Sprite;
 import com.brad.rain.helpers.debug;
 import com.brad.rain.input.Mouse;
+import com.brad.rain.level.tile.Tile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,8 +53,8 @@ public abstract class Mob extends Entity {
     private boolean collision(int xa, int ya) {
         boolean solid = false;
         for (byte c = 0; c < 4; c++) {
-            int nextTileX = ((x + xa) + c % 2 * 14 - 8) / 16;
-            int nextTileY = ((y + ya) + c / 2 * 12 + 3) / 16;
+            int nextTileX = ((x + xa) + c % 2 * 14 - 8) >> Tile.getTileSizeDiv4();
+            int nextTileY = ((y + ya) + c / 2 * 12 + 3) >> Tile.getTileSizeDiv4();
             if (level.getTile(nextTileX, nextTileY).solid()) solid = true;
 
         }
