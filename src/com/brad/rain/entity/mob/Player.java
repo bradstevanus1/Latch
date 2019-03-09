@@ -2,6 +2,7 @@ package com.brad.rain.entity.mob;
 
 import com.brad.rain.Game;
 import com.brad.rain.entity.projectile.Projectile;
+import com.brad.rain.entity.projectile.SpearProjectile;
 import com.brad.rain.graphics.Screen;
 import com.brad.rain.graphics.Sprite;
 import com.brad.rain.graphics.SpriteCollection;
@@ -20,10 +21,15 @@ public class Player extends Mob {
     private boolean walking = false;
     private static final int PLAYER_SIZE = 32;
 
+    Projectile p;
+    private int RATE_OF_FIRE = 0;
+
+
     public Player(Keyboard input, int moveSpeed) {
         this.input = input;
         this.moveSpeed = moveSpeed;
         sprite = SpriteCollection.player_forward;
+
     }
 
     public Player(int x, int y, Keyboard input, int moveSpeed) {
@@ -32,9 +38,11 @@ public class Player extends Mob {
         this.input = input;
         sprite = SpriteCollection.player_forward;
         this.moveSpeed = moveSpeed;
+        RATE_OF_FIRE = SpearProjectile.RATE_OF_FIRE;
     }
 
     public void update() {
+        if (RATE_OF_FIRE > 0) RATE_OF_FIRE--;
         int xa = 0, ya = 0;
         if (animate < animationSpeed) animate++;
         else animate = 0;
@@ -71,17 +79,14 @@ public class Player extends Mob {
     }
 
     private void updateShooting() {
-        if (Mouse.getButton() == 1) {
+        if (Mouse.getButton() == 1 && RATE_OF_FIRE <= 0) {
             // TODO Change this, it currently fires from the centre only
 
             double dx = Mouse.getX() - xRelativeToScreen;
             double dy = Mouse.getY() - yRelativeToScreen;
-            System.out.println("x: " + x + ", y: " + y + ", xGame: " + Game.x +
-                    ", yGame: " + Game.y + ", xRel: " + xRelativeToScreen + ", yRel: " + yRelativeToScreen +
-                    ", xMouse: " + Mouse.getX() + ", yMouse: " + Mouse.getY() +
-                    ", dx: " + dx + ", dy: " + dy);
             double dir = Math.atan2(dy, dx);
             shoot(x, y, dir);
+            RATE_OF_FIRE = SpearProjectile.RATE_OF_FIRE;
         }
     }
 

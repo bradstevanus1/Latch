@@ -38,5 +38,6 @@ public final class SpriteCollection {
     // Projectile sprites
 
     public static final Sprite projectile_spear = new Sprite(16, 0, 0, SpriteSheetCollection.projectile_spear);
+    public static final Sprite projectile_spear_explosion = new Sprite(16, 1, 0, SpriteSheetCollection.projectile_spear);
 
 }

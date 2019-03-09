@@ -2,6 +2,7 @@ package com.brad.rain;
 
 import com.brad.rain.entity.mob.Player;
 import com.brad.rain.graphics.Screen;
+import com.brad.rain.graphics.Sprite;
 import com.brad.rain.input.Keyboard;
 import com.brad.rain.input.Mouse;
 import com.brad.rain.level.Level;
@@ -174,6 +175,11 @@ public class Game extends Canvas implements Runnable {
 
         // When all rendering is finished in the screen object, transfer
         // the pixels to this array, which is related to the image object
+
+        Sprite sprite = new Sprite(80, 80, 0xff00ff);
+        // If fixed == false, the sprite will stick to the screen in GUI fashion.
+        // If not, it will appear at the absolute value on the level.
+        screen.renderSprite(0, 0, sprite, false);
         for (int i = 0; i < pixels.length; i++) {
             pixels[i] = screen.pixels[i];
         }

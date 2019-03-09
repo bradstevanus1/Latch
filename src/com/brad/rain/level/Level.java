@@ -58,6 +58,17 @@ public class Level {
 
     }
 
+    public boolean tileCollision(double x, double y, double xHeading, double yHeading, int size) {
+        boolean solid = false;
+        for (byte c = 0; c < 4; c++) {
+            int nextTileX = (((int) x + (int) xHeading) + c % 2 * size - 7) / Tile.getTileSize();
+            int nextTileY = (((int) y + (int) yHeading) + c / 2 * size - 7) / Tile.getTileSize();
+            if (getTile(nextTileX, nextTileY).solid()) solid = true;
+
+        }
+        return solid;
+    }
+
     // Render the level
     // tileSizeDiv4 is 4 in the case of size 16 tiles.
     public void render(int xScroll, int yScroll, Screen screen) {
@@ -86,6 +97,7 @@ public class Level {
     }
 
     public void addProjectile(Projectile p) {
+        p.init(this);
         projectiles.add(p);
     }
 

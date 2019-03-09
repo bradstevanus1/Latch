@@ -2,7 +2,6 @@ package com.brad.rain.level.tile;
 
 import com.brad.rain.graphics.Screen;
 import com.brad.rain.graphics.Sprite;
-import org.jetbrains.annotations.Contract;
 
 public class Tile {
 
@@ -12,7 +11,6 @@ public class Tile {
     private static final int TILE_SIZE_DIV_2 = TILE_SIZE / 2;
     private static final int TILE_SIZE_EXP_2 = expOfBase2(TILE_SIZE);
 
-    @Contract(pure = true)
     private static int expOfBase2(int num) {
         int count = 1;
         while (num != 2) {
