@@ -14,6 +14,8 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
+// Canvas is part of JFrame. f
+// Implements runnable to instantiate a thread.
 public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
     private static int width = 300;
@@ -71,6 +73,7 @@ public class Game extends Canvas implements Runnable {
     public synchronized void start() {
         running = true;
         thread = new Thread(this, "Display");
+        // Starts the new thread, which puts control into the run method
         thread.start();
     }
 
@@ -84,14 +87,21 @@ public class Game extends Canvas implements Runnable {
         }
     }
 
+    // This runs when the new thread is created
     public void run() {
+        /*
+         * Variables to capture updates/frames per second, and
+         * to create a time delta that is held between each run of update().
+         * Basically, it runs update() 60 times per second, while render is run
+         * as often as possible.
+         */
         long lastTime = System.nanoTime();
         long timer = System.currentTimeMillis();
         final double ns = 1000000000.0 / 60.0;
         double delta = 0;
         int frames = 0;     // For counting frames/s
         int updates = 0;    // For counting updates/s
-        requestFocus();
+        requestFocus();     // Put focus on the game
         while (running) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
@@ -160,7 +170,12 @@ public class Game extends Canvas implements Runnable {
 
     }
 
+    /**
+     * Main starting point for Rain.
+     * @param args
+     */
     public static void main(String[] args) {
+        // Instantiate the game class and set frame parameters.
         Game game = new Game();
         game.frame.setResizable(false);
         game.frame.setTitle(Game.title);
