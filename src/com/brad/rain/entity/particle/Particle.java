@@ -4,6 +4,7 @@ import com.brad.rain.entity.Entity;
 import com.brad.rain.graphics.Screen;
 import com.brad.rain.graphics.Sprite;
 import com.brad.rain.graphics.SpriteCollection;
+import com.brad.rain.level.tile.Tile;
 
 public class Particle extends Entity {
 
@@ -31,7 +32,7 @@ public class Particle extends Entity {
         this.xDouble = x;
         this.yDouble = y;
         this.zDouble = 0.0;
-        this.life = life + (random.nextInt(40) - 20);
+        this.life = life + (random.nextInt(life) - life / 2);
         sprite = SpriteCollection.particle_normal;
 
         // Sets the distance delta for the particle to travel to a
@@ -49,18 +50,39 @@ public class Particle extends Entity {
         zDelta -= 0.1;
         if (zDouble < 0) {
             zDouble = 0;    // Particles should not be beneath the floor
-            zDelta *= -0.5;   // Reverse particle direction
             xDelta *= 0.4;
             yDelta *= 0.4;
+            zDelta *= -0.5; // Reverse particle direction for bounce effect
+        }
+        move(xDouble + xDelta, (yDouble + yDelta) /*+ (zDouble + zDelta)*/);
+    }
+
+    private void move(double x, double y) {
+        if (collision(x, y)) {
+            this.xDelta *= -0.4;
+            this.yDelta *= -0.4;
+            this.zDelta *= -0.4;
         }
         this.xDouble += xDelta;
         this.yDouble += yDelta;
         this.zDouble += zDelta;
     }
 
+    public boolean collision(double x, double y) {
+        boolean solid = false;
+        for (byte c = 0; c < 4; c++) {
+            double nextTileX = (x - c % 2 * Tile.getTileSize()) / Tile.getTileSize();
+            double nextTileY = (y - c / 2.0 * Tile.getTileSize()) / Tile.getTileSize();
+            int intNextTileX = (c % 2 == 0) ? (int) Math.floor(nextTileX) : (int) Math.ceil(nextTileX);
+            int intNextTileY = (c / 2 == 0) ? (int) Math.floor(nextTileY) : (int) Math.ceil(nextTileY);
+            if (level.getTile(intNextTileX, intNextTileY).solid()) solid = true;
+        }
+        return solid;
+    }
+
     @Override
     public void render(Screen screen) {
-        screen.renderSprite((int) xDouble, (int) yDouble - (int) zDouble, sprite, true);
+        screen.renderSprite((int) xDouble - 1, (int) yDouble - (int) zDouble - 2, sprite, true);
     }
 
 }

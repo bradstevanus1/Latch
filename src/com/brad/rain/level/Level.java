@@ -122,7 +122,6 @@ public class Level {
             projectiles.add((Projectile) e);
         } else {
             entities.add(e);
-
         }
     }
 

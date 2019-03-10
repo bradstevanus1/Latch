@@ -24,7 +24,7 @@ public class SpearProjectile extends Projectile {
 
     public void update() {
         if (level.tileCollision((int) (x + xDelta), (int) (y + yDelta), SIZE, 5, 2)) {
-            level.add(new ParticleSpawner((int) x, (int) y, 42, 50, level));
+            level.add(new ParticleSpawner((int) x, (int) y, 420, 50, level));
             remove();
         }
         move();
