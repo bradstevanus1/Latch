@@ -1,7 +1,6 @@
 package com.brad.rain.level;
 
 import com.brad.rain.entity.Entity;
-import com.brad.rain.entity.Spawner;
 import com.brad.rain.entity.particle.Particle;
 import com.brad.rain.entity.projectile.Projectile;
 import com.brad.rain.graphics.Screen;
@@ -54,6 +53,19 @@ public class Level {
         }
         for (int i = 0; i < particles.size(); i++) {
             particles.get(i).update();
+        }
+        remove();
+    }
+
+    private void remove() {
+        for (int i = 0; i < entities.size(); i++) {
+            if (entities.get(i).isRemoved()) entities.remove(i);
+        }
+        for (int i = 0; i < projectiles.size(); i++) {
+            if (projectiles.get(i).isRemoved()) projectiles.remove(i);
+        }
+        for (int i = 0; i < particles.size(); i++) {
+            if (particles.get(i).isRemoved()) particles.remove(i);
         }
     }
 

@@ -16,6 +16,15 @@ import java.awt.image.DataBufferInt;
 
 // Canvas is part of JFrame.
 // Implements runnable to instantiate a thread.
+
+/**
+ * "Rain" - a 2D RPG bullet-hell game.
+ *
+ * @author Bradley Stevanus
+ * @version 1.0
+ * @since 2019
+ * @// TODO: 3/10/2019 Finish game.
+ */
 public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
     private static int width = 300;
@@ -193,7 +202,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     /**
-     * Runs Rain.
+     * Rain execution starting point.
      * @param args
      */
     public static void main(String[] args) {

@@ -1,5 +1,6 @@
-package com.brad.rain.entity;
+package com.brad.rain.entity.spawner;
 
+import com.brad.rain.entity.Entity;
 import com.brad.rain.entity.particle.Particle;
 import com.brad.rain.level.Level;
 
@@ -21,11 +22,6 @@ public class Spawner extends Entity {
         this.x = x;
         this.y = y;
         this.type = type;
-        for (int i = 0; i < amount; i++) {
-            switch (type) {
-                case PARTICLE: level.add(new Particle(x, y, 50));
-            }
-        }
     }
 
 }

@@ -3,7 +3,11 @@ package com.brad.rain.graphics;
 import com.brad.rain.entity.mob.Player;
 import com.brad.rain.level.tile.Tile;
 
+import java.util.Random;
+
 public final class SpriteCollection {
+
+    private static Random random = new Random();
 
     // General sprites
 
