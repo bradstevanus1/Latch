@@ -1,6 +1,7 @@
 package com.brad.rain.entity.mob;
 
 import com.brad.rain.entity.Entity;
+import com.brad.rain.entity.particle.Particle;
 import com.brad.rain.entity.projectile.Projectile;
 import com.brad.rain.entity.projectile.SpearProjectile;
 import com.brad.rain.graphics.Sprite;
@@ -41,7 +42,7 @@ public abstract class Mob extends Entity {
     protected void shoot(int x, int y, double dir) {
         // dir = Math.toDegrees(dir);
         Projectile p = new SpearProjectile(x, y, dir);
-        level.addProjectile(p);
+        level.add(p);
     }
 
     private boolean collision(int xa, int ya) {

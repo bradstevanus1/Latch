@@ -13,8 +13,6 @@ import java.util.Random;
  */
 public class Screen {
 
-    // TODO refactor to only use renderSprite method
-
     public int width, height;
     public int[] pixels;
     public int xOffset, yOffset;

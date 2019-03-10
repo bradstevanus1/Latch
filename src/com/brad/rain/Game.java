@@ -176,10 +176,10 @@ public class Game extends Canvas implements Runnable {
         // When all rendering is finished in the screen object, transfer
         // the pixels to this array, which is related to the image object
 
-        Sprite sprite = new Sprite(80, 80, 0xff00ff);
+        Sprite sprite = new Sprite(40, 40, 0xff00ff);
         // If fixed == false, the sprite will stick to the screen in GUI fashion.
         // If not, it will appear at the absolute value on the level.
-        screen.renderSprite(0, 0, sprite, false);
+        screen.renderSprite(0, 0, sprite, true);
         for (int i = 0; i < pixels.length; i++) {
             pixels[i] = screen.pixels[i];
         }
