@@ -1,6 +1,8 @@
 package com.brad.rain.level;
 
 import com.brad.rain.entity.Entity;
+import com.brad.rain.entity.Spawner;
+import com.brad.rain.entity.particle.Particle;
 import com.brad.rain.entity.projectile.Projectile;
 import com.brad.rain.graphics.Screen;
 import com.brad.rain.level.tile.Tile;
@@ -11,7 +13,8 @@ import java.util.List;
 
 public class Level {
 
-    // TODO: create enum for spriteColNumber
+    // TODO Merge entities and projectiles ArrayList
+
     protected int width, height;
     protected int[] tilesInt;
     protected int[] tiles;
@@ -19,6 +22,7 @@ public class Level {
 
     private List<Entity> entities = new ArrayList<Entity>();
     private List<Projectile> projectiles = new ArrayList<Projectile>();
+    private List<Particle> particles = new ArrayList<Particle>();
 
 
     public Level(int width, int height) {
@@ -47,6 +51,9 @@ public class Level {
         }
         for (int i = 0; i < projectiles.size(); i++) {
             projectiles.get(i).update();
+        }
+        for (int i = 0; i < particles.size(); i++) {
+            particles.get(i).update();
         }
     }
 
@@ -90,15 +97,21 @@ public class Level {
         for (int i = 0; i < projectiles.size(); i++) {
             projectiles.get(i).render(screen);
         }
+        for (int i = 0; i < particles.size(); i++) {
+            particles.get(i).render(screen);
+        }
     }
 
     public void add(Entity e) {
-        entities.add(e);
-    }
+        e.init(this);
+        if (e instanceof Particle) {
+            particles.add((Particle) e);
+        } else if (e instanceof Projectile) {
+            projectiles.add((Projectile) e);
+        } else {
+            entities.add(e);
 
-    public void addProjectile(Projectile p) {
-        p.init(this);
-        projectiles.add(p);
+        }
     }
 
     /*

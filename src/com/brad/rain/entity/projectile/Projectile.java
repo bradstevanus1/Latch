@@ -11,7 +11,7 @@ public abstract class Projectile extends Entity {
     protected final int xOrigin, yOrigin;
     protected double angle;
     protected Sprite sprite;
-    protected double xMove, yMove;
+    protected double xDelta, yDelta;
     protected double distance;
     protected double speed, range, damage;
 

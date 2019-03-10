@@ -1,5 +1,7 @@
 package com.brad.rain.entity.projectile;
 
+import com.brad.rain.entity.Spawner;
+import com.brad.rain.entity.particle.Particle;
 import com.brad.rain.graphics.Screen;
 import com.brad.rain.graphics.SpriteCollection;
 import com.brad.rain.level.tile.Tile;
@@ -15,20 +17,21 @@ public class SpearProjectile extends Projectile {
         speed = 2;
         damage = 20;
         sprite = SpriteCollection.projectile_spear;
-        xMove = speed * Math.cos(angle);
-        yMove = speed * Math.sin(angle);
+        xDelta = speed * Math.cos(angle);
+        yDelta = speed * Math.sin(angle);
     }
 
     public void update() {
-        if (level.tileCollision(x, y, xMove, yMove, SIZE)) {
+        if (level.tileCollision(x, y, xDelta, yDelta, SIZE)) {
+            level.add(new Spawner((int) x, (int) y, Spawner.Type.PARTICLE, 500, level));
             remove();
         }
         move();
     }
 
     protected void move() {
-        x += xMove;
-        y += yMove;
+        x += xDelta;
+        y += yDelta;
         if (getDistance() > range) remove();
     }
 
