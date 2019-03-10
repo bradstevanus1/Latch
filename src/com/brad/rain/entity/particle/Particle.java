@@ -12,10 +12,9 @@ public class Particle extends Entity {
     private Sprite sprite;
     protected int life;
     private int time = 0;
-    protected double xDouble, yDouble;
-    protected double xDelta, yDelta;
-
-    // Constructor for a particle
+    protected double xDouble, yDouble, zDouble;
+    protected double xDelta, yDelta, zDelta;
+    protected static final int SIZE = 3;
 
     /**
      * Constructor for a particle object that takes a coordinate
@@ -31,13 +30,15 @@ public class Particle extends Entity {
         this.y = y;
         this.xDouble = x;
         this.yDouble = y;
+        this.zDouble = 0.0;
         this.life = life + (random.nextInt(40) - 20);
         sprite = SpriteCollection.particle_normal;
 
         // Sets the distance delta for the particle to travel to a
         // random (bell-curved) value in the range -1 to 1
-        this.xDelta = random.nextGaussian();
-        this.yDelta = random.nextGaussian();
+        this.xDelta = random.nextGaussian() / 2;
+        this.yDelta = random.nextGaussian() / 2;
+        this.zDelta = random.nextFloat() + 1.5;
     }
 
     @Override
@@ -45,13 +46,21 @@ public class Particle extends Entity {
         time++;
         if (time >= Integer.MAX_VALUE) time = 0;
         if (time > life) remove();
+        zDelta -= 0.1;
+        if (zDouble < 0) {
+            zDouble = 0;    // Particles should not be beneath the floor
+            zDelta *= -0.5;   // Reverse particle direction
+            xDelta *= 0.4;
+            yDelta *= 0.4;
+        }
         this.xDouble += xDelta;
         this.yDouble += yDelta;
+        this.zDouble += zDelta;
     }
 
     @Override
     public void render(Screen screen) {
-        screen.renderSprite((int) xDouble, (int) yDouble, sprite, true);
+        screen.renderSprite((int) xDouble, (int) yDouble - (int) zDouble, sprite, true);
     }
 
 }

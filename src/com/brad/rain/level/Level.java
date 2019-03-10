@@ -77,11 +77,11 @@ public class Level {
 
     }
 
-    public boolean tileCollision(double x, double y, double xHeading, double yHeading, int size) {
+    public boolean tileCollision(int x, int y, int size, int xOffset, int yOffset) {
         boolean solid = false;
         for (byte c = 0; c < 4; c++) {
-            int nextTileX = (((int) x + (int) xHeading) + c % 2 * size - 7) / Tile.getTileSize();
-            int nextTileY = (((int) y + (int) yHeading) + c / 2 * size - 7) / Tile.getTileSize();
+            int nextTileX = (x - c % 2 * size + xOffset) >> Tile.getTileSizeExp2();
+            int nextTileY = (y - c / 2 * size + yOffset) >> Tile.getTileSizeExp2();
             if (getTile(nextTileX, nextTileY).solid()) solid = true;
 
         }
