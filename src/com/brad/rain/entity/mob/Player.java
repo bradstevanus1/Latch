@@ -78,10 +78,9 @@ public class Player extends Mob {
         }
     }
 
+    // FIXME Player's projectile gets stuck in the wall if shooting while there is a collide-able tile above
     private void updateShooting() {
         if (Mouse.getButton() == 1 && RATE_OF_FIRE <= 0) {
-            // TODO Change this, it currently fires from the centre only
-
             double dx = Mouse.getX() - xRelativeToScreen;
             double dy = Mouse.getY() - yRelativeToScreen;
             double dir = Math.atan2(dy, dx);
