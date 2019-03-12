@@ -8,6 +8,7 @@ import java.util.Random;
 public abstract class Entity {
 
     public int x, y;
+    protected int xRelativeToScreen, yRelativeToScreen;
     private boolean removed = false;
     protected Level level;
     protected final Random random = new Random();

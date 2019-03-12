@@ -1,9 +1,9 @@
-package com.brad.rain.level;
+package com.brad.rain.level.tile;
 
 public class TileCoordinate {
 
     private int x, y;
-    private final int TILE_SIZE  = 16;
+    private final int TILE_SIZE  = Tile.getTileSize();
 
     public TileCoordinate(int x, int y) {
         this.x = x * TILE_SIZE;
