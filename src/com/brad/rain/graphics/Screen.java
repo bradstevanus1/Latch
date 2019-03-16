@@ -51,6 +51,22 @@ public class Screen {
         }
     }
 
+    public void renderSheet(int xOrigin, int yOrigin, SpriteSheet sheet, boolean fixed) {
+        // The origin variables represent the top left coordinate of the screen
+        if (fixed) {
+            xOrigin -= xOffset;
+            yOrigin -= yOffset;
+        }
+        for (int y = 0; y < sheet.HEIGHT; y++) {
+            int yRelToScreen = y + yOrigin;
+            for (int x = 0; x < sheet.WIDTH; x++) {
+                int xRelToScreen = x + xOrigin;
+                if (xRelToScreen < 0 || xRelToScreen >= width || yRelToScreen < 0 || yRelToScreen >= height) continue;
+                pixels[xRelToScreen + yRelToScreen * width] = sheet.pixels[x + y * sheet.WIDTH];
+            }
+        }
+    }
+
     public void renderTile(int xp, int yp, Tile tile) {
         xp -= xOffset;
         yp -= yOffset;

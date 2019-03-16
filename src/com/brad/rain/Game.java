@@ -3,6 +3,8 @@ package com.brad.rain;
 import com.brad.rain.entity.mob.Player;
 import com.brad.rain.graphics.Screen;
 import com.brad.rain.graphics.Sprite;
+import com.brad.rain.graphics.SpriteSheet;
+import com.brad.rain.graphics.SpriteSheetCollection;
 import com.brad.rain.input.Keyboard;
 import com.brad.rain.input.Mouse;
 import com.brad.rain.level.Level;
@@ -62,7 +64,7 @@ public class Game extends Canvas implements Runnable {
         key = new Keyboard();
         level = Level.spawn;
         TileCoordinate playerSpawn = new TileCoordinate(19, 62);
-        player = new Player(playerSpawn.getX(), playerSpawn.getY(), key, 1);
+        player = new Player(playerSpawn.getX(), playerSpawn.getY(), key, 4);
         x = player.x - screen.width / 2;
         y = player.y - screen.height / 2;
         player.init(level);
@@ -181,6 +183,8 @@ public class Game extends Canvas implements Runnable {
         // Render all the elements, like how update updates the level, player, and keyboard
         level.render(xScroll, yScroll, screen);
         player.render(screen);
+        //TODO temporary debugging: remove
+        screen.renderSheet(40, 40, SpriteSheetCollection.player_down, false);
 
         // When all rendering is finished in the screen object, transfer
         // the pixels to this array, which is related to the image object
