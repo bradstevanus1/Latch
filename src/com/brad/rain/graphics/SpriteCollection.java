@@ -29,15 +29,11 @@ public final class SpriteCollection {
 
     // Player sprites
 
-    public static final Sprite player_forward = new Sprite(Player.getPlayerSize(), 0, 5, SpriteSheetCollection.tiles);
-    public static final Sprite player_back = new Sprite(Player.getPlayerSize(), 2, 5, SpriteSheetCollection.tiles);
-    public static final Sprite player_side = new Sprite(Player.getPlayerSize(), 1, 5, SpriteSheetCollection.tiles);
-    public static final Sprite player_forward_1 = new Sprite(Player.getPlayerSize(), 0, 6, SpriteSheetCollection.tiles);
-    public static final Sprite player_forward_2 = new Sprite(Player.getPlayerSize(), 0, 7, SpriteSheetCollection.tiles);
-    public static final Sprite player_side_1 = new Sprite(Player.getPlayerSize(), 1, 6, SpriteSheetCollection.tiles);
-    public static final Sprite player_side_2 = new Sprite(Player.getPlayerSize(), 1, 7, SpriteSheetCollection.tiles);
-    public static final Sprite player_back_1 = new Sprite(Player.getPlayerSize(), 2, 6, SpriteSheetCollection.tiles);
-    public static final Sprite player_back_2 = new Sprite(Player.getPlayerSize(), 2, 7, SpriteSheetCollection.tiles);
+    public static final AnimatedSprite player_down = new AnimatedSprite(SpriteSheetCollection.player_down, 32, 32, 3);
+    public static final AnimatedSprite player_up = new AnimatedSprite(SpriteSheetCollection.player_up, 32, 32, 3);
+    public static final AnimatedSprite player_sideRENAME = new AnimatedSprite(SpriteSheetCollection.player_side, 32, 32, 3);
+
+
 
     // Projectile sprites
 
@@ -47,5 +43,6 @@ public final class SpriteCollection {
 
     public static final Sprite particle_normal = new Sprite(3, 0xaaaaaa);
     public static final Sprite projectile_spear_explosion = new Sprite(16, 1, 0, SpriteSheetCollection.projectile_spear);
+
 
 }

@@ -8,8 +8,6 @@ import com.brad.rain.level.tile.Tile;
 
 public class Particle extends Entity {
 
-    // TODO create subclasses of particle that use a different sprite
-
     private Sprite sprite;
     protected int life;
     private int time = 0;
@@ -55,7 +53,7 @@ public class Particle extends Entity {
             zDelta *= -0.5; // Reverse particle direction for bounce effect
         }
         // Does not include the height difference due to bouncing (zDouble + zDelta) to remove bug
-        // where the particles clump up on the floor. However, this means that the particles do not have
+        // where the particles clump player_up on the floor. However, this means that the particles do not have
         // accurate collision with tiles that are above the spawner vetically.
         move(xDouble + xDelta, (yDouble + yDelta) /*+ (zDouble + zDelta)*/);
     }

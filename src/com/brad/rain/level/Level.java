@@ -12,8 +12,6 @@ import java.util.List;
 
 public class Level {
 
-    // TODO Merge entities and projectiles ArrayList
-
     protected int width, height;
     protected int[] tilesInt;
     protected int[] tiles;
@@ -22,6 +20,8 @@ public class Level {
     private List<Entity> entities = new ArrayList<Entity>();
     private List<Projectile> projectiles = new ArrayList<Projectile>();
     private List<Particle> particles = new ArrayList<Particle>();
+    // TODO topLayer list?
+
 
 
     public Level(int width, int height) {
@@ -59,13 +59,22 @@ public class Level {
 
     private void remove() {
         for (int i = 0; i < entities.size(); i++) {
-            if (entities.get(i).isRemoved()) entities.remove(i);
+            if (entities.get(i).isRemoved()) {
+                entities.remove(i);
+                i--;
+            }
         }
         for (int i = 0; i < projectiles.size(); i++) {
-            if (projectiles.get(i).isRemoved()) projectiles.remove(i);
+            if (projectiles.get(i).isRemoved()) {
+                projectiles.remove(i);
+                i--;
+            }
         }
         for (int i = 0; i < particles.size(); i++) {
-            if (particles.get(i).isRemoved()) particles.remove(i);
+            if (particles.get(i).isRemoved()) {
+                particles.remove(i);
+                i--;
+            }
         }
     }
 

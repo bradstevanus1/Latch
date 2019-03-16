@@ -9,8 +9,8 @@ import com.brad.rain.level.tile.Tile;
 
 public class SpearProjectile extends Projectile {
 
-    public static final int RATE_OF_FIRE = 15; // Higher is slower
-    public static final int SIZE = 10;
+    public static int rateOfFire = 15; // Higher is slower
+    public static int size = 10;
 
     public SpearProjectile(int xOrigin, int yOrigin, double angle) {
         super(xOrigin, yOrigin, angle);
@@ -23,7 +23,7 @@ public class SpearProjectile extends Projectile {
     }
 
     public void update() {
-        if (level.tileCollision((int) (x + xDelta), (int) (y + yDelta), SIZE, 5, 2)) {
+        if (level.tileCollision((int) (x + xDelta), (int) (y + yDelta), size, 5, 2)) {
             level.add(new ParticleSpawner((int) x, (int) y, 420, 50, level));
             remove();
         }

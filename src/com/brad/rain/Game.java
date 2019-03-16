@@ -64,7 +64,7 @@ public class Game extends Canvas implements Runnable {
         key = new Keyboard();
         level = Level.spawn;
         TileCoordinate playerSpawn = new TileCoordinate(19, 62);
-        player = new Player(playerSpawn.getX(), playerSpawn.getY(), key, 4);
+        player = new Player(playerSpawn.getX(), playerSpawn.getY(), key, 1);
         x = player.x - screen.width / 2;
         y = player.y - screen.height / 2;
         player.init(level);
@@ -183,8 +183,7 @@ public class Game extends Canvas implements Runnable {
         // Render all the elements, like how update updates the level, player, and keyboard
         level.render(xScroll, yScroll, screen);
         player.render(screen);
-        //TODO temporary debugging: remove
-        screen.renderSheet(40, 40, SpriteSheetCollection.player_down, false);
+        // REMOVE : screen.renderSheet(40, 40, SpriteSheetCollection.player_down, false);
 
         // When all rendering is finished in the screen object, transfer
         // the pixels to this array, which is related to the image object
