@@ -1,0 +1,37 @@
+package com.brad.latch.entity;
+
+import com.brad.latch.graphics.Screen;
+import com.brad.latch.level.Level;
+
+import java.util.Random;
+
+public abstract class Entity {
+
+    public int x, y;
+    protected int xRelativeToScreen, yRelativeToScreen;
+    private boolean removed = false;
+    protected Level level;
+    protected final Random random = new Random();
+
+    public void update() {
+
+    }
+
+    public void render(Screen screen) {
+
+    }
+
+    public void remove() {
+        // Remove from level
+        removed = true;
+    }
+
+    public boolean isRemoved() {
+        return removed;
+    }
+
+    public void init(Level level) {
+        this.level = level;
+    }
+
+}
