@@ -1,0 +1,5 @@
+# Default owner for everything in the repo.
+*       @bradstevanus1
+
+# Notified for any changes to java classes (but also redundant)
+*.class @bradstevanus1
