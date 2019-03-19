@@ -5,7 +5,6 @@ import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.entity.projectile.SpearProjectile;
 import com.brad.latch.graphics.AnimatedSprite;
 import com.brad.latch.graphics.Screen;
-import com.brad.latch.graphics.Sprite;
 import com.brad.latch.graphics.SpriteCollection;
 import com.brad.latch.input.Keyboard;
 import com.brad.latch.input.Mouse;
@@ -14,31 +13,24 @@ import com.brad.latch.level.tile.Tile;
 public class Player extends Mob {
 
     private Keyboard input;
-    private Sprite sprite;
-    private boolean walking = false;
     private static final int PLAYER_SIZE = 32;
     private AnimatedSprite animatedSprite = SpriteCollection.player_down;
-
     private int rateOfFire = 0;
 
-
     public Player(Keyboard input, int moveSpeed) {
+        super(moveSpeed);
         this.input = input;
-        this.moveSpeed = moveSpeed;
         sprite = SpriteCollection.player_up;
     }
 
     public Player(int x, int y, Keyboard input, int moveSpeed) {
-        this.x = x;
-        this.y = y;
+        super(x, y, SpriteCollection.player_up, moveSpeed);
         this.input = input;
-        sprite = SpriteCollection.player_up;
-        this.moveSpeed = moveSpeed;
         rateOfFire = SpearProjectile.rateOfFire;
     }
 
     public void update() {
-        if (walking) animatedSprite.update();
+        if (moving) animatedSprite.update();
         else animatedSprite.setFrame(0);
         if (rateOfFire > 0) rateOfFire--;
         int xa = 0, ya = 0;
@@ -50,17 +42,17 @@ public class Player extends Mob {
             ya = ya + moveSpeed;
         }
         if (input.left) {
-            animatedSprite = SpriteCollection.player_sideRENAME;
+            animatedSprite = SpriteCollection.player_side;
             xa = xa - moveSpeed;
         } else if (input.right) {
-            animatedSprite = SpriteCollection.player_sideRENAME;
+            animatedSprite = SpriteCollection.player_side;
             xa = xa + moveSpeed;
         }
         if (xa != 0 || ya != 0) {
             move(xa, ya);
-            walking = true;
+            moving = true;
         } else {
-            walking = false;
+            moving = false;
         }
         clear();
         updatePosRelativeToScreen();
@@ -109,7 +101,7 @@ public class Player extends Mob {
     public void render(Screen screen) {
         int flip = (dir == 3) ? 1 : 0;
         sprite = animatedSprite.getSprite();
-        screen.renderPlayer(x - Tile.getTileSize(), y - Tile.getTileSize(), sprite, flip);
+        screen.renderMob(x - Tile.getTileSize(), y - Tile.getTileSize(), sprite, flip);
     }
 
     public static int getPlayerSize() {

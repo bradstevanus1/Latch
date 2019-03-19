@@ -1,6 +1,7 @@
 package com.brad.latch.entity.spawner;
 
 import com.brad.latch.entity.particle.Particle;
+import com.brad.latch.graphics.Screen;
 import com.brad.latch.level.Level;
 
 public class ParticleSpawner extends Spawner {
@@ -15,4 +16,13 @@ public class ParticleSpawner extends Spawner {
         }
     }
 
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void render(Screen screen) {
+
+    }
 }

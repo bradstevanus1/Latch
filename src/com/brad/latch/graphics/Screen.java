@@ -102,7 +102,8 @@ public class Screen {
      * xs is x but flipped depending on the direction to
      * show reversed sprite direction.
      */
-    public void renderPlayer(int xp, int yp, Sprite sprite, int flip) {
+    //TODO mob is 32 size like player
+    public void renderMob(int xp, int yp, Sprite sprite, int flip) {
         xp -= xOffset;
         yp -= yOffset;
         for (int y = 0; y < Player.getPlayerSize(); y++) {

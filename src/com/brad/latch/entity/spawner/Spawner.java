@@ -6,7 +6,7 @@ import com.brad.latch.level.Level;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Spawner extends Entity {
+public abstract class Spawner extends Entity {
 
     private List<Entity> entities = new ArrayList<Entity>();
 
@@ -17,9 +17,8 @@ public class Spawner extends Entity {
     private Type type;
 
     public Spawner(int x, int y, Type type, int amount, Level level) {
+        super(x, y);
         init(level);
-        this.x = x;
-        this.y = y;
         this.type = type;
     }
 

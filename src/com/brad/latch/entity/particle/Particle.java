@@ -8,7 +8,6 @@ import com.brad.latch.level.tile.Tile;
 
 public class Particle extends Entity {
 
-    private Sprite sprite;
     protected int life;
     private int time = 0;
     protected double xDouble, yDouble, zDouble;
@@ -58,6 +57,11 @@ public class Particle extends Entity {
         move(xDouble + xDelta, (yDouble + yDelta) /*+ (zDouble + zDelta)*/);
     }
 
+    @Override
+    public void render(Screen screen) {
+        screen.renderSprite((int) xDouble - 1, (int) yDouble - (int) zDouble - 2, sprite, true);
+    }
+
     private void move(double x, double y) {
         if (collision(x, y)) {
             this.xDelta *= -0.4;
@@ -81,9 +85,6 @@ public class Particle extends Entity {
         return solid;
     }
 
-    @Override
-    public void render(Screen screen) {
-        screen.renderSprite((int) xDouble - 1, (int) yDouble - (int) zDouble - 2, sprite, true);
-    }
+
 
 }

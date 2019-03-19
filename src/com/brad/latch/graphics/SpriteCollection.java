@@ -30,7 +30,7 @@ public final class SpriteCollection {
 
     public static final AnimatedSprite player_down = new AnimatedSprite(SpriteSheetCollection.player_down, 32, 32, 3);
     public static final AnimatedSprite player_up = new AnimatedSprite(SpriteSheetCollection.player_up, 32, 32, 3);
-    public static final AnimatedSprite player_sideRENAME = new AnimatedSprite(SpriteSheetCollection.player_side, 32, 32, 3);
+    public static final AnimatedSprite player_side = new AnimatedSprite(SpriteSheetCollection.player_side, 32, 32, 3);
 
 
 

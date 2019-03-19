@@ -3,16 +3,29 @@ package com.brad.latch.entity.mob;
 import com.brad.latch.entity.Entity;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.entity.projectile.SpearProjectile;
+import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.Sprite;
 import com.brad.latch.level.tile.Tile;
 
 public abstract class Mob extends Entity {
 
-    protected Sprite sprite;
     protected int dir = -1;
     protected boolean moving = false;
-    protected boolean walking = false;
-    protected int moveSpeed = 1;
+    protected int moveSpeed;
+
+    public Mob(int moveSpeed) {
+        this.moveSpeed = moveSpeed;
+    }
+
+    public Mob(int x, int y, int moveSpeed) {
+        super(x, y);
+        this.moveSpeed = moveSpeed;
+    }
+
+    public Mob(int x, int y, Sprite sprite, int moveSpeed) {
+        super(x, y, sprite);
+        this.moveSpeed = moveSpeed;
+    }
 
     public void move(int xa, int ya) {
         // Use this method, or separate the
@@ -34,9 +47,9 @@ public abstract class Mob extends Entity {
         }
     }
 
-    public void update() {
+    public abstract void update();
 
-    }
+    public abstract void render(Screen screen);
 
     protected void shoot(int x, int y, double dir) {
         // dir = Math.toDegrees(dir);
@@ -53,10 +66,6 @@ public abstract class Mob extends Entity {
 
         }
         return solid;
-    }
-
-    public void render() {
-
     }
 
 }
