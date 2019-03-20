@@ -14,8 +14,8 @@ public class Player extends Mob {
 
     private Keyboard input;
     private static final int PLAYER_SIZE = 32;
-    private AnimatedSprite animatedSprite = SpriteCollection.player_down;
     private int rateOfFire = 0;
+    private AnimatedSprite animatedSprite = SpriteCollection.player_down;
 
     public Player(Keyboard input, int moveSpeed) {
         super(moveSpeed);
@@ -99,7 +99,7 @@ public class Player extends Mob {
     // FIXME Rendering of player direction doesn't look quite right
     // TODO Create the rest of the player sprites
     public void render(Screen screen) {
-        int flip = (dir == 3) ? 1 : 0;
+        int flip = (dir == Direction.LEFT) ? 1 : 0;
         sprite = animatedSprite.getSprite();
         screen.renderMob(x - Tile.getTileSize(), y - Tile.getTileSize(), sprite, flip);
     }

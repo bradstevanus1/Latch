@@ -26,13 +26,16 @@ public final class SpriteCollection {
     public static final Sprite spawn_wall2 = new Sprite(Tile.getTileSize(), 0, 2, SpriteSheetCollection.spawn_level);
     public static final Sprite spawn_wooden_floor = new Sprite(Tile.getTileSize(), 1, 2, SpriteSheetCollection.spawn_level);
 
-    // Player sprites
+    // Mob sprites
 
     public static final AnimatedSprite player_down = new AnimatedSprite(SpriteSheetCollection.player_down, 32, 32, 3);
     public static final AnimatedSprite player_up = new AnimatedSprite(SpriteSheetCollection.player_up, 32, 32, 3);
     public static final AnimatedSprite player_side = new AnimatedSprite(SpriteSheetCollection.player_side, 32, 32, 3);
 
-
+    public static final AnimatedSprite straggler_down = new AnimatedSprite(SpriteSheetCollection.straggler_down, 32, 32, 3);
+    public static final AnimatedSprite straggler_up = new AnimatedSprite(SpriteSheetCollection.straggler_up, 32, 32, 3);
+    public static final AnimatedSprite straggler_left = new AnimatedSprite(SpriteSheetCollection.straggler_left, 32, 32, 3);
+    public static final AnimatedSprite straggler_right = new AnimatedSprite(SpriteSheetCollection.straggler_right, 32, 32, 3);
 
     // Projectile sprites
 
