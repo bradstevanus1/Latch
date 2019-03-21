@@ -13,7 +13,6 @@ public class Straggler extends Mob {
 
     @Override
     public void update() {
-
     }
 
     @Override
