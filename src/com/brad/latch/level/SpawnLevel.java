@@ -23,7 +23,7 @@ public class SpawnLevel extends Level {
             e.printStackTrace();
             System.out.println("Exception! Could not load level file!");
         }
-        add(new Traveller(20, 55, 1));
+        for (int i = 0; i < 5; i++) add(new Traveller(20, 55, 1));
     }
 
 

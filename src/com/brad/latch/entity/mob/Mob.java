@@ -51,6 +51,8 @@ public abstract class Mob extends Entity {
         }
     }
 
+    PUBLIC THING DO MOVEMENT
+
     public abstract void update();
 
     public abstract void render(Screen screen);
