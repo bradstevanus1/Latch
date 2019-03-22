@@ -13,7 +13,6 @@ import com.brad.latch.level.tile.Tile;
 public class Player extends Mob {
 
     private Keyboard input;
-    private static final int PLAYER_SIZE = 32;
     private int rateOfFire = 0;
     private AnimatedSprite animatedSprite = SpriteCollection.player_down;
 
@@ -27,6 +26,7 @@ public class Player extends Mob {
         super(x, y, SpriteCollection.player_up, moveSpeed);
         this.input = input;
         rateOfFire = SpearProjectile.rateOfFire;
+        size = 32;
     }
 
     public void update() {
@@ -101,10 +101,10 @@ public class Player extends Mob {
     public void render(Screen screen) {
         int flip = (dir == Direction.LEFT) ? 1 : 0;
         sprite = animatedSprite.getSprite();
-        screen.renderMob(x - Tile.getTileSize(), y - Tile.getTileSize(), sprite, flip);
+        screen.renderMob(x - 16, y - 16, sprite, flip);
     }
 
-    public static int getPlayerSize() {
-        return PLAYER_SIZE;
+    public static int getSize() {
+        return size;
     }
 }

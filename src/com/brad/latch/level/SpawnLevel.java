@@ -1,5 +1,6 @@
 package com.brad.latch.level;
 
+import com.brad.latch.entity.mob.Straggler;
 import com.brad.latch.entity.mob.Traveller;
 
 import javax.imageio.ImageIO;
@@ -23,7 +24,7 @@ public class SpawnLevel extends Level {
             e.printStackTrace();
             System.out.println("Exception! Could not load level file!");
         }
-        for (int i = 0; i < 5; i++) add(new Traveller(20, 55, 1));
+        for (int i = 0; i < 1; i++) add(new Straggler(20, 55, 1));
     }
 
 

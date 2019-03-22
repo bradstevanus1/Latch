@@ -1,6 +1,9 @@
 package com.brad.latch.graphics;
 
+import com.brad.latch.entity.mob.Mob;
 import com.brad.latch.entity.mob.Player;
+import com.brad.latch.entity.mob.Straggler;
+import com.brad.latch.entity.mob.Traveller;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.level.tile.Tile;
 
@@ -51,6 +54,7 @@ public class Screen {
         }
     }
 
+    /*
     public void renderSheet(int xOrigin, int yOrigin, SpriteSheet sheet, boolean fixed) {
         // The origin variables represent the top left coordinate of the screen
         if (fixed) {
@@ -66,6 +70,7 @@ public class Screen {
             }
         }
     }
+    */
 
     public void renderTile(int xp, int yp, Tile tile) {
         xp -= xOffset;
@@ -102,26 +107,45 @@ public class Screen {
      * xs is x but flipped depending on the direction to
      * show reversed sprite direction.
      */
-    //TODO mob is 32 size like player
+    // TODO Merge this method (used for player) with other renderMob
+    @SuppressWarnings("Duplicates")
     public void renderMob(int xp, int yp, Sprite sprite, int flip) {
         xp -= xOffset;
         yp -= yOffset;
-        for (int y = 0; y < Player.getPlayerSize(); y++) {
+        for (int y = 0; y < Player.getSize(); y++) {
             int ya = y + yp;
             int ys = y;
             if (flip == 2 || flip == 3) {
-                ys = (Player.getPlayerSize() - 1) - y;
+                ys = (Player.getSize() - 1) - y;
             }
-            for (int x = 0; x < Player.getPlayerSize(); x++) {
+            for (int x = 0; x < Player.getSize(); x++) {
                 int xa = x + xp;
                 int xs = x;
                 if (flip == 1 || flip == 3) {
-                    xs = (Player.getPlayerSize() - 1) - x;
+                    xs = (Player.getSize() - 1) - x;
                 }
-                if (xa < -Player.getPlayerSize() || xa >= width || ya < 0 || ya >= height) break;
+                if (xa < -Player.getSize() || xa >= width || ya < 0 || ya >= height) break;
                 if (xa < 0) xa = 0;
-                int col = sprite.pixels[xs + ys * Player.getPlayerSize()];
+                int col = sprite.pixels[xs + ys * Player.getSize()];
                 if (col != 0xffff00ff) pixels[xa + ya * width] = col;
+            }
+        }
+    }
+
+    @SuppressWarnings("Duplicates")
+    public void renderMob(int xOrigin, int yOrigin, Mob mob) {
+        xOrigin -= xOffset;
+        yOrigin -= yOffset;
+        for (int y = 0; y < Player.getSize(); y++) {
+            int yRelToScreen = y + yOrigin;
+            for (int x = 0; x < Player.getSize(); x++) {
+                int xRelToScreen = x + xOrigin;
+                if (xRelToScreen < -Player.getSize() || xRelToScreen >= width || yRelToScreen < 0 || yRelToScreen >= height) break;
+                if (xRelToScreen < 0) xRelToScreen = 0;
+                int colour = mob.getSprite().pixels[x + y * Player.getSize()];
+                if (mob instanceof Traveller && colour == 0xFFF70E1A) colour = 0xFF36B72A;
+                else if (mob instanceof Straggler && colour == 0xFF2084CC) colour = 0xFFF70E1A;
+                if (colour != 0xffff00ff) pixels[xRelToScreen + yRelToScreen * width] = colour;
             }
         }
     }

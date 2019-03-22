@@ -35,6 +35,7 @@ public class Game extends Canvas implements Runnable {
     private Thread thread;
     private JFrame frame;
     private Keyboard key;
+    private Mouse mouse;
     private Level level;
     private Player player;
     private boolean running = false;
@@ -60,14 +61,14 @@ public class Game extends Canvas implements Runnable {
         screen = new Screen(width, height);
         frame = new JFrame();
         key = new Keyboard();
+        mouse = new Mouse();
         level = Level.spawn;
         TileCoordinate playerSpawn = new TileCoordinate(19, 62);
         player = new Player(playerSpawn.getX(), playerSpawn.getY(), key, 1);
-        x = player.x - screen.width / 2;
-        y = player.y - screen.height / 2;
-        player.init(level);
+        level.add(player);
+        x = player.getX() - screen.width / 2;
+        y = player.getY() - screen.height / 2;
 
-        Mouse mouse = new Mouse();
         addKeyListener(key);
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
@@ -143,17 +144,16 @@ public class Game extends Canvas implements Runnable {
     public void update() {
         if (key.screenLockToggle && keyReleased) {
             lockedScreen = !lockedScreen;
-            x = player.x - screen.width / 2;
-            y = player.y - screen.height / 2;
+            x = player.getX() - screen.width / 2;
+            y = player.getY() - screen.height / 2;
             keyReleased = false;
         }
         if (!(key.screenLockToggle || keyReleased)) keyReleased = true;
         if (key.centerCameraOnPlayer) {
-            x = player.x - screen.width / 2;
-            y = player.y - screen.height / 2;
+            x = player.getX() - screen.width / 2;
+            y = player.getY() - screen.height / 2;
         }
         key.update();
-        player.update();
         level.update();
     }
 
@@ -175,12 +175,11 @@ public class Game extends Canvas implements Runnable {
         // These variables are set to the top left corner of the screen, so all render methods
         // start their drawing in some way from these variables. In the case of level,
         // the offsets are exactly equal to these scrolls.
-        int xScroll = (lockedScreen) ? player.x - screen.width / 2 : x;
-        int yScroll = (lockedScreen) ? player.y - screen.height / 2 : y;
+        int xScroll = (lockedScreen) ? player.getX() - screen.width / 2 : x;
+        int yScroll = (lockedScreen) ? player.getY() - screen.height / 2 : y;
 
         // Render all the elements, like how update updates the level, player, and keyboard
         level.render(xScroll, yScroll, screen);
-        player.render(screen);
         // REMOVE : screen.renderSheet(40, 40, SpriteSheetCollection.player_down, false);
 
         // When all rendering is finished in the screen object, transfer

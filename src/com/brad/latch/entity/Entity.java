@@ -8,7 +8,7 @@ import java.util.Random;
 
 public abstract class Entity {
 
-    public int x, y;
+    protected int x, y;
     protected int xRelativeToScreen, yRelativeToScreen;
     protected Sprite sprite;
     private boolean removed = false;
@@ -39,12 +39,24 @@ public abstract class Entity {
         removed = true;
     }
 
+    public Sprite getSprite() {
+        return sprite;
+    }
+
     public boolean isRemoved() {
         return removed;
     }
 
     public void init(Level level) {
         this.level = level;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
 }

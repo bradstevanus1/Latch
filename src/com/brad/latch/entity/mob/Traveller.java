@@ -8,6 +8,7 @@ public class Traveller extends Mob {
     public Traveller(int x, int y, int moveSpeed) {
         super(x << 4, y << 4, SpriteCollection.straggler_down.getSprite(), moveSpeed);
         animatedSprite = SpriteCollection.player_down;
+        size = 32;
     }
 
     @Override

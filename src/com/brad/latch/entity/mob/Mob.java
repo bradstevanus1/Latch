@@ -6,7 +6,6 @@ import com.brad.latch.entity.projectile.SpearProjectile;
 import com.brad.latch.graphics.AnimatedSprite;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.Sprite;
-import com.brad.latch.graphics.SpriteCollection;
 import com.brad.latch.level.tile.Tile;
 
 public abstract class Mob extends Entity {
@@ -16,6 +15,7 @@ public abstract class Mob extends Entity {
     protected Direction dir;
     protected int time = 0;
     protected AnimatedSprite animatedSprite = null;
+    protected static int size;
     int xDelta = 0; // Speed in x
     int yDelta = 0; // Speed in y
 
@@ -84,36 +84,81 @@ public abstract class Mob extends Entity {
                 else yDelta = 0;
             }
         }
+        dir = getDirection();
+        animatedSprite = getAnimatedSprite(up, down, left, right);
+        checkMove();
+        updateAnimatedSprite();
+    }
+
+    /**
+     * Basic chaser AI to make enemies chase the player's location. Should be placed
+     * inside chaser-type enemies' update methods.
+     * @param up Animated sprite for up direction
+     * @param down Animated sprite for down direction
+     * @param left Animated sprite for left direction
+     * @param right Animated sprite for right direction
+     */
+    protected void updateChaserMovement(AnimatedSprite up, AnimatedSprite down, AnimatedSprite left, AnimatedSprite right) {
+        time++;
+        xDelta = 0;
+        yDelta = 0;
+
+        Player player = level.getClientPlayer();
+        if (x < player.getX()) xDelta++;
+        else if (x > player.getX()) xDelta--;
+        if (y < player.getY()) yDelta++;
+        else if (y > player.getY()) yDelta--;
+
+
+        dir = getDirection();
+        animatedSprite = getAnimatedSprite(up, down, left, right);
+        checkMove();
+        updateAnimatedSprite();
+    }
+
+    private Direction getDirection() {
         if (yDelta < 0) {
-            dir = Direction.UP;
-            animatedSprite = up;
+            return Direction.UP;
         } else if (yDelta > 0) {
-            dir = Direction.DOWN;
-            animatedSprite = down;
+            return Direction.DOWN;
         }
         if (xDelta < 0) {
-            dir = Direction.LEFT;
-            animatedSprite = left;
+            return Direction.LEFT;
         } else if (xDelta > 0) {
-            dir = Direction.RIGHT;
-            animatedSprite = right;
+            return Direction.RIGHT;
         }
+        return dir;
+    }
+
+    private AnimatedSprite getAnimatedSprite(AnimatedSprite up, AnimatedSprite down, AnimatedSprite left, AnimatedSprite right) {
+        if (yDelta < 0) {
+            return up;
+        } else if (yDelta > 0) {
+            return down;
+        }
+        if (xDelta < 0) {
+            return left;
+        } else if (xDelta > 0) {
+            return right;
+        }
+        return animatedSprite;
+    }
+
+    private void checkMove() {
         if (xDelta != 0 || yDelta != 0) {
             move(xDelta, yDelta);
             moving = true;
         } else {
             moving = false;
         }
+    }
+
+    private void updateAnimatedSprite() {
         if (moving) animatedSprite.update();
         else animatedSprite.setFrame(0);
     }
 
-    protected void updateChaserMovement(AnimatedSprite up, AnimatedSprite down, AnimatedSprite left, AnimatedSprite right) {
-
-    }
-
-
-        public abstract void render(Screen screen);
+    public abstract void render(Screen screen);
 
     protected void shoot(int x, int y, double dir) {
         // dir = Math.toDegrees(dir);
