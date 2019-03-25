@@ -8,6 +8,8 @@ import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.Sprite;
 import com.brad.latch.level.tile.Tile;
 
+import java.util.List;
+
 public abstract class Mob extends Entity {
 
     protected boolean moving = false;
@@ -38,9 +40,9 @@ public abstract class Mob extends Entity {
         this.moveSpeed = moveSpeed;
     }
 
-    public void move(int xa, int ya) {
+    public void move(double xa, double ya) {
         // Use this method, or separate the
-        // collision statement below
+        // collision statement below.
         if (xa != 0 && ya != 0) {
             move(xa, 0);
             move(0, ya);
@@ -52,10 +54,23 @@ public abstract class Mob extends Entity {
         if (ya > 0) dir = Direction.DOWN;
         else if (ya < 0) dir = Direction.UP;
 
-        if (!collision(xa, ya)) {
-            x += xa;
-            y += ya;
+        for (int horizontal = 0; horizontal < Math.abs(xa); horizontal++) {
+            if (!collision(absNorm(xa), ya)) {
+                x += absNorm(xa);
+            } else break;
         }
+
+        for (int vertical = 0; vertical < Math.abs(ya); vertical++) {
+            if (!collision(xa, absNorm(ya))) {
+                y += absNorm(ya);
+            } else break;
+        }
+    }
+
+    private int absNorm(double value) {
+        if (value < 0) return -1;
+        else if (value > 0) return 1;
+        else return 0;
     }
 
     // TODO PUBLIC THING DO MOVEMENT for all mobss
@@ -103,12 +118,14 @@ public abstract class Mob extends Entity {
         xDelta = 0;
         yDelta = 0;
 
-        Player player = level.getClientPlayer();
-        if (x < player.getX()) xDelta++;
-        else if (x > player.getX()) xDelta--;
-        if (y < player.getY()) yDelta++;
-        else if (y > player.getY()) yDelta--;
-
+        List<Player> playersInRange = level.getPlayersInRange(this, 50);
+        if (playersInRange.size() > 0) {
+            Player player = playersInRange.get(0);  // First player is client
+            if (x < player.getX()) xDelta++;
+            else if (x > player.getX()) xDelta--;
+            if (y < player.getY()) yDelta++;
+            else if (y > player.getY()) yDelta--;
+        }
 
         dir = getDirection();
         animatedSprite = getAnimatedSprite(up, down, left, right);
@@ -166,13 +183,14 @@ public abstract class Mob extends Entity {
         level.add(p);
     }
 
-    private boolean collision(int xa, int ya) {
+    private boolean collision(double xa, double ya) {
         boolean solid = false;
         for (byte c = 0; c < 4; c++) {
-            int nextTileX = ((x + xa) + c % 2 * 14 - 8) >> Tile.getTileSizeExp2();
-            int nextTileY = ((y + ya) + c / 2 * 12 + 3) >> Tile.getTileSizeExp2();
-            if (level.getTile(nextTileX, nextTileY).solid()) solid = true;
-
+            double nextTileX = ((x + xa) + c % 2 * Tile.getTileSize()) / Tile.getTileSize();
+            double nextTileY = ((y + ya) + c / 2.0 * Tile.getTileSize()) / Tile.getTileSize();
+            int intNextTileX = (c % 2 == 0) ? (int) Math.floor(nextTileX) : (int) Math.ceil(nextTileX);
+            int intNextTileY = (c / 2 == 0) ? (int) Math.floor(nextTileY) : (int) Math.ceil(nextTileY);
+            if (level.getTile(intNextTileX, intNextTileY).solid()) solid = true;
         }
         return solid;
     }

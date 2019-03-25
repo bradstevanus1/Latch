@@ -18,14 +18,10 @@ public class Level {
     protected int[] tiles;
     public static Level spawn = new SpawnLevel("/levels/spawn.png");
 
-    private List<Entity> entities = new ArrayList<Entity>();
-    private List<Projectile> projectiles = new ArrayList<Projectile>();
-    private List<Particle> particles = new ArrayList<Particle>();
-    private List<Player> players = new ArrayList<Player>();
-
-    // TODO topLayer list?
-
-
+    private List<Entity> entities = new ArrayList<>();
+    private List<Projectile> projectiles = new ArrayList<>();
+    private List<Particle> particles = new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
 
     public Level(int width, int height) {
         this.width = width;
@@ -163,6 +159,32 @@ public class Level {
 
     public Player getClientPlayer() {
         return players.get(0);
+    }
+
+    public List<Entity> getEntitiesInRadius(Entity e, int radius) {
+        int ex = e.getX();
+        int ey = e.getY();
+        List<Entity> result = new ArrayList<>();
+        for (Entity entity : entities) {
+            int x = entity.getX();
+            int y = entity.getY();
+            double distance = Math.sqrt((x - ex)*(x - ex) + (y - ey)*(y - ey));
+            if (distance <= radius) result.add(entity);
+        }
+        return result;
+    }
+
+    public List<Player> getPlayersInRange(Entity e, int radius) {
+        int ex = e.getX();
+        int ey = e.getY();
+        List<Player> result = new ArrayList<>();
+        for (Player player : players) {
+            int x = player.getX();
+            int y = player.getY();
+            double distance = Math.sqrt((x - ex)*(x - ex) + (y - ey)*(y - ey));
+            if (distance <= radius) result.add(player);
+        }
+        return result;
     }
 
     /*

@@ -24,7 +24,7 @@ public class Traveller extends Mob {
     @Override
     public void render(Screen screen) {
         sprite = animatedSprite.getSprite();
-        screen.renderMob(x, y, sprite, 0);
+        screen.renderMob(x, y, this);
     }
 
 }

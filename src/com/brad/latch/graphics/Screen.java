@@ -143,7 +143,7 @@ public class Screen {
                 if (xRelToScreen < -Player.getSize() || xRelToScreen >= width || yRelToScreen < 0 || yRelToScreen >= height) break;
                 if (xRelToScreen < 0) xRelToScreen = 0;
                 int colour = mob.getSprite().pixels[x + y * Player.getSize()];
-                if (mob instanceof Traveller && colour == 0xFFF70E1A) colour = 0xFF36B72A;
+                if (mob instanceof Traveller && colour == 0xFF2084CC) colour = 0xFF36B72A;
                 else if (mob instanceof Straggler && colour == 0xFF2084CC) colour = 0xFFF70E1A;
                 if (colour != 0xffff00ff) pixels[xRelToScreen + yRelToScreen * width] = colour;
             }

@@ -1,6 +1,7 @@
 package com.brad.latch.entity.mob;
 
 import com.brad.latch.Game;
+import com.brad.latch.entity.Entity;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.entity.projectile.SpearProjectile;
 import com.brad.latch.graphics.AnimatedSprite;
@@ -9,6 +10,8 @@ import com.brad.latch.graphics.SpriteCollection;
 import com.brad.latch.input.Keyboard;
 import com.brad.latch.input.Mouse;
 import com.brad.latch.level.tile.Tile;
+
+import java.util.List;
 
 public class Player extends Mob {
 
