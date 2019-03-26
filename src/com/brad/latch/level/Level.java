@@ -161,26 +161,28 @@ public class Level {
         return players.get(0);
     }
 
+    @SuppressWarnings("Duplicates")
     public List<Entity> getEntitiesInRadius(Entity e, int radius) {
-        int ex = e.getX();
-        int ey = e.getY();
+        int ex = (int) e.getX();
+        int ey = (int) e.getY();
         List<Entity> result = new ArrayList<>();
         for (Entity entity : entities) {
-            int x = entity.getX();
-            int y = entity.getY();
+            int x = (int) entity.getX();
+            int y = (int) entity.getY();
             double distance = Math.sqrt((x - ex)*(x - ex) + (y - ey)*(y - ey));
             if (distance <= radius) result.add(entity);
         }
         return result;
     }
 
+    @SuppressWarnings("Duplicates")
     public List<Player> getPlayersInRange(Entity e, int radius) {
-        int ex = e.getX();
-        int ey = e.getY();
+        int ex = (int) e.getX();
+        int ey = (int) e.getY();
         List<Player> result = new ArrayList<>();
         for (Player player : players) {
-            int x = player.getX();
-            int y = player.getY();
+            int x = (int) player.getX();
+            int y = (int) player.getY();
             double distance = Math.sqrt((x - ex)*(x - ex) + (y - ey)*(y - ey));
             if (distance <= radius) result.add(player);
         }

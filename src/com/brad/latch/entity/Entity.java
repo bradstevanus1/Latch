@@ -9,7 +9,7 @@ import java.util.Random;
 public abstract class Entity {
 
     protected double x, y;
-    protected int xRelativeToScreen, yRelativeToScreen;
+    protected double xRelativeToScreen, yRelativeToScreen;
     protected Sprite sprite;
     private boolean removed = false;
     protected Level level;
@@ -33,7 +33,7 @@ public abstract class Entity {
     public abstract void update();
 
     public void render(Screen screen) {
-        if (sprite != null) screen.renderSprite(x, y, sprite, true);
+        if (sprite != null) screen.renderSprite((int) x, (int) y, sprite, true);
     }
 
     // Remove from level

@@ -13,57 +13,74 @@ import java.util.List;
 public abstract class Mob extends Entity {
 
     protected boolean moving = false;
-    protected int moveSpeed;
+    protected double moveSpeed;
     protected Direction dir;
     protected int time = 0;
     protected AnimatedSprite animatedSprite = null;
     protected static int size;
-    int xDelta = 0; // Speed in x
-    int yDelta = 0; // Speed in y
+    protected int aggroRange;
+    double xDelta = 0; // Speed in x
+    double yDelta = 0; // Speed in y
 
 
     protected enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
 
-    public Mob(int moveSpeed) {
+    public Mob(double moveSpeed) {
         this.moveSpeed = moveSpeed;
     }
 
-    public Mob(int x, int y, int moveSpeed) {
+    public Mob(int x, int y, double moveSpeed) {
         super(x, y);
         this.moveSpeed = moveSpeed;
     }
 
-    public Mob(int x, int y, Sprite sprite, int moveSpeed) {
+    public Mob(int x, int y, Sprite sprite, double moveSpeed) {
         super(x, y, sprite);
         this.moveSpeed = moveSpeed;
     }
 
-    public void move(double xa, double ya) {
+    public void move(double xDelta, double yDelta) {
         // Use this method, or separate the
         // collision statement below.
-        if (xa != 0 && ya != 0) {
-            move(xa, 0);
-            move(0, ya);
+        if (xDelta != 0 && yDelta != 0) {
+            move(xDelta, 0);
+            move(0, yDelta);
             return;
         }
 
-        if (xa > 0) dir = Direction.RIGHT;
-        else if (xa < 0) dir = Direction.LEFT;
-        if (ya > 0) dir = Direction.DOWN;
-        else if (ya < 0) dir = Direction.UP;
+        if (xDelta > 0) dir = Direction.RIGHT;
+        if (xDelta < 0) dir = Direction.LEFT;
+        if (yDelta > 0) dir = Direction.DOWN;
+        if (yDelta < 0) dir = Direction.UP;
 
-        for (int horizontal = 0; horizontal < Math.abs(xa); horizontal++) {
-            if (!collision(absNorm(xa), ya)) {
-                x += absNorm(xa);
-            } else break;
+
+        while (xDelta != 0) {
+            if (Math.abs(xDelta) > 1) {
+                if (!collision(absNorm(xDelta), 0)) {
+                    x += absNorm(xDelta);
+                }
+                xDelta -= absNorm(xDelta);
+            } else {
+                if (!collision(absNorm(xDelta), 0)) {
+                    x += xDelta;
+                }
+                xDelta = 0;
+            }
         }
-
-        for (int vertical = 0; vertical < Math.abs(ya); vertical++) {
-            if (!collision(xa, absNorm(ya))) {
-                y += absNorm(ya);
-            } else break;
+        while (yDelta != 0) {
+            if (Math.abs(yDelta) > 1) {
+                if (!collision(0, absNorm(yDelta))) {
+                    y += absNorm(yDelta);
+                }
+                yDelta -= absNorm(yDelta);
+            } else {
+                if (!collision(0, absNorm(yDelta))) {
+                    y += yDelta;
+                }
+                yDelta = 0;
+            }
         }
     }
 
@@ -88,12 +105,13 @@ public abstract class Mob extends Entity {
     protected void updateNPCMovement(AnimatedSprite up, AnimatedSprite down, AnimatedSprite left, AnimatedSprite right) {
         time++;
         if (time % (random.nextInt(50) + 30) == 0) {
-            xDelta = random.nextInt(3) - 1;
-            yDelta = random.nextInt(3) - 1;
+            xDelta = (random.nextInt(3) - 1) * moveSpeed;
+            yDelta = (random.nextInt(3) - 1) * moveSpeed;
             if (random.nextInt(3) == 0) {
                 xDelta = 0;
                 yDelta = 0;
             }
+            //  To make NPCs not be able to move diagonally
             if ((xDelta != 0) && (yDelta != 0)) {
                 if (random.nextBoolean()) xDelta = 0;
                 else yDelta = 0;
@@ -118,13 +136,13 @@ public abstract class Mob extends Entity {
         xDelta = 0;
         yDelta = 0;
 
-        List<Player> playersInRange = level.getPlayersInRange(this, 50);
+        List<Player> playersInRange = level.getPlayersInRange(this, aggroRange);
         if (playersInRange.size() > 0) {
             Player player = playersInRange.get(0);  // First player is client
-            if (x < player.getX()) xDelta++;
-            else if (x > player.getX()) xDelta--;
-            if (y < player.getY()) yDelta++;
-            else if (y > player.getY()) yDelta--;
+            if (x < player.getX()) xDelta += moveSpeed;
+            else if (x > player.getX()) xDelta -= moveSpeed;
+            if (y < player.getY()) yDelta += moveSpeed;
+            else if (y > player.getY()) yDelta -= moveSpeed;
         }
 
         dir = getDirection();
@@ -177,17 +195,18 @@ public abstract class Mob extends Entity {
 
     public abstract void render(Screen screen);
 
-    protected void shoot(int x, int y, double dir) {
+    protected void shoot(double x, double y, double dir) {
         // dir = Math.toDegrees(dir);
         Projectile p = new SpearProjectile(x, y, dir);
         level.add(p);
     }
 
-    private boolean collision(double xa, double ya) {
+    @SuppressWarnings("Duplicates")
+    private boolean collision(double xDelta, double yDelta) {
         boolean solid = false;
         for (byte c = 0; c < 4; c++) {
-            double nextTileX = ((x + xa) + c % 2 * Tile.getTileSize()) / Tile.getTileSize();
-            double nextTileY = ((y + ya) + c / 2.0 * Tile.getTileSize()) / Tile.getTileSize();
+            double nextTileX = ((x + xDelta) + c % 2 * Tile.getTileSize()) / Tile.getTileSize();
+            double nextTileY = ((y + yDelta) + c / 2.0 * Tile.getTileSize()) / Tile.getTileSize();
             int intNextTileX = (c % 2 == 0) ? (int) Math.floor(nextTileX) : (int) Math.ceil(nextTileX);
             int intNextTileY = (c / 2 == 0) ? (int) Math.floor(nextTileY) : (int) Math.ceil(nextTileY);
             if (level.getTile(intNextTileX, intNextTileY).solid()) solid = true;

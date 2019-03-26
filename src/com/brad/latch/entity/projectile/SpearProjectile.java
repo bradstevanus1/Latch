@@ -10,7 +10,7 @@ public class SpearProjectile extends Projectile {
     public static int rateOfFire = 15; // Higher is slower
     public static int size = 10;
 
-    public SpearProjectile(int xOrigin, int yOrigin, double angle) {
+    public SpearProjectile(double xOrigin, double yOrigin, double angle) {
         super(xOrigin, yOrigin, angle);
         range = 100 + random.nextInt(50);
         speed = 2;

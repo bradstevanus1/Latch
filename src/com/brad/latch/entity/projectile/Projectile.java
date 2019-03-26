@@ -7,8 +7,8 @@ import java.util.Random;
 
 public abstract class Projectile extends Entity {
 
+    protected final double xOrigin, yOrigin;
     protected double x, y;
-    protected final int xOrigin, yOrigin;
     protected double angle;
     protected Sprite sprite;
     protected double xDelta, yDelta;
@@ -17,7 +17,7 @@ public abstract class Projectile extends Entity {
 
     protected final Random random = new Random();
 
-    public Projectile(int xOrigin, int yOrigin, double angle) {
+    public Projectile(double xOrigin, double yOrigin, double angle) {
         this.xOrigin = xOrigin;
         this.yOrigin = yOrigin;
         this.angle = angle;

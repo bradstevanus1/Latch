@@ -43,7 +43,7 @@ public class Game extends Canvas implements Runnable {
     private Screen screen;
     public static boolean lockedScreen = true;
     private boolean keyReleased = true;
-    public static int x, y; // For unlocked camera
+    public static double x, y; // For unlocked camera
 
     // BufferedImage extends java.awt.Image and describes this parent class with an
     // accessible buffer of image data.
@@ -66,8 +66,8 @@ public class Game extends Canvas implements Runnable {
         TileCoordinate playerSpawn = new TileCoordinate(19, 62);
         player = new Player(playerSpawn.getX(), playerSpawn.getY(), key, 1);
         level.add(player);
-        x = player.getX() - screen.width / 2;
-        y = player.getY() - screen.height / 2;
+        x = player.getX() - screen.width / 2.0;
+        y = player.getY() - screen.height / 2.0;
 
         addKeyListener(key);
         addMouseListener(mouse);
@@ -144,14 +144,14 @@ public class Game extends Canvas implements Runnable {
     public void update() {
         if (key.screenLockToggle && keyReleased) {
             lockedScreen = !lockedScreen;
-            x = player.getX() - screen.width / 2;
-            y = player.getY() - screen.height / 2;
+            x = player.getX() - screen.width / 2.0;
+            y = player.getY() - screen.height / 2.0;
             keyReleased = false;
         }
         if (!(key.screenLockToggle || keyReleased)) keyReleased = true;
         if (key.centerCameraOnPlayer) {
-            x = player.getX() - screen.width / 2;
-            y = player.getY() - screen.height / 2;
+            x = player.getX() - screen.width / 2.0;
+            y = player.getY() - screen.height / 2.0;
         }
         key.update();
         level.update();
@@ -175,11 +175,11 @@ public class Game extends Canvas implements Runnable {
         // These variables are set to the top left corner of the screen, so all render methods
         // start their drawing in some way from these variables. In the case of level,
         // the offsets are exactly equal to these scrolls.
-        int xScroll = (lockedScreen) ? player.getX() - screen.width / 2 : x;
-        int yScroll = (lockedScreen) ? player.getY() - screen.height / 2 : y;
+        double xScroll = (lockedScreen) ? player.getX() - screen.width / 2.0 : x;
+        double yScroll = (lockedScreen) ? player.getY() - screen.height / 2.0 : y;
 
         // Render all the elements, like how update updates the level, player, and keyboard
-        level.render(xScroll, yScroll, screen);
+        level.render((int) xScroll, (int) yScroll, screen);
         // REMOVE : screen.renderSheet(40, 40, SpriteSheetCollection.player_down, false);
 
         // When all rendering is finished in the screen object, transfer

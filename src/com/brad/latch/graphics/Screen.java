@@ -76,12 +76,12 @@ public class Screen {
         xp -= xOffset;
         yp -= yOffset;
         for (int y = 0; y < tile.sprite.SIZE; y++) {
-            int ya = y + yp;
+            int yDelta = y + yp;
             for (int x = 0; x < tile.sprite.SIZE; x++) {
-                int xa = x + xp;
-                if (xa < -tile.sprite.SIZE || xa >= width || ya < 0 || ya >= height) break;
-                if (xa < 0) xa = 0;
-                pixels[xa + ya * width] = tile.sprite.pixels[x + y * tile.sprite.SIZE];
+                int xDelta = x + xp;
+                if (xDelta < -tile.sprite.SIZE || xDelta >= width || yDelta < 0 || yDelta >= height) break;
+                if (xDelta < 0) xDelta = 0;
+                pixels[xDelta + yDelta * width] = tile.sprite.pixels[x + y * tile.sprite.SIZE];
             }
         }
     }
@@ -91,13 +91,13 @@ public class Screen {
         xp -= xOffset;
         yp -= yOffset;
         for (int y = 0; y < p.getSpriteSize(); y++) {
-            int ya = y + yp;
+            int yDelta = y + yp;
             for (int x = 0; x < p.getSpriteSize(); x++) {
-                int xa = x + xp;
-                if (xa < -p.getSpriteSize() || xa >= width || ya < 0 || ya >= height) break;
-                if (xa < 0) xa = 0;
+                int xDelta = x + xp;
+                if (xDelta < -p.getSpriteSize() || xDelta >= width || yDelta < 0 || yDelta >= height) break;
+                if (xDelta < 0) xDelta = 0;
                 int col = p.getSprite().pixels[x + y * p.getSpriteSize()];
-                if (col != 0xffff00ff) pixels[xa + ya * width] = col;
+                if (col != 0xffff00ff) pixels[xDelta + yDelta * width] = col;
             }
         }
     }
@@ -113,21 +113,21 @@ public class Screen {
         xp -= xOffset;
         yp -= yOffset;
         for (int y = 0; y < Player.getSize(); y++) {
-            int ya = y + yp;
+            int yDelta = y + yp;
             int ys = y;
             if (flip == 2 || flip == 3) {
                 ys = (Player.getSize() - 1) - y;
             }
             for (int x = 0; x < Player.getSize(); x++) {
-                int xa = x + xp;
+                int xDelta = x + xp;
                 int xs = x;
                 if (flip == 1 || flip == 3) {
                     xs = (Player.getSize() - 1) - x;
                 }
-                if (xa < -Player.getSize() || xa >= width || ya < 0 || ya >= height) break;
-                if (xa < 0) xa = 0;
+                if (xDelta < -Player.getSize() || xDelta >= width || yDelta < 0 || yDelta >= height) break;
+                if (xDelta < 0) xDelta = 0;
                 int col = sprite.pixels[xs + ys * Player.getSize()];
-                if (col != 0xffff00ff) pixels[xa + ya * width] = col;
+                if (col != 0xffff00ff) pixels[xDelta + yDelta * width] = col;
             }
         }
     }

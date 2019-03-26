@@ -19,13 +19,13 @@ public class Player extends Mob {
     private int rateOfFire = 0;
     private AnimatedSprite animatedSprite = SpriteCollection.player_down;
 
-    public Player(Keyboard input, int moveSpeed) {
+    public Player(Keyboard input, double moveSpeed) {
         super(moveSpeed);
         this.input = input;
         sprite = SpriteCollection.player_up;
     }
 
-    public Player(int x, int y, Keyboard input, int moveSpeed) {
+    public Player(int x, int y, Keyboard input, double moveSpeed) {
         super(x, y, SpriteCollection.player_up, moveSpeed);
         this.input = input;
         rateOfFire = SpearProjectile.rateOfFire;
@@ -36,23 +36,23 @@ public class Player extends Mob {
         if (moving) animatedSprite.update();
         else animatedSprite.setFrame(0);
         if (rateOfFire > 0) rateOfFire--;
-        int xa = 0, ya = 0;
+        double xDelta = 0, yDelta = 0;
         if (input.up) {
             animatedSprite = SpriteCollection.player_up;
-            ya = ya - moveSpeed;
+            yDelta -= moveSpeed;
         } else if (input.down) {
             animatedSprite = SpriteCollection.player_down;
-            ya = ya + moveSpeed;
+            yDelta += moveSpeed;
         }
         if (input.left) {
             animatedSprite = SpriteCollection.player_side;
-            xa = xa - moveSpeed;
+            xDelta -= moveSpeed;
         } else if (input.right) {
             animatedSprite = SpriteCollection.player_side;
-            xa = xa + moveSpeed;
+            xDelta += moveSpeed;
         }
-        if (xa != 0 || ya != 0) {
-            move(xa, ya);
+        if (xDelta != 0 || yDelta != 0) {
+            move(xDelta, yDelta);
             moving = true;
         } else {
             moving = false;
@@ -74,8 +74,8 @@ public class Player extends Mob {
 
     private void updatePosRelativeToScreen() {
         if (Game.lockedScreen) {
-            xRelativeToScreen = Game.getWindowWidth() / 2;
-            yRelativeToScreen = Game.getWindowHeight() / 2;
+            xRelativeToScreen = Game.getWindowWidth() / 2.0;
+            yRelativeToScreen = Game.getWindowHeight() / 2.0;
         } else {
             xRelativeToScreen = (x - Game.x)*Game.getScale();
             yRelativeToScreen = (y - Game.y)*Game.getScale();
@@ -104,7 +104,7 @@ public class Player extends Mob {
     public void render(Screen screen) {
         int flip = (dir == Direction.LEFT) ? 1 : 0;
         sprite = animatedSprite.getSprite();
-        screen.renderMob(x - 16, y - 16, sprite, flip);
+        screen.renderMob((int) (x - 16), (int) (y - 16), sprite, flip);
     }
 
     public static int getSize() {
