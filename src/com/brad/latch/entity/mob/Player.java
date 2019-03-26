@@ -17,19 +17,23 @@ public class Player extends Mob {
 
     private Keyboard input;
     private int rateOfFire = 0;
-    private AnimatedSprite animatedSprite = SpriteCollection.player_down;
 
     public Player(Keyboard input, double moveSpeed) {
         super(moveSpeed);
         this.input = input;
-        sprite = SpriteCollection.player_up;
+        animatedSprite = SpriteCollection.player_up;
     }
 
-    public Player(int x, int y, Keyboard input, double moveSpeed) {
-        super(x, y, SpriteCollection.player_up, moveSpeed);
+    public Player(int x, int y, Keyboard input) {
+        super(x, y, SpriteCollection.player_up, 1);
         this.input = input;
         rateOfFire = SpearProjectile.rateOfFire;
         size = 32;
+        animatedSprite = SpriteCollection.player_up;
+        animatedSpriteUp = SpriteCollection.player_up;
+        animatedSpriteDown = SpriteCollection.player_down;
+        animatedSpriteLeft = SpriteCollection.player_side;
+        animatedSpriteRight = SpriteCollection.player_side;
     }
 
     public void update() {

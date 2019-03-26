@@ -5,8 +5,8 @@ import com.brad.latch.graphics.SpriteCollection;
 
 public class Traveller extends Mob {
 
-    public Traveller(int x, int y, double moveSpeed) {
-        super(x << 4, y << 4, SpriteCollection.straggler_down.getSprite(), moveSpeed);
+    public Traveller(int x, int y) {
+        super(x << 4, y << 4, SpriteCollection.straggler_down.getSprite(), 0.8);
         animatedSprite = SpriteCollection.player_down;
         size = 32;
     }

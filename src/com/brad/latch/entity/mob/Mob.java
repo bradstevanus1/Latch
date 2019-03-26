@@ -12,15 +12,20 @@ import java.util.List;
 
 public abstract class Mob extends Entity {
 
+    double xDelta = 0; // Speed in x
+    double yDelta = 0; // Speed in y
     protected boolean moving = false;
     protected double moveSpeed;
     protected Direction dir;
     protected int time = 0;
-    protected AnimatedSprite animatedSprite = null;
     protected static int size;
     protected int aggroRange;
-    double xDelta = 0; // Speed in x
-    double yDelta = 0; // Speed in y
+
+    protected AnimatedSprite animatedSprite;
+    protected AnimatedSprite animatedSpriteUp;
+    protected AnimatedSprite animatedSpriteDown;
+    protected AnimatedSprite animatedSpriteLeft;
+    protected AnimatedSprite animatedSpriteRight;
 
 
     protected enum Direction {
@@ -97,12 +102,14 @@ public abstract class Mob extends Entity {
     /**
      * Basic NPC AI to give NPCs random movement. Should be placed inside
      * all NPC update methods.
-     * @param up Animated sprite for up direction
-     * @param down Animated sprite for down direction
-     * @param left Animated sprite for left direction
+     *
+     * @param up    Animated sprite for up direction
+     * @param down  Animated sprite for down direction
+     * @param left  Animated sprite for left direction
      * @param right Animated sprite for right direction
      */
-    protected void updateNPCMovement(AnimatedSprite up, AnimatedSprite down, AnimatedSprite left, AnimatedSprite right) {
+    protected void updateNPCMovement(AnimatedSprite up, AnimatedSprite down, AnimatedSprite left,
+                                     AnimatedSprite right) {
         time++;
         if (time % (random.nextInt(50) + 30) == 0) {
             xDelta = (random.nextInt(3) - 1) * moveSpeed;
@@ -111,7 +118,7 @@ public abstract class Mob extends Entity {
                 xDelta = 0;
                 yDelta = 0;
             }
-            //  To make NPCs not be able to move diagonally
+            //  To ensure NPCs cannot move diagonally
             if ((xDelta != 0) && (yDelta != 0)) {
                 if (random.nextBoolean()) xDelta = 0;
                 else yDelta = 0;
@@ -126,12 +133,14 @@ public abstract class Mob extends Entity {
     /**
      * Basic chaser AI to make enemies chase the player's location. Should be placed
      * inside chaser-type enemies' update methods.
-     * @param up Animated sprite for up direction
-     * @param down Animated sprite for down direction
-     * @param left Animated sprite for left direction
+     *
+     * @param up    Animated sprite for up direction
+     * @param down  Animated sprite for down direction
+     * @param left  Animated sprite for left direction
      * @param right Animated sprite for right direction
      */
-    protected void updateChaserMovement(AnimatedSprite up, AnimatedSprite down, AnimatedSprite left, AnimatedSprite right) {
+    protected void updateChaserMovement(AnimatedSprite up, AnimatedSprite down, AnimatedSprite left,
+                                        AnimatedSprite right) {
         time++;
         xDelta = 0;
         yDelta = 0;
@@ -165,7 +174,8 @@ public abstract class Mob extends Entity {
         return dir;
     }
 
-    private AnimatedSprite getAnimatedSprite(AnimatedSprite up, AnimatedSprite down, AnimatedSprite left, AnimatedSprite right) {
+    private AnimatedSprite getAnimatedSprite(AnimatedSprite up, AnimatedSprite down, AnimatedSprite left,
+                                             AnimatedSprite right) {
         if (yDelta < 0) {
             return up;
         } else if (yDelta > 0) {
