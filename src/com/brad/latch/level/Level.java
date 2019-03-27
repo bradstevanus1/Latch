@@ -167,6 +167,12 @@ public class Level {
         return players.get(0);
     }
 
+    /**
+     * The A* Search Algorithm.
+     * @param start
+     * @param end
+     * @return
+     */
     public List<Node> findPath(Vector2i start, Vector2i end) {
         List<Node> openList = new ArrayList<>();
         List<Node> closedList = new ArrayList<>();
