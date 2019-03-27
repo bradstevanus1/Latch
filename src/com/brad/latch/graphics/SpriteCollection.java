@@ -37,6 +37,12 @@ public final class SpriteCollection {
     public static final AnimatedSprite straggler_left = new AnimatedSprite(SpriteSheetCollection.straggler_left, 32, 32, 3);
     public static final AnimatedSprite straggler_right = new AnimatedSprite(SpriteSheetCollection.straggler_right, 32, 32, 3);
 
+    public static final AnimatedSprite traveller_down = new AnimatedSprite(SpriteSheetCollection.traveller_down, 32, 32, 3);
+    public static final AnimatedSprite traveller_up = new AnimatedSprite(SpriteSheetCollection.traveller_up, 32, 32, 3);
+    public static final AnimatedSprite traveller_left = new AnimatedSprite(SpriteSheetCollection.traveller_left, 32, 32, 3);
+    public static final AnimatedSprite traveller_right = new AnimatedSprite(SpriteSheetCollection.traveller_right, 32, 32, 3);
+
+
     // Projectile sprites
 
     public static final Sprite projectile_spear = new Sprite(16, 0, 0, SpriteSheetCollection.projectile_spear);

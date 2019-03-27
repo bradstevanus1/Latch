@@ -22,8 +22,8 @@ public abstract class Mob extends Entity {
     protected int aggroRange;
 
     protected AnimatedSprite animatedSprite;
-    protected AnimatedSprite animatedSpriteUp;
     protected AnimatedSprite animatedSpriteDown;
+    protected AnimatedSprite animatedSpriteUp;
     protected AnimatedSprite animatedSpriteLeft;
     protected AnimatedSprite animatedSpriteRight;
 
@@ -108,8 +108,7 @@ public abstract class Mob extends Entity {
      * @param left  Animated sprite for left direction
      * @param right Animated sprite for right direction
      */
-    protected void updateNPCMovement(AnimatedSprite up, AnimatedSprite down, AnimatedSprite left,
-                                     AnimatedSprite right) {
+    protected void updateNPCMovement() {
         time++;
         if (time % (random.nextInt(50) + 30) == 0) {
             xDelta = (random.nextInt(3) - 1) * moveSpeed;
@@ -125,7 +124,7 @@ public abstract class Mob extends Entity {
             }
         }
         dir = getDirection();
-        animatedSprite = getAnimatedSprite(up, down, left, right);
+        animatedSprite = getAnimatedSprite();
         checkMove();
         updateAnimatedSprite();
     }
@@ -139,8 +138,7 @@ public abstract class Mob extends Entity {
      * @param left  Animated sprite for left direction
      * @param right Animated sprite for right direction
      */
-    protected void updateChaserMovement(AnimatedSprite up, AnimatedSprite down, AnimatedSprite left,
-                                        AnimatedSprite right) {
+    protected void updateChaserMovement() {
         time++;
         xDelta = 0;
         yDelta = 0;
@@ -155,7 +153,7 @@ public abstract class Mob extends Entity {
         }
 
         dir = getDirection();
-        animatedSprite = getAnimatedSprite(up, down, left, right);
+        animatedSprite = getAnimatedSprite();
         checkMove();
         updateAnimatedSprite();
     }
@@ -174,17 +172,16 @@ public abstract class Mob extends Entity {
         return dir;
     }
 
-    private AnimatedSprite getAnimatedSprite(AnimatedSprite up, AnimatedSprite down, AnimatedSprite left,
-                                             AnimatedSprite right) {
+    private AnimatedSprite getAnimatedSprite() {
         if (yDelta < 0) {
-            return up;
+            return animatedSpriteUp;
         } else if (yDelta > 0) {
-            return down;
+            return animatedSpriteDown;
         }
         if (xDelta < 0) {
-            return left;
+            return animatedSpriteLeft;
         } else if (xDelta > 0) {
-            return right;
+            return animatedSpriteRight;
         }
         return animatedSprite;
     }

@@ -14,16 +14,15 @@ public class Straggler extends Mob {
         aggroRange = 70;  // Range at which straggler will follow the player
         size = 32;
         animatedSprite = SpriteCollection.straggler_down;
+        animatedSpriteDown = SpriteCollection.straggler_down;
+        animatedSpriteUp = SpriteCollection.straggler_up;
+        animatedSpriteLeft = SpriteCollection.straggler_left;
+        animatedSpriteRight = SpriteCollection.straggler_right;
     }
 
     @Override
     public void update() {
-        updateChaserMovement(
-                SpriteCollection.straggler_up,
-                SpriteCollection.straggler_down,
-                SpriteCollection.straggler_left,
-                SpriteCollection.straggler_right
-        );
+        updateChaserMovement();
     }
 
     @Override
