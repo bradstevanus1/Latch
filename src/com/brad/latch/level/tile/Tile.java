@@ -5,7 +5,6 @@ import com.brad.latch.graphics.Sprite;
 
 public class Tile {
 
-    public int x, y;
     public Sprite sprite;
     private static final int TILE_SIZE = 16;
     private static final int TILE_SIZE_DIV_2 = TILE_SIZE / 2;

@@ -215,8 +215,8 @@ public abstract class Mob extends Entity {
     private boolean collision(double xDelta, double yDelta) {
         boolean solid = false;
         for (byte c = 0; c < 4; c++) {
-            double nextTileX = ((x + xDelta) + c % 2 * Tile.getTileSize()) / Tile.getTileSize();
-            double nextTileY = ((y + yDelta) + c / 2.0 * Tile.getTileSize()) / Tile.getTileSize();
+            double nextTileX = ((x + xDelta) - c % 2 * 16) / 16;
+            double nextTileY = ((y + yDelta) - c / 2.0 * 16) / 16;
             int intNextTileX = (c % 2 == 0) ? (int) Math.floor(nextTileX) : (int) Math.ceil(nextTileX);
             int intNextTileY = (c / 2 == 0) ? (int) Math.floor(nextTileY) : (int) Math.ceil(nextTileY);
             if (level.getTile(intNextTileX, intNextTileY).solid()) solid = true;

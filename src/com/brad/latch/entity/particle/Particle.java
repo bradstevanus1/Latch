@@ -73,6 +73,7 @@ public class Particle extends Entity {
         this.zDouble += zDelta;
     }
 
+    @SuppressWarnings("Duplicates")
     public boolean collision(double x, double y) {
         boolean solid = false;
         for (byte c = 0; c < 4; c++) {
