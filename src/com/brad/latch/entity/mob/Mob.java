@@ -6,14 +6,11 @@ import com.brad.latch.entity.projectile.SpearProjectile;
 import com.brad.latch.graphics.AnimatedSprite;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.Sprite;
-import com.brad.latch.level.tile.Tile;
-
-import java.util.List;
 
 public abstract class Mob extends Entity {
 
-    double xDelta = 0; // Speed in x
-    double yDelta = 0; // Speed in y
+    protected double xDelta = 0; // Speed in x
+    protected double yDelta = 0; // Speed in y
     protected boolean moving = false;
     protected double moveSpeed;
     protected Direction dir;
@@ -26,7 +23,6 @@ public abstract class Mob extends Entity {
     protected AnimatedSprite animatedSpriteUp;
     protected AnimatedSprite animatedSpriteLeft;
     protected AnimatedSprite animatedSpriteRight;
-
 
     protected enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -45,6 +41,8 @@ public abstract class Mob extends Entity {
         super(x, y, sprite);
         this.moveSpeed = moveSpeed;
     }
+
+    public abstract void update();
 
     public void move(double xDelta, double yDelta) {
         // Use this method, or separate the
@@ -95,113 +93,6 @@ public abstract class Mob extends Entity {
         else return 0;
     }
 
-    // TODO PUBLIC THING DO MOVEMENT for all mobss
-
-    public abstract void update();
-
-    /**
-     * Basic NPC AI to give NPCs random movement. Should be placed inside
-     * all NPC update methods.
-     *
-     * @param up    Animated sprite for up direction
-     * @param down  Animated sprite for down direction
-     * @param left  Animated sprite for left direction
-     * @param right Animated sprite for right direction
-     */
-    protected void updateNPCMovement() {
-        time++;
-        if (time % (random.nextInt(50) + 30) == 0) {
-            xDelta = (random.nextInt(3) - 1) * moveSpeed;
-            yDelta = (random.nextInt(3) - 1) * moveSpeed;
-            if (random.nextInt(3) == 0) {
-                xDelta = 0;
-                yDelta = 0;
-            }
-            //  To ensure NPCs cannot move diagonally
-            if ((xDelta != 0) && (yDelta != 0)) {
-                if (random.nextBoolean()) xDelta = 0;
-                else yDelta = 0;
-            }
-        }
-        dir = getDirection();
-        animatedSprite = getAnimatedSprite();
-        checkMove();
-        updateAnimatedSprite();
-    }
-
-    /**
-     * Basic chaser AI to make enemies chase the player's location. Should be placed
-     * inside chaser-type enemies' update methods.
-     *
-     * @param up    Animated sprite for up direction
-     * @param down  Animated sprite for down direction
-     * @param left  Animated sprite for left direction
-     * @param right Animated sprite for right direction
-     */
-    protected void updateChaserMovement() {
-        time++;
-        xDelta = 0;
-        yDelta = 0;
-
-        List<Player> playersInRange = level.getPlayersInRange(this, aggroRange);
-        if (playersInRange.size() > 0) {
-            Player player = playersInRange.get(0);  // First player is client
-            if (x < player.getX()) xDelta += moveSpeed;
-            else if (x > player.getX()) xDelta -= moveSpeed;
-            if (y < player.getY()) yDelta += moveSpeed;
-            else if (y > player.getY()) yDelta -= moveSpeed;
-        }
-
-        dir = getDirection();
-        animatedSprite = getAnimatedSprite();
-        checkMove();
-        updateAnimatedSprite();
-    }
-
-    private Direction getDirection() {
-        if (yDelta < 0) {
-            return Direction.UP;
-        } else if (yDelta > 0) {
-            return Direction.DOWN;
-        }
-        if (xDelta < 0) {
-            return Direction.LEFT;
-        } else if (xDelta > 0) {
-            return Direction.RIGHT;
-        }
-        return dir;
-    }
-
-    private AnimatedSprite getAnimatedSprite() {
-        if (yDelta < 0) {
-            return animatedSpriteUp;
-        } else if (yDelta > 0) {
-            return animatedSpriteDown;
-        }
-        if (xDelta < 0) {
-            return animatedSpriteLeft;
-        } else if (xDelta > 0) {
-            return animatedSpriteRight;
-        }
-        return animatedSprite;
-    }
-
-    private void checkMove() {
-        if (xDelta != 0 || yDelta != 0) {
-            move(xDelta, yDelta);
-            moving = true;
-        } else {
-            moving = false;
-        }
-    }
-
-    private void updateAnimatedSprite() {
-        if (moving) animatedSprite.update();
-        else animatedSprite.setFrame(0);
-    }
-
-    public abstract void render(Screen screen);
-
     protected void shoot(double x, double y, double dir) {
         // dir = Math.toDegrees(dir);
         Projectile p = new SpearProjectile(x, y, dir);
@@ -219,6 +110,12 @@ public abstract class Mob extends Entity {
             if (level.getTile(intNextTileX, intNextTileY).solid()) solid = true;
         }
         return solid;
+    }
+
+    @Override
+    public void render(Screen screen) {
+        sprite = animatedSprite.getSprite();
+        screen.renderMob((int) (x - size/2), (int) (y - size/2), this);
     }
 
 }

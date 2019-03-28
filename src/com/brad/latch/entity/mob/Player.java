@@ -1,17 +1,12 @@
 package com.brad.latch.entity.mob;
 
 import com.brad.latch.Game;
-import com.brad.latch.entity.Entity;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.entity.projectile.SpearProjectile;
-import com.brad.latch.graphics.AnimatedSprite;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.SpriteCollection;
 import com.brad.latch.input.Keyboard;
 import com.brad.latch.input.Mouse;
-import com.brad.latch.level.tile.Tile;
-
-import java.util.List;
 
 public class Player extends Mob {
 
@@ -23,15 +18,15 @@ public class Player extends Mob {
     }
 
     public Player(int x, int y, Keyboard input) {
-        super(x, y, SpriteCollection.player_up, 1);
+        super(x, y, SpriteCollection.player_down, 1);
         this.input = input;
         rateOfFire = SpearProjectile.rateOfFire;
         size = 32;
-        animatedSprite = SpriteCollection.player_up;
+        animatedSprite = SpriteCollection.player_down;
         animatedSpriteDown = SpriteCollection.player_down;
         animatedSpriteUp = SpriteCollection.player_up;
-        animatedSpriteLeft = SpriteCollection.player_side;
-        animatedSpriteRight = SpriteCollection.player_side;
+        animatedSpriteLeft = SpriteCollection.player_left;
+        animatedSpriteRight = SpriteCollection.player_right;
     }
 
     public void update() {
@@ -47,10 +42,10 @@ public class Player extends Mob {
             yDelta += moveSpeed;
         }
         if (input.left) {
-            animatedSprite = SpriteCollection.player_side;
+            animatedSprite = SpriteCollection.player_left;
             xDelta -= moveSpeed;
         } else if (input.right) {
-            animatedSprite = SpriteCollection.player_side;
+            animatedSprite = SpriteCollection.player_right;
             xDelta += moveSpeed;
         }
         if (xDelta != 0 || yDelta != 0) {
@@ -93,20 +88,6 @@ public class Player extends Mob {
             shoot(x, y, dir);
             rateOfFire = SpearProjectile.rateOfFire;
         }
-    }
-
-    /*
-     * flip = 0 -> No flip
-     * flip = 1 -> Horizontal flip
-     * flip = 2 -> Vertical flip
-     * flip = 3 -> Horizontal and vertical flip
-     */
-    // FIXME Rendering of player direction doesn't look quite right
-    // TODO Create the rest of the player sprites
-    public void render(Screen screen) {
-        int flip = (dir == Direction.LEFT) ? 1 : 0;
-        sprite = animatedSprite.getSprite();
-        screen.renderMob((int) (x - 16), (int) (y - 16), sprite, flip);
     }
 
     public static int getSize() {

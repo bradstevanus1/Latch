@@ -30,7 +30,8 @@ public final class SpriteCollection {
 
     public static final AnimatedSprite player_down = new AnimatedSprite(SpriteSheetCollection.player_down, 32, 32, 3);
     public static final AnimatedSprite player_up = new AnimatedSprite(SpriteSheetCollection.player_up, 32, 32, 3);
-    public static final AnimatedSprite player_side = new AnimatedSprite(SpriteSheetCollection.player_side, 32, 32, 3);
+    public static final AnimatedSprite player_left = new AnimatedSprite(SpriteSheetCollection.player_left, 32, 32, 3);
+    public static final AnimatedSprite player_right = new AnimatedSprite(SpriteSheetCollection.player_right, 32, 32, 3);
 
     public static final AnimatedSprite straggler_down = new AnimatedSprite(SpriteSheetCollection.straggler_down, 32, 32, 3);
     public static final AnimatedSprite straggler_up = new AnimatedSprite(SpriteSheetCollection.straggler_up, 32, 32, 3);
@@ -41,6 +42,11 @@ public final class SpriteCollection {
     public static final AnimatedSprite traveller_up = new AnimatedSprite(SpriteSheetCollection.traveller_up, 32, 32, 3);
     public static final AnimatedSprite traveller_left = new AnimatedSprite(SpriteSheetCollection.traveller_left, 32, 32, 3);
     public static final AnimatedSprite traveller_right = new AnimatedSprite(SpriteSheetCollection.traveller_right, 32, 32, 3);
+
+    public static final AnimatedSprite pokey_down = new AnimatedSprite(SpriteSheetCollection.pokey_down, 32, 32, 3);
+    public static final AnimatedSprite pokey_up = new AnimatedSprite(SpriteSheetCollection.pokey_up, 32, 32, 3);
+    public static final AnimatedSprite pokey_left = new AnimatedSprite(SpriteSheetCollection.pokey_left, 32, 32, 3);
+    public static final AnimatedSprite pokey_right = new AnimatedSprite(SpriteSheetCollection.pokey_right, 32, 32, 3);
 
 
     // Projectile sprites

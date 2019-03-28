@@ -10,7 +10,6 @@ import com.brad.latch.level.tile.TileCollection;
 import com.brad.latch.util.Vector2i;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -179,7 +178,7 @@ public class Level {
         Node current = new Node(start, null, 0, start.distanceTo(end));
         openList.add(current);
         while (openList.size() > 0) {
-            Collections.sort(openList, nodeSorter);  // Sorts the openList in order of fCost
+            openList.sort(nodeSorter);  // Sorts the openList in order of fCost
             current = openList.get(0);
 
             // At the end of the linked list, loop through to the beginning to create the path

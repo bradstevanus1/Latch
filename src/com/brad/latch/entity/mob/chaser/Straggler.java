@@ -1,12 +1,10 @@
-package com.brad.latch.entity.mob;
+package com.brad.latch.entity.mob.chaser;
 
-import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.SpriteCollection;
-import com.brad.latch.level.tile.TileCollection;
 
 // TODO Make this extend an intermediary "chaser" class with static members like aggroRange
 
-public class Straggler extends Mob {
+public class Straggler extends Chaser {
 
     public Straggler(int x, int y) {
         // Converts from pixel precision to tile precision
@@ -20,14 +18,4 @@ public class Straggler extends Mob {
         animatedSpriteRight = SpriteCollection.straggler_right;
     }
 
-    @Override
-    public void update() {
-        updateChaserMovement();
-    }
-
-    @Override
-    public void render(Screen screen) {
-        sprite = animatedSprite.getSprite();
-        screen.renderMob((int) (x - size/2), (int) (y - size/2), this);
-    }
 }
