@@ -182,7 +182,7 @@ public class Level {
             current = openList.get(0);
 
             // At the end of the linked list, loop through to the beginning to create the path
-            if (current.tileVector.equals(end)) {
+            if (current.tile.equals(end)) {
                 List<Node> path = new ArrayList<>();
                 while (current.parent != null) {
                     path.add(current);
@@ -196,8 +196,8 @@ public class Level {
             closedList.add(current);
             for (int i = 0; i < 9; i++) {
                 if (i == 4) continue;
-                int x = current.tileVector.getX();
-                int y = current.tileVector.getY();
+                int x = current.tile.getX();
+                int y = current.tile.getY();
                 int xi = (i % 3) - 1;
                 int yi = (i / 3) - 1;
                 Tile tileAt = getTile(x + xi, y + yi);
@@ -205,7 +205,7 @@ public class Level {
                 //      if so, then separate the if statement onto two lines
                 if (tileAt == null || tileAt.solid()) continue;
                 Vector2i tileAtVector = new Vector2i(x + xi, y + yi);
-                double gCost = current.gCost + current.tileVector.distanceTo(tileAtVector);
+                double gCost = current.gCost + current.tile.distanceTo(tileAtVector);
                 double hCost = tileAtVector.distanceTo(end);
                 Node node = new Node(tileAtVector, current, gCost, hCost);
                 //FIXME >= node.gCost? Are you sure? Might be the same value
@@ -219,7 +219,7 @@ public class Level {
 
     private boolean vectorInList(List<Node> nodes, Vector2i vector) {
         for (Node node : nodes) {
-            if (node.tileVector.equals(vector)) return true;
+            if (node.tile.equals(vector)) return true;
         }
         return false;
     }
