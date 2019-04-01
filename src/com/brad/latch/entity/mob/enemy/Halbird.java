@@ -1,12 +1,15 @@
-package com.brad.latch.entity.mob.chaser;
+package com.brad.latch.entity.mob.enemy;
 
+import com.brad.latch.entity.mob.Mob;
+import com.brad.latch.entity.mob.Player;
 import com.brad.latch.graphics.SpriteCollection;
 
-public class Pokey extends AdvancedChaser {
+public class Halbird extends Shooter {
 
-    public Pokey(int x, int y) {
+    public Halbird(int x, int y) {
         super(x << 4, y << 4, SpriteCollection.pokey_down.getSprite(), 0.7);
-        aggroRadius = 500;  // Range at which straggler will follow the player
+        name = "Hal Bird";
+        aggroRadius = 100;  // Range at which straggler will follow the player
         size = 32;
         animatedSprite = SpriteCollection.pokey_down;
         animatedSpriteDown = SpriteCollection.pokey_down;
@@ -14,4 +17,5 @@ public class Pokey extends AdvancedChaser {
         animatedSpriteLeft = SpriteCollection.pokey_left;
         animatedSpriteRight = SpriteCollection.pokey_right;
     }
+
 }

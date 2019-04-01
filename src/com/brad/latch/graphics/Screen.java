@@ -2,13 +2,11 @@ package com.brad.latch.graphics;
 
 import com.brad.latch.entity.mob.Mob;
 import com.brad.latch.entity.mob.Player;
-import com.brad.latch.entity.mob.chaser.Pokey;
-import com.brad.latch.entity.mob.chaser.Straggler;
-import com.brad.latch.entity.mob.peaceful.Traveller;
+import com.brad.latch.entity.mob.enemy.Pokey;
+import com.brad.latch.entity.mob.enemy.Straggler;
+import com.brad.latch.entity.mob.friendly.Traveller;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.level.tile.Tile;
-
-import java.util.Random;
 
 /**
  * Screen is responsible for handling how each type of object is rendered in the game.

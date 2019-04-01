@@ -1,8 +1,7 @@
 package com.brad.latch.level;
 
-import com.brad.latch.entity.mob.chaser.Pokey;
-import com.brad.latch.entity.mob.chaser.Straggler;
-import com.brad.latch.entity.mob.peaceful.Traveller;
+import com.brad.latch.entity.mob.enemy.Halbird;
+import com.brad.latch.entity.mob.friendly.Traveller;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -26,10 +25,11 @@ public class SpawnLevel extends Level {
             System.out.println("Exception! Could not load level file!");
         }
 
-        add(new Pokey(18, 68));
-        add(new Straggler(20, 55));
-        for (int i = 0; i < 5; i++) {
-            add(new Traveller(20, 56));
+        //add(new Pokey(18, 68));
+        //add(new Straggler(20, 55));
+        add(new Halbird(20, 55));
+        for (int i = 0; i < 1; i++) {
+            add(new Traveller(15, 56));
         }
     }
 

@@ -1,4 +1,4 @@
-package com.brad.latch.entity.mob.peaceful;
+package com.brad.latch.entity.mob.friendly;
 
 import com.brad.latch.graphics.SpriteCollection;
 
@@ -6,6 +6,7 @@ public class Traveller extends Peaceful {
 
     public Traveller(int x, int y) {
         super(x << 4, y << 4, SpriteCollection.traveller_down.getSprite(), 0.8);
+        name = "Traveller";
         size = 32;
         animatedSprite = SpriteCollection.traveller_down;
         animatedSpriteDown = SpriteCollection.traveller_down;
@@ -14,4 +15,8 @@ public class Traveller extends Peaceful {
         animatedSpriteRight = SpriteCollection.traveller_right;
     }
 
+    @Override
+    protected void shoot(double x, double y, double dir) {
+
+    }
 }

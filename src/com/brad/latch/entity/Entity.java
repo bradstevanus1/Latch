@@ -3,6 +3,7 @@ package com.brad.latch.entity;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.Sprite;
 import com.brad.latch.level.Level;
+import com.brad.latch.level.tile.Tile;
 
 import java.util.Random;
 

@@ -17,6 +17,7 @@ public abstract class Mob extends Entity {
     protected int time = 0;
     protected static int size;
     protected int aggroRadius;
+    protected String name;
 
     protected AnimatedSprite animatedSprite;
     protected AnimatedSprite animatedSpriteDown;
@@ -44,6 +45,8 @@ public abstract class Mob extends Entity {
 
     public abstract void update();
 
+    protected abstract void shoot(double x, double y, double dir);
+
     public void move(double xDelta, double yDelta) {
         // Use this method, or separate the
         // collision statement below.
@@ -54,10 +57,9 @@ public abstract class Mob extends Entity {
         }
 
         if (xDelta > 0) dir = Direction.RIGHT;
-        if (xDelta < 0) dir = Direction.LEFT;
+        else if (xDelta < 0) dir = Direction.LEFT;
         if (yDelta > 0) dir = Direction.DOWN;
-        if (yDelta < 0) dir = Direction.UP;
-
+        else if (yDelta < 0) dir = Direction.UP;
 
         while (xDelta != 0) {
             if (Math.abs(xDelta) > 1) {
@@ -93,11 +95,51 @@ public abstract class Mob extends Entity {
         else return 0;
     }
 
-    protected void shoot(double x, double y, double dir) {
-        // dir = Math.toDegrees(dir);
-        Projectile p = new SpearProjectile(x, y, dir);
-        level.add(p);
+    /**
+     * Causes the entity to move around randomly,
+     * frequently stopping.
+     */
+    protected void randomDirection() {
+        if (time % (random.nextInt(50) + 30) == 0) {
+            xDelta = (random.nextInt(3) - 1) * moveSpeed;
+            yDelta = (random.nextInt(3) - 1) * moveSpeed;
+            if (random.nextInt(3) == 0) {
+                xDelta = 0;
+                yDelta = 0;
+            }
+            //  Random movements cannot be diagonal
+            if ((xDelta != 0) && (yDelta != 0)) {
+                if (random.nextBoolean()) xDelta = 0;
+                else yDelta = 0;
+            }
+        }
     }
+
+    protected void moveToDirection() {
+        if (yDelta < 0) {
+            dir = Direction.UP;
+            animatedSprite = animatedSpriteUp;
+        } else if (yDelta > 0) {
+            dir = Direction.DOWN;
+            animatedSprite = animatedSpriteDown;
+        }
+        if (xDelta < 0) {
+            dir = Direction.LEFT;
+            animatedSprite = animatedSpriteLeft;
+        } else if (xDelta > 0) {
+            dir = Direction.RIGHT;
+            animatedSprite = animatedSpriteRight;
+        }
+        if (xDelta != 0 || yDelta != 0) {
+            move(xDelta, yDelta);
+            moving = true;
+        } else {
+            moving = false;
+        }
+        if (moving) animatedSprite.update();
+        else animatedSprite.setFrame(0);
+    }
+
 
     @SuppressWarnings("Duplicates")
     private boolean collision(double xDelta, double yDelta) {

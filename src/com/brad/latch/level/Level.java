@@ -23,7 +23,7 @@ public class Level {
     private List<Entity> entities = new ArrayList<>();
     private List<Projectile> projectiles = new ArrayList<>();
     private List<Particle> particles = new ArrayList<>();
-    private List<Player> players = new ArrayList<>();
+    public List<Player> players = new ArrayList<>();
 
     //  Overrides "compare" in the functional interface "comparator"
     private Comparator<Node> nodeSorter = (n0, n1) -> {
@@ -201,11 +201,9 @@ public class Level {
                 int xi = (i % 3) - 1;
                 int yi = (i / 3) - 1;
                 Tile tileAt = getTile(x + xi, y + yi);
-                //FIXME does solid create nullptrException if tileAt is null?
-                //      if so, then separate the if statement onto two lines
                 if (tileAt == null || tileAt.solid()) continue;
                 Vector2i tileAtVector = new Vector2i(x + xi, y + yi);
-                double gCost = current.gCost + current.tile.distanceTo(tileAtVector);
+                double gCost = current.gCost + (current.tile.distanceTo(tileAtVector) == 1 ? 1 : 0.95);
                 double hCost = tileAtVector.distanceTo(end);
                 Node node = new Node(tileAtVector, current, gCost, hCost);
                 //FIXME >= node.gCost? Are you sure? Might be the same value
@@ -225,11 +223,12 @@ public class Level {
     }
 
     @SuppressWarnings("Duplicates")
-    public List<Entity> getEntitiesInRadius(Entity e, int radius) {
+    public List<Entity> getEntitiesInRange(Entity e, int radius) {
         int ex = (int) e.getX();
         int ey = (int) e.getY();
         List<Entity> result = new ArrayList<>();
         for (Entity entity : entities) {
+            if (entity.equals(e)) continue;
             int x = (int) entity.getX();
             int y = (int) entity.getY();
             double distance = Math.sqrt((x - ex)*(x - ex) + (y - ey)*(y - ey));

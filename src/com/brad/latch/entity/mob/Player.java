@@ -59,6 +59,11 @@ public class Player extends Mob {
         updateShooting();
     }
 
+    protected void shoot(double x, double y, double dir) {
+        Projectile p = new SpearProjectile(x, y, dir);
+        level.add(p);
+    }
+
     private void clear() {
         for (int i = 0; i < level.getProjectiles().size(); i++) {
             Projectile p = level.getProjectiles().get(i);
