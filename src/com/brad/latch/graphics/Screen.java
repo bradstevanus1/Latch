@@ -69,13 +69,13 @@ public class Screen {
     public void renderProjectile(int xp, int yp, Projectile p) {
         xp -= xOffset;
         yp -= yOffset;
-        for (int y = 0; y < p.getSpriteSize(); y++) {
+        for (int y = 0; y < p.getSprite().getSize(); y++) {
             int yDelta = y + yp;
-            for (int x = 0; x < p.getSpriteSize(); x++) {
+            for (int x = 0; x < p.getSprite().getSize(); x++) {
                 int xDelta = x + xp;
-                if (xDelta < -p.getSpriteSize() || xDelta >= width || yDelta < 0 || yDelta >= height) break;
+                if (xDelta < -p.getSprite().getSize() || xDelta >= width || yDelta < 0 || yDelta >= height) break;
                 if (xDelta < 0) xDelta = 0;
-                int col = p.getSprite().pixels[x + y * p.getSpriteSize()];
+                int col = p.getSprite().pixels[x + y * p.getSprite().getSize()];
                 if (col != 0xffff00ff) pixels[xDelta + yDelta * width] = col;
             }
         }

@@ -53,15 +53,6 @@ public abstract class Shooter extends Mob {
         shootAt(closestEntity);
     }
 
-    private void shootAt(Entity entity) {
-        if (entity != null) {
-            double dx = entity.getX() - x;
-            double dy = entity.getY() - y;
-            double dir = Math.atan2(dy, dx);
-            shoot(x, y, dir);
-        }
-    }
-
     @Override
     protected void shoot(double x, double y, double dir) {
         Projectile p = new SpearProjectile(x, y, dir);

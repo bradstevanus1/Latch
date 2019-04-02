@@ -20,6 +20,7 @@ public class Player extends Mob {
     public Player(int x, int y, Keyboard input) {
         super(x, y, SpriteCollection.player_down, 1);
         this.input = input;
+        name = "Centrix";
         rateOfFire = SpearProjectile.rateOfFire;
         size = 32;
         animatedSprite = SpriteCollection.player_down;

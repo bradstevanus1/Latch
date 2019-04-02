@@ -47,6 +47,15 @@ public abstract class Mob extends Entity {
 
     protected abstract void shoot(double x, double y, double dir);
 
+    protected void shootAt(Entity entity) {
+        if (entity != null) {
+            double dx = entity.getX() - x;
+            double dy = entity.getY() - y;
+            double dir = Math.atan2(dy, dx);
+            shoot(x, y, dir);
+        }
+    }
+
     public void move(double xDelta, double yDelta) {
         // Use this method, or separate the
         // collision statement below.
