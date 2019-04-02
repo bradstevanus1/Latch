@@ -2,7 +2,6 @@ package com.brad.latch.entity.mob.enemy;
 
 import com.brad.latch.entity.Entity;
 import com.brad.latch.entity.mob.Mob;
-import com.brad.latch.entity.mob.Player;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.entity.projectile.SpearProjectile;
 import com.brad.latch.graphics.Sprite;
@@ -10,7 +9,9 @@ import com.brad.latch.util.Vector2i;
 
 import java.util.List;
 
-public class Shooter extends Mob {
+public abstract class Shooter extends Mob {
+
+    protected Entity randomEntity = null;
 
     public Shooter(int x, int y, Sprite sprite, double moveSpeed) {
         super(x, y, sprite, moveSpeed);
@@ -19,15 +20,28 @@ public class Shooter extends Mob {
     @Override
     public void update() {
         time++;
-        //randomDirection();
-        //moveToDirection();
+        shootRandom();
+    }
 
+    private void shootRandom() {
+        if (time % (60 + random.nextInt(61)) == 0) {
+            List<Entity> entities = level.getEntitiesInRange(this, aggroRadius);
+            entities.addAll(level.getPlayersInRange(this, aggroRadius));
+            if (entities.size() != 0) {
+                int index = random.nextInt(entities.size());
+                randomEntity = entities.get(index);
+            } else {
+                randomEntity = null;
+            }
+        }
+        shootAt(randomEntity);
+    }
+
+    private void shootClosest() {
         List<Entity> entities = level.getEntitiesInRange(this, aggroRadius);
         entities.addAll(level.getPlayersInRange(this, aggroRadius));
-
         double min = 0;
         Entity closestEntity = null;
-
         for (int i = 0; i < entities.size(); i++) {
             Entity entity = entities.get(i);
             double distance = new Vector2i((int) x, (int) y).distanceTo(new Vector2i((int) entity.getX(), (int) entity.getY()));
@@ -36,9 +50,13 @@ public class Shooter extends Mob {
                 closestEntity = entity;
             }
         }
-        if (closestEntity != null) {
-            double dx = closestEntity.getX() - x;
-            double dy = closestEntity.getY() - y;
+        shootAt(closestEntity);
+    }
+
+    private void shootAt(Entity entity) {
+        if (entity != null) {
+            double dx = entity.getX() - x;
+            double dy = entity.getY() - y;
             double dir = Math.atan2(dy, dx);
             shoot(x, y, dir);
         }
