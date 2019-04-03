@@ -6,6 +6,7 @@ import com.brad.latch.entity.projectile.SpearProjectile;
 import com.brad.latch.graphics.AnimatedSprite;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.Sprite;
+import com.brad.latch.util.Debug;
 
 public abstract class Mob extends Entity {
 

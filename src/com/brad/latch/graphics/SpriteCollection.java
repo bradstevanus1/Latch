@@ -58,5 +58,9 @@ public final class SpriteCollection {
     public static final Sprite particle_normal = new Sprite(3, 0xaaaaaa);
     public static final Sprite projectile_spear_explosion = new Sprite(16, 1, 0, SpriteSheetCollection.projectile_spear);
 
+    // Font sprites
+
+    //public static final Sprite[] characters = Sprite.split(SpriteSheetCollection.font);
+
 
 }

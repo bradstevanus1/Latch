@@ -7,6 +7,7 @@ import com.brad.latch.input.Keyboard;
 import com.brad.latch.input.Mouse;
 import com.brad.latch.level.Level;
 import com.brad.latch.level.tile.TileCoordinate;
+import com.brad.latch.util.Debug;
 
 import javax.swing.JFrame;
 import java.awt.*;
@@ -168,15 +169,13 @@ public class Game extends Canvas implements Runnable {
             return;
         }
 
-        // Clear the screen of the last frame
         screen.clear();
 
-        // Set the scroll factor based on player's position (locked) or static pos (unlocked).
-        // These variables are set to the top left corner of the screen, so all render methods
-        // start their drawing in some way from these variables. In the case of level,
-        // the offsets are exactly equal to these scrolls.
         double xScroll = (lockedScreen) ? player.getX() - screen.width / 2.0 : x;
         double yScroll = (lockedScreen) ? player.getY() - screen.height / 2.0 : y;
+
+        /** Elements to draw begin here */
+
 
         // Render all the elements, like how update updates the level, player, and keyboard
         level.render((int) xScroll, (int) yScroll, screen);
@@ -185,13 +184,14 @@ public class Game extends Canvas implements Runnable {
         // When all rendering is finished in the screen object, transfer
         // the pixels to this array, which is related to the image object
 
-        Sprite sprite = new Sprite(40, 40, 0xff00ff);
-        // If fixed == false, the sprite will stick to the screen in GUI fashion.
-        // If not, it will appear at the absolute value on the level.
-        screen.renderSprite(0, 0, sprite, true);
+        Debug.drawRect(screen, 50, 50, 8, 8,false);
+
+        /** Elements to draw end here */
+
         for (int i = 0; i < pixels.length; i++) {
             pixels[i] = screen.pixels[i];
         }
+
 
         // Returns a graphics context for the drawing buffer and draws everything
         Graphics g = bs.getDrawGraphics();

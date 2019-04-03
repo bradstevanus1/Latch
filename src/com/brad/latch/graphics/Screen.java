@@ -7,6 +7,7 @@ import com.brad.latch.entity.mob.enemy.Straggler;
 import com.brad.latch.entity.mob.friendly.Traveller;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.level.tile.Tile;
+import com.brad.latch.util.Debug;
 
 /**
  * Screen is responsible for handling how each type of object is rendered in the game.
@@ -86,17 +87,36 @@ public class Screen {
         xOrigin -= xOffset;
         yOrigin -= yOffset;
         for (int y = 0; y < Player.getSize(); y++) {
-            int yRelToScreen = y + yOrigin;
+            int yScreen = y + yOrigin;
             for (int x = 0; x < Player.getSize(); x++) {
-                int xRelToScreen = x + xOrigin;
-                if (xRelToScreen < -Player.getSize() || xRelToScreen >= width || yRelToScreen < 0 || yRelToScreen >= height) break;
-                if (xRelToScreen < 0) xRelToScreen = 0;
+                int xScreen = x + xOrigin;
+                if (xScreen < -Player.getSize() || xScreen >= width || yScreen < 0 || yScreen >= height) break;
+                if (xScreen < 0) xScreen = 0;
                 int colour = mob.getSprite().pixels[x + y * Player.getSize()];
                 if (mob instanceof Traveller && colour == 0xFF2084CC) colour = 0xFF36B72A;
                 else if (mob instanceof Straggler && colour == 0xFF2084CC) colour = 0xFFF70E1A;
                 else if (mob instanceof Pokey && colour == 0xFF2084CC) colour = 0xFFFF47A9;
-                if (colour != 0xffff00ff) pixels[xRelToScreen + yRelToScreen * width] = colour;
+                if (colour != 0xffff00ff) pixels[xScreen + yScreen * width] = colour;
             }
+        }
+    }
+
+    public void drawRect(int x, int y, int width, int height, int colour, boolean fixed) {
+        if (fixed) {
+            x -= xOffset;
+            y -= yOffset;
+        }
+        for (int xp = 0; xp < width; xp++) {
+            if (xp + x < 0 || xp + x >= this.width || y >= this.height) continue;
+            if (y > 0) pixels[(x + xp) + y * this.width] = colour;
+            if (y + height >= this.height) continue;
+            if (y + height > 0) pixels[(x + xp) + (y + height) * this.width] = colour;
+        }
+        for (int yp = 0; yp <= height; yp++) {
+            if (x >= this.width || y + yp < 0 || y + yp >= this.height) continue;
+            if (x > 0) pixels[x + (y + yp) * this.width] = colour;
+            if (x + width >= this.width) continue;
+            if (x + width > 0) pixels[(x + width) + (y + yp) * this.width] = colour;
         }
     }
 
