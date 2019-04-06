@@ -46,7 +46,33 @@ public class Sprite {
         SIZE = (width == height) ? width : -1;
         this.width = width;
         this.height = height;
-        this.pixels = pixels;
+        this.pixels = new int[pixels.length];
+        System.arraycopy(pixels, 0, this.pixels, 0, pixels.length);
+    }
+
+    public static Sprite[] split(SpriteSheet sheet) {
+        int amount = (sheet.getWidth() * sheet.getHeight()) / (sheet.SPRITE_WIDTH * sheet.SPRITE_HEIGHT);
+        Sprite[] sprites = new Sprite[amount];
+
+        int[] pixels = new int[sheet.SPRITE_WIDTH * sheet.SPRITE_HEIGHT];
+        int current = 0;
+
+        int ySpriteMax = sheet.getHeight() / sheet.SPRITE_HEIGHT;
+        int xSpriteMax = sheet.getWidth() / sheet.SPRITE_WIDTH;
+
+        for (int ySprite = 0; ySprite < ySpriteMax; ySprite++) {
+            for (int xSprite = 0; xSprite < xSpriteMax; xSprite++) {
+                for (int yPixel = 0; yPixel < sheet.SPRITE_HEIGHT; yPixel++) {
+                    for (int xPixel = 0; xPixel < sheet.SPRITE_WIDTH; xPixel++) {
+                        int xOffset = xPixel + xSprite * sheet.SPRITE_WIDTH;
+                        int yOffset = yPixel + ySprite * sheet.SPRITE_HEIGHT;
+                        pixels[xPixel + yPixel * sheet.SPRITE_WIDTH] = sheet.getPixels()[xOffset + yOffset * sheet.getWidth()];
+                    }
+                }
+                sprites[current++] = new Sprite(pixels, sheet.SPRITE_WIDTH, sheet.SPRITE_HEIGHT);
+            }
+        }
+        return sprites;
     }
 
     private void setColour(int colour) {

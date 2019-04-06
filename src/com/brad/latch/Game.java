@@ -1,6 +1,7 @@
 package com.brad.latch;
 
 import com.brad.latch.entity.mob.Player;
+import com.brad.latch.graphics.Font;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.Sprite;
 import com.brad.latch.input.Keyboard;
@@ -10,13 +11,18 @@ import com.brad.latch.level.tile.TileCoordinate;
 import com.brad.latch.util.Debug;
 
 import javax.swing.JFrame;
-import java.awt.*;
+import java.awt.Canvas;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
 // Canvas is part of JFrame.
 // Implements runnable to instantiate a thread.
+
+// TODO: Make an interface called "renderable" that is implemented
+//       by all classes that have a render method
 
 /**
  * "Latch" - a 2D RPG bullet-hell game.
@@ -42,6 +48,7 @@ public class Game extends Canvas implements Runnable {
     private boolean running = false;
 
     private Screen screen;
+    private Font font;
     public static boolean lockedScreen = true;
     private boolean keyReleased = true;
     public static double x, y; // For unlocked camera
@@ -63,6 +70,7 @@ public class Game extends Canvas implements Runnable {
         frame = new JFrame();
         key = new Keyboard();
         mouse = new Mouse();
+        font = new Font();
         level = Level.spawn;
         TileCoordinate playerSpawn = new TileCoordinate(19, 62);
         player = new Player(playerSpawn.getX(), playerSpawn.getY(), key);
@@ -184,7 +192,7 @@ public class Game extends Canvas implements Runnable {
         // When all rendering is finished in the screen object, transfer
         // the pixels to this array, which is related to the image object
 
-        Debug.drawRect(screen, 50, 50, 8, 8,false);
+        font.render(screen);
 
         /** Elements to draw end here */
 
