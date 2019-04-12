@@ -21,6 +21,7 @@ public class Screen {
     public int width, height;
     public int[] pixels;
     public int xOffset, yOffset;
+    private static final int ALPHA_COLOUR  = 0xFFFF00FF;
 
     public Screen(int width, int height) {
         this.width = width;
@@ -37,6 +38,7 @@ public class Screen {
         }
     }
 
+    @SuppressWarnings("Duplicates")
     public void renderSprite(int xOrigin, int yOrigin, Sprite sprite, boolean fixed) {
         // The origin variables represent the top left coordinate of the screen
         if (fixed) {
@@ -48,7 +50,26 @@ public class Screen {
             for (int x = 0; x < sprite.getWidth(); x++) {
                 int xRelToScreen = x + xOrigin;
                 if (xRelToScreen < 0 || xRelToScreen >= width || yRelToScreen < 0 || yRelToScreen >= height) continue;
-                pixels[xRelToScreen + yRelToScreen * width] = sprite.pixels[x + y * sprite.getWidth()];
+                int colour = sprite.pixels[x + y * sprite.getWidth()];
+                if (colour != ALPHA_COLOUR && colour != 0xFFA23FFF) pixels[xRelToScreen + yRelToScreen * width] = colour;
+            }
+        }
+    }
+
+    @SuppressWarnings("Duplicates")
+    public void renderCharacter(int xOrigin, int yOrigin, Sprite sprite, int colour, boolean fixed) {
+        // The origin variables represent the top left coordinate of the screen
+        if (fixed) {
+            xOrigin -= xOffset;
+            yOrigin -= yOffset;
+        }
+        for (int y = 0; y < sprite.getHeight(); y++) {
+            int yRelToScreen = y + yOrigin;
+            for (int x = 0; x < sprite.getWidth(); x++) {
+                int xRelToScreen = x + xOrigin;
+                if (xRelToScreen < 0 || xRelToScreen >= width || yRelToScreen < 0 || yRelToScreen >= height) continue;
+                int col = sprite.pixels[x + y * sprite.getWidth()];
+                if (col != ALPHA_COLOUR && col != 0xFFA23FFF) pixels[xRelToScreen + yRelToScreen * width] = colour;
             }
         }
     }
@@ -76,8 +97,8 @@ public class Screen {
                 int xDelta = x + xp;
                 if (xDelta < -p.getSprite().getSize() || xDelta >= width || yDelta < 0 || yDelta >= height) break;
                 if (xDelta < 0) xDelta = 0;
-                int col = p.getSprite().pixels[x + y * p.getSprite().getSize()];
-                if (col != 0xffff00ff) pixels[xDelta + yDelta * width] = col;
+                int colour = p.getSprite().pixels[x + y * p.getSprite().getSize()];
+                if (colour != ALPHA_COLOUR) pixels[xDelta + yDelta * width] = colour;
             }
         }
     }
@@ -96,7 +117,7 @@ public class Screen {
                 if (mob instanceof Traveller && colour == 0xFF2084CC) colour = 0xFF36B72A;
                 else if (mob instanceof Straggler && colour == 0xFF2084CC) colour = 0xFFF70E1A;
                 else if (mob instanceof Pokey && colour == 0xFF2084CC) colour = 0xFFFF47A9;
-                if (colour != 0xffff00ff) pixels[xScreen + yScreen * width] = colour;
+                if (colour != ALPHA_COLOUR) pixels[xScreen + yScreen * width] = colour;
             }
         }
     }

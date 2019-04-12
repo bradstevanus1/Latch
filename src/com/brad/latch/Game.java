@@ -192,14 +192,13 @@ public class Game extends Canvas implements Runnable {
         // When all rendering is finished in the screen object, transfer
         // the pixels to this array, which is related to the image object
 
-        font.render(screen);
+        font.render(50, 50, -6, 0xDDDDDDDD, "Hey guys,\nit's\nyour boy\nbrad here", screen);
 
         /** Elements to draw end here */
 
         for (int i = 0; i < pixels.length; i++) {
             pixels[i] = screen.pixels[i];
         }
-
 
         // Returns a graphics context for the drawing buffer and draws everything
         Graphics g = bs.getDrawGraphics();
