@@ -7,7 +7,6 @@ import com.brad.latch.entity.mob.enemy.Straggler;
 import com.brad.latch.entity.mob.friendly.Traveller;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.level.tile.Tile;
-import com.brad.latch.util.Debug;
 
 /**
  * Screen is responsible for handling how each type of object is rendered in the game.
@@ -21,7 +20,6 @@ public class Screen {
     public int width, height;
     public int[] pixels;
     public int xOffset, yOffset;
-    private static final int ALPHA_COLOUR  = 0xFFFF00FF;
 
     public Screen(int width, int height) {
         this.width = width;
@@ -51,14 +49,14 @@ public class Screen {
                 int xRelToScreen = x + xOrigin;
                 if (xRelToScreen < 0 || xRelToScreen >= width || yRelToScreen < 0 || yRelToScreen >= height) continue;
                 int colour = sprite.pixels[x + y * sprite.getWidth()];
-                if (colour != ALPHA_COLOUR && colour != 0xFFA23FFF) pixels[xRelToScreen + yRelToScreen * width] = colour;
+                if (colour != Sprite.ALPHA_COLOUR && colour != 0xFFA23FFF)
+                    pixels[xRelToScreen + yRelToScreen * width] = colour;
             }
         }
     }
 
     @SuppressWarnings("Duplicates")
     public void renderCharacter(int xOrigin, int yOrigin, Sprite sprite, int colour, boolean fixed) {
-        // The origin variables represent the top left coordinate of the screen
         if (fixed) {
             xOrigin -= xOffset;
             yOrigin -= yOffset;
@@ -69,7 +67,7 @@ public class Screen {
                 int xRelToScreen = x + xOrigin;
                 if (xRelToScreen < 0 || xRelToScreen >= width || yRelToScreen < 0 || yRelToScreen >= height) continue;
                 int col = sprite.pixels[x + y * sprite.getWidth()];
-                if (col != ALPHA_COLOUR && col != 0xFFA23FFF) pixels[xRelToScreen + yRelToScreen * width] = colour;
+                if (col != Sprite.ALPHA_COLOUR && col != 0xFFA23FFF) pixels[xRelToScreen + yRelToScreen * width] = colour;
             }
         }
     }
@@ -98,11 +96,10 @@ public class Screen {
                 if (xDelta < -p.getSprite().getSize() || xDelta >= width || yDelta < 0 || yDelta >= height) break;
                 if (xDelta < 0) xDelta = 0;
                 int colour = p.getSprite().pixels[x + y * p.getSprite().getSize()];
-                if (colour != ALPHA_COLOUR) pixels[xDelta + yDelta * width] = colour;
+                if (colour != Sprite.ALPHA_COLOUR) pixels[xDelta + yDelta * width] = colour;
             }
         }
     }
-
 
     public void renderMob(int xOrigin, int yOrigin, Mob mob) {
         xOrigin -= xOffset;
@@ -117,7 +114,7 @@ public class Screen {
                 if (mob instanceof Traveller && colour == 0xFF2084CC) colour = 0xFF36B72A;
                 else if (mob instanceof Straggler && colour == 0xFF2084CC) colour = 0xFFF70E1A;
                 else if (mob instanceof Pokey && colour == 0xFF2084CC) colour = 0xFFFF47A9;
-                if (colour != ALPHA_COLOUR) pixels[xScreen + yScreen * width] = colour;
+                if (colour != Sprite.ALPHA_COLOUR) pixels[xScreen + yScreen * width] = colour;
             }
         }
     }

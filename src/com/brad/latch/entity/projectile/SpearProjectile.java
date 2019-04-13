@@ -2,6 +2,7 @@ package com.brad.latch.entity.projectile;
 
 import com.brad.latch.entity.spawner.ParticleSpawner;
 import com.brad.latch.graphics.Screen;
+import com.brad.latch.graphics.Sprite;
 import com.brad.latch.graphics.SpriteCollection;
 import com.brad.latch.level.tile.Tile;
 
@@ -13,9 +14,9 @@ public class SpearProjectile extends Projectile {
     public SpearProjectile(double xOrigin, double yOrigin, double angle) {
         super(xOrigin, yOrigin, angle);
         range = 100 + random.nextInt(50);
-        speed = 2;
+        speed = 1.5;
         damage = 20;
-        sprite = SpriteCollection.projectile_spear;
+        sprite = Sprite.rotate(SpriteCollection.projectile_spear, angle);
         xDelta = speed * Math.cos(angle);
         yDelta = speed * Math.sin(angle);
     }
