@@ -5,9 +5,13 @@ import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.entity.projectile.SpearProjectile;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.SpriteCollection;
+import com.brad.latch.graphics.ui.UIComponent;
+import com.brad.latch.graphics.ui.UILabel;
 import com.brad.latch.graphics.ui.UIManager;
+import com.brad.latch.graphics.ui.UIPanel;
 import com.brad.latch.input.Keyboard;
 import com.brad.latch.input.Mouse;
+import com.brad.latch.util.Vector2i;
 
 public class Player extends Mob {
 
@@ -33,6 +37,9 @@ public class Player extends Mob {
         animatedSpriteLeft = SpriteCollection.player_left;
         animatedSpriteRight = SpriteCollection.player_right;
         ui = Game.getUIManager();
+        UIPanel panel = new UIPanel(new Vector2i(300 - 80, 0));
+        ui.addPanel(panel);
+        panel.addComponent(new UILabel(new Vector2i(-10, 1), "Hello!~"));
     }
 
     public void update() {

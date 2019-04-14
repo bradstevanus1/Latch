@@ -181,7 +181,7 @@ public class Game extends Canvas implements Runnable {
 
         // Render all the elements, like how update updates the level, player, and keyboard
         level.render((int) xScroll, (int) yScroll, screen);
-        uiManager.render();
+        uiManager.render(screen);
 
         //font.render(50, 50, -6, 0xDDDDDDDD, "Hey guys,\nit's\nyour boy\nbrad here", screen);
 
