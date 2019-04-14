@@ -3,9 +3,7 @@ package com.brad.latch.entity.mob;
 import com.brad.latch.Game;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.entity.projectile.SpearProjectile;
-import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.SpriteCollection;
-import com.brad.latch.graphics.ui.UIComponent;
 import com.brad.latch.graphics.ui.UILabel;
 import com.brad.latch.graphics.ui.UIManager;
 import com.brad.latch.graphics.ui.UIPanel;
@@ -36,10 +34,11 @@ public class Player extends Mob {
         animatedSpriteUp = SpriteCollection.player_up;
         animatedSpriteLeft = SpriteCollection.player_left;
         animatedSpriteRight = SpriteCollection.player_right;
+
         ui = Game.getUIManager();
-        UIPanel panel = new UIPanel(new Vector2i(300 - 80, 0));
+        UIPanel panel = new UIPanel(new Vector2i((300 - 80) * 3, 0), new Vector2i(80 * 3, 168 * 3));
         ui.addPanel(panel);
-        panel.addComponent(new UILabel(new Vector2i(-10, 1), "Hello!~"));
+        panel.addComponent(new UILabel(new Vector2i(10, 30), "Hello!").setColor(0));
     }
 
     public void update() {

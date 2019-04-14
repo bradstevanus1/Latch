@@ -3,13 +3,11 @@ package com.brad.latch;
 import com.brad.latch.entity.mob.Player;
 import com.brad.latch.graphics.Font;
 import com.brad.latch.graphics.Screen;
-import com.brad.latch.graphics.Sprite;
 import com.brad.latch.graphics.ui.UIManager;
 import com.brad.latch.input.Keyboard;
 import com.brad.latch.input.Mouse;
 import com.brad.latch.level.Level;
 import com.brad.latch.level.tile.TileCoordinate;
-import com.brad.latch.util.Debug;
 
 import javax.swing.JFrame;
 import java.awt.Canvas;
@@ -181,9 +179,7 @@ public class Game extends Canvas implements Runnable {
 
         // Render all the elements, like how update updates the level, player, and keyboard
         level.render((int) xScroll, (int) yScroll, screen);
-        uiManager.render(screen);
 
-        //font.render(50, 50, -6, 0xDDDDDDDD, "Hey guys,\nit's\nyour boy\nbrad here", screen);
 
         /** Elements to draw end here */
 
@@ -196,6 +192,7 @@ public class Game extends Canvas implements Runnable {
         // Returns a graphics context for the drawing buffer and draws everything
         Graphics g = bs.getDrawGraphics();
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        uiManager.render(g);
         g.dispose();
         bs.show();
 

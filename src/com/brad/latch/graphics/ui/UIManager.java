@@ -1,7 +1,6 @@
 package com.brad.latch.graphics.ui;
 
-import com.brad.latch.graphics.Screen;
-
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +22,9 @@ public class UIManager {
         }
     }
 
-    public void render(Screen screen) {
+    public void render(Graphics g) {
         for (UIPanel panel : panels) {
-            panel.render(screen);
+            panel.render(g);
         }
     }
 
