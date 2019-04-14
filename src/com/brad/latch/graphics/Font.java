@@ -37,6 +37,7 @@ public class Font {
                 xOffset = 0;
             }
             int charIndex = characters.indexOf(currentChar);
+
             if (charIndex == -1) continue;
             screen.renderCharacter(x + xOffset, y + line * 20 + yOffset,
                     SpriteCollection.characters[charIndex], colour, false);

@@ -5,6 +5,7 @@ import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.entity.projectile.SpearProjectile;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.SpriteCollection;
+import com.brad.latch.graphics.ui.UIManager;
 import com.brad.latch.input.Keyboard;
 import com.brad.latch.input.Mouse;
 
@@ -13,8 +14,11 @@ public class Player extends Mob {
     private Keyboard input;
     private int rateOfFire = 0;
 
+    private UIManager ui;
+
     public Player(Keyboard input) {
         this(0, 0, input);
+        ui = Game.getUIManager();
     }
 
     public Player(int x, int y, Keyboard input) {
@@ -28,6 +32,7 @@ public class Player extends Mob {
         animatedSpriteUp = SpriteCollection.player_up;
         animatedSpriteLeft = SpriteCollection.player_left;
         animatedSpriteRight = SpriteCollection.player_right;
+        ui = Game.getUIManager();
     }
 
     public void update() {

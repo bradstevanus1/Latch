@@ -4,6 +4,7 @@ import com.brad.latch.entity.mob.Player;
 import com.brad.latch.graphics.Font;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.Sprite;
+import com.brad.latch.graphics.ui.UIManager;
 import com.brad.latch.input.Keyboard;
 import com.brad.latch.input.Mouse;
 import com.brad.latch.level.Level;
@@ -47,6 +48,8 @@ public class Game extends Canvas implements Runnable {
     private Player player;
     private boolean running = false;
 
+    private static UIManager uiManager;
+
     private Screen screen;
     private Font font;
     public static boolean lockedScreen = true;
@@ -67,6 +70,7 @@ public class Game extends Canvas implements Runnable {
         setPreferredSize(size);
 
         screen = new Screen(width, height);
+        uiManager = new UIManager();
         frame = new JFrame();
         key = new Keyboard();
         mouse = new Mouse();
@@ -83,17 +87,6 @@ public class Game extends Canvas implements Runnable {
         addMouseMotionListener(mouse);
     }
 
-    public static int getWindowWidth() {
-        return width * scale;
-    }
-
-    public static int getWindowHeight() {
-        return height * scale;
-    }
-
-    public static int getScale() {
-        return scale;
-    }
 
     public synchronized void start() {
         running = true;
@@ -164,6 +157,7 @@ public class Game extends Canvas implements Runnable {
         }
         key.update();
         level.update();
+        uiManager.update();
     }
 
     public void render() {
@@ -187,15 +181,14 @@ public class Game extends Canvas implements Runnable {
 
         // Render all the elements, like how update updates the level, player, and keyboard
         level.render((int) xScroll, (int) yScroll, screen);
-        // REMOVE : screen.renderSheet(40, 40, SpriteSheetCollection.player_down, false);
-
-        // When all rendering is finished in the screen object, transfer
-        // the pixels to this array, which is related to the image object
+        uiManager.render();
 
         //font.render(50, 50, -6, 0xDDDDDDDD, "Hey guys,\nit's\nyour boy\nbrad here", screen);
 
         /** Elements to draw end here */
 
+        // When all rendering is finished in the screen object, transfer
+        // the pixels to this array, which is related to the image object
         for (int i = 0; i < pixels.length; i++) {
             pixels[i] = screen.pixels[i];
         }
@@ -206,6 +199,22 @@ public class Game extends Canvas implements Runnable {
         g.dispose();
         bs.show();
 
+    }
+
+    public static int getWindowWidth() {
+        return width * scale;
+    }
+
+    public static int getWindowHeight() {
+        return height * scale;
+    }
+
+    public static int getScale() {
+        return scale;
+    }
+
+    public static UIManager getUIManager() {
+        return uiManager;
     }
 
     /**
