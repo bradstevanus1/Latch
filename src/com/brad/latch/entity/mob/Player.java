@@ -11,6 +11,14 @@ import com.brad.latch.input.Keyboard;
 import com.brad.latch.input.Mouse;
 import com.brad.latch.util.Vector2i;
 
+import java.awt.Color;
+import java.awt.Font;
+
+/* TODO:
+       * Make a UI button for returning to the level spawn
+       * Make a UI button for closing the right-hand drawer
+ */
+
 public class Player extends Mob {
 
     private Keyboard input;
@@ -18,15 +26,16 @@ public class Player extends Mob {
 
     private UIManager ui;
 
-    public Player(Keyboard input) {
-        this(0, 0, input);
+    public Player(String name, Keyboard input) {
+        this(name, 0, 0, input);
         ui = Game.getUIManager();
+        this.name = name;
     }
 
-    public Player(int x, int y, Keyboard input) {
+    public Player(String name, int x, int y, Keyboard input) {
         super(x, y, SpriteCollection.player_down, 1);
         this.input = input;
-        name = "Centrix";
+        this.name = name;
         rateOfFire = SpearProjectile.rateOfFire;
         size = 32;
         animatedSprite = SpriteCollection.player_down;
@@ -36,9 +45,14 @@ public class Player extends Mob {
         animatedSpriteRight = SpriteCollection.player_right;
 
         ui = Game.getUIManager();
-        UIPanel panel = new UIPanel(new Vector2i((300 - 80) * 3, 0), new Vector2i(80 * 3, 168 * 3));
+        UIPanel panel = (UIPanel) new UIPanel(
+                new Vector2i((300 - 80) * 3, 0), new Vector2i(80 * 3, 168 * 3)).setColor(0x4f4f4f);
         ui.addPanel(panel);
-        panel.addComponent(new UILabel(new Vector2i(10, 30), "Hello!").setColor(0));
+        UILabel nameLabel = new UILabel(new Vector2i(40, 200), name);
+        nameLabel.setColor(0xbbbbbb);
+        nameLabel.setFont(new Font("Verdana", Font.PLAIN, 24));
+        nameLabel.dropShadow = true;
+        panel.addComponent(nameLabel);
     }
 
     public void update() {

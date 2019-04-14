@@ -1,5 +1,6 @@
 package com.brad.latch.entity;
 
+import com.brad.latch.CustomRenderingEngine;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.Sprite;
 import com.brad.latch.level.Level;
@@ -7,7 +8,7 @@ import com.brad.latch.level.tile.Tile;
 
 import java.util.Random;
 
-public abstract class Entity {
+public abstract class Entity implements CustomRenderingEngine {
 
     protected double x, y;
     protected double xRelativeToScreen, yRelativeToScreen;

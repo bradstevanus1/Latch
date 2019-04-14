@@ -9,7 +9,7 @@ public class UIComponent {
 
     public int backgroundColor;
     public Vector2i position, offset;
-    protected Color color;
+    public Color color;
 
     public UIComponent(Vector2i position) {
         this.position = position;

@@ -170,4 +170,12 @@ public abstract class Mob extends Entity {
         screen.renderMob((int) (x - size/2), (int) (y - size/2), this);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

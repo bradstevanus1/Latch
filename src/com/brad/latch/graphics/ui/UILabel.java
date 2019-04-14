@@ -10,10 +10,12 @@ public class UILabel extends UIComponent {
 
     public String text;
     private Font font;
+    public boolean dropShadow = false;
+    public int dropShadowOffset = 2;
 
     public UILabel(Vector2i position, String text) {
         super(position);
-        font = new Font("Helvetica", Font.PLAIN, 32);
+        font = new Font("Verdana", Font.PLAIN, 32);
         this.text = text;
         color = new Color(0xFFFF00FF);
     }
@@ -24,8 +26,13 @@ public class UILabel extends UIComponent {
     }
 
     public void render(Graphics g) {
-        g.setColor(color);
+        if (dropShadow) {
+            g.setFont(font);
+            g.setColor(Color.BLACK);
+            g.drawString(text, position.x + offset.x + dropShadowOffset, position.y + offset.y + dropShadowOffset);
+        }
         g.setFont(font);
+        g.setColor(color);
         g.drawString(text, position.x + offset.x, position.y + offset.y);
     }
 

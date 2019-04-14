@@ -33,7 +33,7 @@ import java.awt.image.DataBufferInt;
  */
 public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
-    private static int width = 300;
+    private static int width = 300 - 80;
     private static int height = 168;
     private static int scale = 3;
     public static String title = "Latch";
@@ -64,7 +64,7 @@ public class Game extends Canvas implements Runnable {
     private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 
     public Game() {
-        Dimension size = new Dimension(width*scale, height*scale);
+        Dimension size = new Dimension(width*scale + 80 * 3, height*scale);
         setPreferredSize(size);
 
         screen = new Screen(width, height);
@@ -75,7 +75,7 @@ public class Game extends Canvas implements Runnable {
         font = new Font();
         level = Level.spawn;
         TileCoordinate playerSpawn = new TileCoordinate(19, 62);
-        player = new Player(playerSpawn.getX(), playerSpawn.getY(), key);
+        player = new Player("Centrix", playerSpawn.getX(), playerSpawn.getY(), key);
         level.add(player);
         x = player.getX() - screen.width / 2.0;
         y = player.getY() - screen.height / 2.0;
@@ -174,14 +174,14 @@ public class Game extends Canvas implements Runnable {
         double xScroll = (lockedScreen) ? player.getX() - screen.width / 2.0 : x;
         double yScroll = (lockedScreen) ? player.getY() - screen.height / 2.0 : y;
 
-        /** Elements to draw begin here */
+        /* Elements to draw begin here */
 
 
         // Render all the elements, like how update updates the level, player, and keyboard
         level.render((int) xScroll, (int) yScroll, screen);
 
 
-        /** Elements to draw end here */
+        /* Elements to draw end here */
 
         // When all rendering is finished in the screen object, transfer
         // the pixels to this array, which is related to the image object
@@ -191,7 +191,7 @@ public class Game extends Canvas implements Runnable {
 
         // Returns a graphics context for the drawing buffer and draws everything
         Graphics g = bs.getDrawGraphics();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        g.drawImage(image, 0, 0, width * scale, height * scale, null);
         uiManager.render(g);
         g.dispose();
         bs.show();
