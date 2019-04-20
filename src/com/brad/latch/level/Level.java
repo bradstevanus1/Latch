@@ -6,14 +6,14 @@ import com.brad.latch.entity.particle.Particle;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.level.tile.Tile;
-import com.brad.latch.level.tile.TileCollection;
+import com.brad.latch.level.tile.Tiles;
 import com.brad.latch.util.Vector2i;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class Level {
+public class Level implements Tiles {
 
     protected int width, height;
     protected int[] tilesInt;
@@ -257,20 +257,20 @@ public class Level {
      * Rock = 0xFF7F7F00
      */
     public Tile getTile(int x, int y) {
-        if (x < 0 || y < 0 || x >= width || y >= height) return TileCollection.voidTile;
+        if (x < 0 || y < 0 || x >= width || y >= height) return voidTile;
         int spriteColNumber = tiles[x + y * width];
         switch (spriteColNumber) {
 
-            case TileCollection.col_spawn_grass:          return TileCollection.spawn_grass;
-            case TileCollection.col_spawn_leaves:         return TileCollection.spawn_leaves;
-            case TileCollection.col_spawn_water:          return TileCollection.spawn_water;
-            case TileCollection.col_spawn_wall1:          return TileCollection.spawn_wall1;
-            case TileCollection.col_spawn_wooden_floor:   return TileCollection.spawn_wooden_floor;
-            case TileCollection.col_spawn_cobblestone:    return TileCollection.spawn_cobblestone;
-            case TileCollection.col_spawn_wall2:          return TileCollection.spawn_wall2;
-            case TileCollection.col_spawn_log:            return TileCollection.spawn_log;
+            case col_spawn_grass:          return spawn_grass;
+            case col_spawn_leaves:         return spawn_leaves;
+            case col_spawn_water:          return spawn_water;
+            case col_spawn_wall1:          return spawn_wall1;
+            case col_spawn_wooden_floor:   return spawn_wooden_floor;
+            case col_spawn_cobblestone:    return spawn_cobblestone;
+            case col_spawn_wall2:          return spawn_wall2;
+            case col_spawn_log:            return spawn_log;
 
-            default:                                      return TileCollection.voidTile;
+            default:                       return voidTile;
         }
     }
 

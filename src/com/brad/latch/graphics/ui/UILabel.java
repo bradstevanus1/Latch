@@ -2,9 +2,7 @@ package com.brad.latch.graphics.ui;
 
 import com.brad.latch.util.Vector2i;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.*;
 
 public class UILabel extends UIComponent {
 

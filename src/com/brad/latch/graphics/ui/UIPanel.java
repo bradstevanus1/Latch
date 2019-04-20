@@ -2,8 +2,7 @@ package com.brad.latch.graphics.ui;
 
 import com.brad.latch.util.Vector2i;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +19,7 @@ public class UIPanel extends UIComponent {
     }
 
     public void addComponent(UIComponent component) {
+        component.init(this);
         components.add(component);
     }
 

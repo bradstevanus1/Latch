@@ -2,8 +2,6 @@ package com.brad.latch.entity.particle;
 
 import com.brad.latch.entity.Entity;
 import com.brad.latch.graphics.Screen;
-import com.brad.latch.graphics.Sprite;
-import com.brad.latch.graphics.SpriteCollection;
 import com.brad.latch.level.tile.Tile;
 
 public class Particle extends Entity {
@@ -30,7 +28,7 @@ public class Particle extends Entity {
         this.yDouble = y;
         this.zDouble = 0.0;
         this.life = life + (random.nextInt(life) - life / 2);
-        sprite = SpriteCollection.particle_normal;
+        sprite = particle_normal;
 
         // Sets the distance delta for the particle to travel to a
         // random (bell-curved) value in the range -1 to 1
@@ -52,7 +50,7 @@ public class Particle extends Entity {
             zDelta *= -0.5; // Reverse particle direction for bounce effect
         }
         // Does not include the height difference due to bouncing (zDouble + zDelta) to remove bug
-        // where the particles clump player_up on the floor. However, this means that the particles do not have
+        // where the particles clump player_up_sheet on the floor. However, this means that the particles do not have
         // accurate collision with tiles that are above the spawner vetically.
         move(xDouble + xDelta, (yDouble + yDelta) /*+ (zDouble + zDelta)*/);
     }

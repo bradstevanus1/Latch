@@ -1,14 +1,15 @@
 package com.brad.latch.entity.mob;
 
 import com.brad.latch.entity.Entity;
-import com.brad.latch.entity.projectile.Projectile;
-import com.brad.latch.entity.projectile.SpearProjectile;
 import com.brad.latch.graphics.AnimatedSprite;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.Sprite;
-import com.brad.latch.util.Debug;
 
 public abstract class Mob extends Entity {
+
+    protected String name;
+    protected int health = 100;
+    protected int fireRate = 0;
 
     protected double xDelta = 0; // Speed in x
     protected double yDelta = 0; // Speed in y
@@ -18,7 +19,6 @@ public abstract class Mob extends Entity {
     protected int time = 0;
     protected static int size;
     protected int aggroRadius;
-    protected String name;
 
     protected AnimatedSprite animatedSprite;
     protected AnimatedSprite animatedSpriteDown;

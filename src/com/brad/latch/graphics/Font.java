@@ -1,8 +1,8 @@
 package com.brad.latch.graphics;
 
-public class Font {
+public class Font implements Sprites {
 
-    private static final String characters =
+    private static final String characters_static =
             "ABCDEFGHIJKLM" + //
                     "NOPQRSTUVWXYZ" + //
                     "abcdefghijklm" + //
@@ -36,11 +36,11 @@ public class Font {
                 line++;
                 xOffset = 0;
             }
-            int charIndex = characters.indexOf(currentChar);
+            int charIndex = characters_static.indexOf(currentChar);
 
             if (charIndex == -1) continue;
             screen.renderCharacter(x + xOffset, y + line * 20 + yOffset,
-                    SpriteCollection.characters[charIndex], colour, false);
+                    characters[charIndex], colour, false);
         }
     }
 

@@ -1,7 +1,5 @@
 package com.brad.latch.util;
 
-import java.util.Vector;
-
 /**
  * 2D Vector class with integer components
  */
@@ -30,6 +28,12 @@ public class Vector2i {
     public Vector2i add(Vector2i vector) {
         this.x += vector.x;
         this.y += vector.y;
+        return this;
+    }
+
+    public Vector2i add(int value) {
+        this.x += value;
+        this.y += value;
         return this;
     }
 
