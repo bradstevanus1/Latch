@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class Spawner extends Entity {
 
-    private List<Entity> entities = new ArrayList<Entity>();
+    private List<Entity> entities = new ArrayList<>();
 
     public enum Type {
         MOB, PARTICLE

@@ -1,5 +1,6 @@
 package com.brad.latch.graphics.ui;
 
+import com.brad.latch.graphics.Screen;
 import com.brad.latch.util.Vector2i;
 
 import java.awt.*;

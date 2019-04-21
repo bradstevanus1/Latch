@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 public class Keyboard implements KeyListener {
 
-    private boolean[] keys = new boolean[120]; // or 65536
+    private final boolean[] keys = new boolean[120]; // or 65536
     public boolean up, down, left, right, escape, screenLockToggle, centerCameraOnPlayer;
 
     public void update() {

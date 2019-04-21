@@ -7,13 +7,13 @@ import java.util.Random;
 
 public abstract class Projectile extends Entity {
 
-    protected final double xOrigin, yOrigin;
+    private final double xOrigin, yOrigin;
     protected double x, y;
-    protected double angle;
+    private double angle;
     protected Sprite sprite;
-    protected double xDelta, yDelta;
+    double xDelta, yDelta;
     protected double distance;
-    protected double speed, range, damage;
+    double speed, range, damage;
 
     protected final Random random = new Random();
 

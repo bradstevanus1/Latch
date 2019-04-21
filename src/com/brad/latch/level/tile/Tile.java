@@ -7,9 +7,9 @@ public class Tile {
 
     public Sprite sprite;
     private static final int TILE_SIZE = 16;
-    private static final int TILE_SIZE_DIV_2 = TILE_SIZE / 2;
     private static final int TILE_SIZE_EXP_2 = expOfBase2(TILE_SIZE);
 
+    @SuppressWarnings("SameParameterValue")
     private static int expOfBase2(int num) {
         int count = 1;
         while (num != 2) {
@@ -31,15 +31,11 @@ public class Tile {
         return false;
     }
 
-    public static final int getTileSize() {
+    public static int getTileSize() {
         return TILE_SIZE;
     }
 
-    public static final int getTileSizeDiv2() {
-        return TILE_SIZE_DIV_2;
-    }
-
-    public static final int getTileSizeExp2() {
+    public static int getTileSizeSqrt() {
         return TILE_SIZE_EXP_2;
     }
 

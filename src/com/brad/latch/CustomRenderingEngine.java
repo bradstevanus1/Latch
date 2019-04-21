@@ -11,7 +11,7 @@ public interface CustomRenderingEngine {
 
     /**
      * Must call a rendering method within the screen class.
-     * @param screen
+     * @param screen    instance of the rendering class
      */
     void render(Screen screen);
 

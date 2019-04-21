@@ -1,5 +1,6 @@
 package com.brad.latch.level.tile;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class TileCoordinate {
 
     private int x, y;

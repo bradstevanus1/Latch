@@ -10,6 +10,6 @@ public class SpawnLogTile extends Tile {
     }
 
     public void render(int x, int y, Screen screen) {
-        screen.renderTile(x << Tile.getTileSizeExp2(), y << Tile.getTileSizeExp2(), this);
+        screen.renderTile(x << Tile.getTileSizeSqrt(), y << Tile.getTileSizeSqrt(), this);
     }
 }

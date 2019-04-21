@@ -127,6 +127,7 @@ public class Sprite {
         }
     }
 
+    @SuppressWarnings("ManualArrayCopy")
     private void load() {
         for (int y = 0; y < SIZE; y++) {
             for (int x = 0; x < SIZE; x++) {

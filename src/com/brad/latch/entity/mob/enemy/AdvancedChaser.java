@@ -12,7 +12,7 @@ public abstract class AdvancedChaser extends Mob {
 
     private List<Node> path = null;
 
-    public AdvancedChaser(int x, int y, Sprite sprite, double moveSpeed) {
+    public AdvancedChaser(final int x, final int y, Sprite sprite, double moveSpeed) {
         super(x, y, sprite, moveSpeed);
     }
 

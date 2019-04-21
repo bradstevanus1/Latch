@@ -18,17 +18,16 @@ public class Level implements Tiles {
     protected int width, height;
     protected int[] tilesInt;
     protected int[] tiles;
-    public static Level spawn = new SpawnLevel("/levels/spawn.png");
 
-    private List<Entity> entities = new ArrayList<>();
-    private List<Projectile> projectiles = new ArrayList<>();
-    private List<Particle> particles = new ArrayList<>();
-    public List<Player> players = new ArrayList<>();
+    private final List<Entity> entities = new ArrayList<>();
+    private final List<Projectile> projectiles = new ArrayList<>();
+    private final List<Particle> particles = new ArrayList<>();
+    public final List<Player> players = new ArrayList<>();
 
     //  Overrides "compare" in the functional interface "comparator"
-    private Comparator<Node> nodeSorter = (n0, n1) -> {
+    private final Comparator<Node> nodeSorter = (n0, n1) -> {
         if (n1.fCost < n0.fCost) return 1;
-        if (n1.fCost > n0.fCost) return -1;
+        else if (n1.fCost > n0.fCost) return -1;
         return 0;
     };
 
@@ -54,17 +53,17 @@ public class Level implements Tiles {
 
     @SuppressWarnings("Duplicates")
     public void update() {
-        for (int i = 0; i < entities.size(); i++) {
-            entities.get(i).update();
+        for (Entity entity : entities) {
+            entity.update();
         }
-        for (int i = 0; i < projectiles.size(); i++) {
-            projectiles.get(i).update();
+        for (Projectile projectile : projectiles) {
+            projectile.update();
         }
-        for (int i = 0; i < particles.size(); i++) {
-            particles.get(i).update();
+        for (Particle particle : particles) {
+            particle.update();
         }
-        for (int i = 0; i < players.size(); i++) {
-            players.get(i).update();
+        for (Player player : players) {
+            player.update();
         }
         remove();
     }
@@ -102,8 +101,8 @@ public class Level implements Tiles {
     public boolean tileCollision(int x, int y, int size, int xOffset, int yOffset) {
         boolean solid = false;
         for (byte c = 0; c < 4; c++) {
-            int nextTileX = (x - c % 2 * size + xOffset) >> Tile.getTileSizeExp2();
-            int nextTileY = (y - c / 2 * size + yOffset) >> Tile.getTileSizeExp2();
+            int nextTileX = (x - c % 2 * size + xOffset) >> Tile.getTileSizeSqrt();
+            int nextTileY = (y - c / 2 * size + yOffset) >> Tile.getTileSizeSqrt();
             if (getTile(nextTileX, nextTileY).solid()) solid = true;
 
         }
@@ -115,10 +114,10 @@ public class Level implements Tiles {
     @SuppressWarnings("Duplicates")
     public void render(int xScroll, int yScroll, Screen screen) {
         screen.setOffset(xScroll, yScroll);
-        int x0 = xScroll >> Tile.getTileSizeExp2();
-        int x1 = (xScroll + screen.width + Tile.getTileSize()) >> Tile.getTileSizeExp2();
-        int y0 = yScroll >> Tile.getTileSizeExp2();
-        int y1 = (yScroll + screen.height + Tile.getTileSize()) >> Tile.getTileSizeExp2();
+        int x0 = xScroll >> Tile.getTileSizeSqrt();
+        int x1 = (xScroll + screen.width + Tile.getTileSize()) >> Tile.getTileSizeSqrt();
+        int y0 = yScroll >> Tile.getTileSizeSqrt();
+        int y1 = (yScroll + screen.height + Tile.getTileSize()) >> Tile.getTileSizeSqrt();
 
         for (int y = y0; y < y1; y++) {
             for (int x = x0; x < x1; x++) {
@@ -126,17 +125,17 @@ public class Level implements Tiles {
             }
         }
         // Render entities on level
-        for (int i = 0; i < entities.size(); i++) {
-            entities.get(i).render(screen);
+        for (Entity entity : entities) {
+            entity.render(screen);
         }
-        for (int i = 0; i < projectiles.size(); i++) {
-            projectiles.get(i).render(screen);
+        for (Projectile projectile : projectiles) {
+            projectile.render(screen);
         }
-        for (int i = 0; i < particles.size(); i++) {
-            particles.get(i).render(screen);
+        for (Particle particle : particles) {
+            particle.render(screen);
         }
-        for (int i = 0; i < players.size(); i++) {
-            players.get(i).render(screen);
+        for (Player player : players) {
+            player.render(screen);
         }
     }
 
@@ -168,9 +167,10 @@ public class Level implements Tiles {
 
     /**
      * The A* Search Algorithm.
-     * @param start
-     * @param end
-     * @return
+     * @param start The vector position of the mob's current tile.
+     * @param end   The vector position of the destination tile.
+     * @return      A list of nodes that connect the start and end
+     *              destination.
      */
     public List<Node> findPath(Vector2i start, Vector2i end) {
         List<Node> openList = new ArrayList<>();

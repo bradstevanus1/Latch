@@ -4,6 +4,7 @@ import com.brad.latch.entity.particle.Particle;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.level.Level;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class ParticleSpawner extends Spawner {
 
     private int life;

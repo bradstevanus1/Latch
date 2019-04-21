@@ -1,12 +1,12 @@
 package com.brad.latch;
 
 import com.brad.latch.entity.mob.Player;
-import com.brad.latch.graphics.Font;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.ui.UIManager;
 import com.brad.latch.input.Keyboard;
 import com.brad.latch.input.Mouse;
 import com.brad.latch.level.Level;
+import com.brad.latch.level.SpawnLevel;
 import com.brad.latch.level.tile.TileCoordinate;
 
 import javax.swing.*;
@@ -27,39 +27,40 @@ import java.awt.image.DataBufferInt;
  * @author Bradley Stevanus
  * @version 1.0
  * @since 2019
- * @// TODO: 3/10/2019 Finish game.
  */
 public class Game extends Canvas implements Runnable {
+
     private static final long serialVersionUID = 1L;
-    private static int width = 300 - 80;
-    private static int height = 168;
-    private static int scale = 3;
-    public static String title = "Latch";
+    private static final int width = 300 - 80;
+    private static final int height = 168;
+    private static final int scale = 3;
+    private static final String title = "Latch";
 
     private Thread thread;
-    private JFrame frame;
-    private Keyboard key;
-    private Mouse mouse;
+    private final JFrame frame;
+    private final Keyboard key;
     private Level level;
     private Player player;
     private boolean running = false;
 
     private static UIManager uiManager;
 
-    private Screen screen;
-    private Font font;
+    private final Screen screen;
     public static boolean lockedScreen = true;
     private boolean keyReleased = true;
     public static double x, y; // For unlocked camera
 
+    // Levels
+    private static final Level spawn = new SpawnLevel("/levels/spawn.png");
+
     // BufferedImage extends java.awt.Image and describes this parent class with an
     // accessible buffer of image data.
-    private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    private final BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
     // Gets the raster of the image object. Then, gets the data buffer associated with that raster.
     // Then, casts the data buffer to a DataBufferInt object. Then, gets the integer array
     // of this data buffer. Note: this is only one way to implement graphics.
-    private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+    private final int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 
     public Game() {
         Dimension size = new Dimension(width*scale + 80 * 3, height*scale);
@@ -69,9 +70,8 @@ public class Game extends Canvas implements Runnable {
         uiManager = new UIManager();
         frame = new JFrame();
         key = new Keyboard();
-        mouse = new Mouse();
-        font = new Font();
-        level = Level.spawn;
+        Mouse mouse = new Mouse();
+        level = spawn;
         TileCoordinate playerSpawn = new TileCoordinate(19, 62);
         player = new Player("Centrix", playerSpawn.getX(), playerSpawn.getY(), key);
         level.add(player);
@@ -183,9 +183,8 @@ public class Game extends Canvas implements Runnable {
 
         // When all rendering is finished in the screen object, transfer
         // the pixels to this array, which is related to the image object
-        for (int i = 0; i < pixels.length; i++) {
-            pixels[i] = screen.pixels[i];
-        }
+
+        System.arraycopy(screen.pixels, 0, pixels, 0, pixels.length);
 
         // Returns a graphics context for the drawing buffer and draws everything
         Graphics g = bs.getDrawGraphics();
@@ -214,7 +213,7 @@ public class Game extends Canvas implements Runnable {
 
     /**
      * Latch execution starting point.
-     * @param args
+     * @param args  Command line arguments
      */
     public static void main(String[] args) {
         // Instantiate the game class and set frame parameters.

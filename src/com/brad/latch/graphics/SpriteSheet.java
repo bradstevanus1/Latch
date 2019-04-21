@@ -14,6 +14,7 @@ public class SpriteSheet {
 
     private Sprite[] sprites;
 
+    @SuppressWarnings("ManualArrayCopy")
     public SpriteSheet(SpriteSheet sheet, int x, int y, int width, int height, int spriteSize) {
         int xSprite = x * spriteSize;
         int ySprite = y * spriteSize;

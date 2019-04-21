@@ -151,7 +151,7 @@ public abstract class Mob extends Entity {
     }
 
 
-    @SuppressWarnings("Duplicates")
+    @SuppressWarnings({"Duplicates", "BooleanMethodIsAlwaysInverted"})
     private boolean collision(double xDelta, double yDelta) {
         boolean solid = false;
         for (byte c = 0; c < 4; c++) {

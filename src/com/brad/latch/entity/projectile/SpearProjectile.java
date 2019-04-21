@@ -35,7 +35,7 @@ public class SpearProjectile extends Projectile {
     }
 
     public void render(Screen screen) {
-        screen.renderProjectile((int) x - Tile.getTileSizeDiv2(), (int) y - Tile.getTileSizeDiv2(), this);
+        screen.renderProjectile((int) x - Tile.getTileSize()/2, (int) y - Tile.getTileSize()/2, this);
     }
 
 }

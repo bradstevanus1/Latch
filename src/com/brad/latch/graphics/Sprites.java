@@ -2,6 +2,8 @@ package com.brad.latch.graphics;
 
 import com.brad.latch.level.tile.Tile;
 
+import java.awt.*;
+
 public interface Sprites {
 
 
@@ -92,7 +94,7 @@ public interface Sprites {
 
     // Particle sprites
 
-    Sprite particle_normal = new Sprite(3, 0xaaaaaa);
+    Sprite particle_normal = new Sprite(3, new Color(0xAAAAAA).getRGB());
 
     // Font sprites
 

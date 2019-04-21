@@ -3,8 +3,8 @@ package com.brad.latch.entity.mob;
 import com.brad.latch.Game;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.entity.projectile.SpearProjectile;
-import com.brad.latch.graphics.ui.UIActionListener;
 import com.brad.latch.graphics.ui.UIButton;
+import com.brad.latch.graphics.ui.UIButtonListener;
 import com.brad.latch.graphics.ui.UILabel;
 import com.brad.latch.graphics.ui.UIManager;
 import com.brad.latch.graphics.ui.UIPanel;
@@ -26,6 +26,7 @@ public class Player extends Mob {
 
     private UIManager ui;
     private UIProgressBar uiHealthBar;
+    @SuppressWarnings("FieldCanBeLocal")
     private UIButton button;
 
     @Deprecated
@@ -73,9 +74,9 @@ public class Player extends Mob {
         hpLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
         panel.addComponent(hpLabel);
 
-        button = new UIButton(new Vector2i(10, 260), new Vector2i(100, 30), () -> {
-            System.out.println("Button pressed");
-        });
+        button = new UIButton(new Vector2i(10, 260), new Vector2i(100, 30),
+                new UIButtonListener() {},
+                () -> System.out.println("ACTION OCCURS!"));
         button.setText("Hello");
         panel.addComponent(button);
     }
