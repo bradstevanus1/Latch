@@ -5,16 +5,23 @@ import com.brad.latch.util.Vector2i;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
+/**
+ * Creates a button in the UI.
+ */
 @SuppressWarnings("FieldCanBeLocal")
 public class UIButton extends UIComponent implements UIButtonListener {
 
     private UILabel label;
     private UIButtonListener buttonListener;
     private UIActionListener actionListener;
+
+    private Image image;
 
     private boolean inside = false;
     private boolean pressed = false;
@@ -24,6 +31,14 @@ public class UIButton extends UIComponent implements UIButtonListener {
     private static final int defaultButtonColor = new Color(0XEBEBEB).getRGB();
     private static final int defaultLabelColor = new Color(0x969696).getRGB();
 
+    /**
+     * @param position       Position of the button.
+     * @param size           Size of the button.
+     * @param buttonListener New instance of the buttonListener interface that can
+     *                       override some button methods with an inner class if necessary.
+     * @param actionListener New instance of the actionListener interface that must
+     *                       override the perform method.
+     */
     public UIButton(Vector2i position, Vector2i size, UIButtonListener buttonListener,
                     UIActionListener actionListener) {
         super(position, size);
@@ -35,16 +50,44 @@ public class UIButton extends UIComponent implements UIButtonListener {
         label = new UILabel(labelPosition, "");
         label.setColor(defaultButtonColor);
         label.active = false;
+        init();
+    }
 
+    public UIButton(Vector2i position, BufferedImage image, UIButtonListener buttonListener,
+                    UIActionListener actionListener) {
+        super(position, new Vector2i(image.getWidth(), image.getHeight()));
+        this.buttonListener = buttonListener;
+        this.actionListener = actionListener;
+        setImage(image);
+        init();
+    }
+
+    private void init() {
         setColor(defaultLabelColor);
     }
 
     @Override
     void init(UIPanel panel) {
         super.init(panel);
-        panel.addComponent(label);
+        if (label != null)
+            panel.addComponent(label);
     }
 
+    /**
+     * Sets the image for the button.
+     * @param image The button to put in the button.
+     */
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    /**
+     * Changes the functionality of what happens when buttons
+     * are pressed, released, exited, and entered.
+     *
+     * @param buttonListener New instance of the buttonListener interface
+     *                       that overrides some methods.
+     */
     public void setButtonListener(UIButtonListener buttonListener) {
         this.buttonListener = buttonListener;
     }
@@ -64,6 +107,11 @@ public class UIButton extends UIComponent implements UIButtonListener {
         ignoreAction = true;
     }
 
+    /**
+     * Dictates the syntax of what constitutes the semantics of
+     * pressing, releasing, entering, or exiting a button.
+     */
+    //TODO fix how it doesnt fire if you go back into the button.
     public void update() {
         Rectangle rect = new Rectangle(getAbsolutePosition().x, getAbsolutePosition().y, size.x, size.y);
         boolean leftMouseButtonPressed = Mouse.getButton() == MouseEvent.BUTTON1;
@@ -102,11 +150,17 @@ public class UIButton extends UIComponent implements UIButtonListener {
 
     @Override
     public void render(Graphics g) {
-        g.setColor(color);
-        g.fillRect(position.x + offset.x, position.y + offset.y, size.x, size.y);
-        label.update();
-        if (label != null) {
-            label.render(g);
+        int x = position.x + offset.x;
+        int y = position.y + offset.y;
+        if (image != null) {
+            g.drawImage(image, x, y, null);
+        } else {
+            g.setColor(color);
+            g.fillRect(x, y, size.x, size.y);
+            label.update();
+            if (label != null) {
+                label.render(g);
+            }
         }
     }
 }

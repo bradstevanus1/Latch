@@ -1,5 +1,9 @@
 package com.brad.latch.graphics;
 
+/**
+ * An animated sprite has multiple sprites which are chosen
+ * based on how the mob is moving.
+ */
 public class AnimatedSprite extends Sprite {
 
     private int frame = 0;

@@ -1,5 +1,8 @@
 package com.brad.latch.graphics;
 
+/**
+ * Custom font class that displays text in our rendering engine.
+ */
 public class Font implements Sprites {
 
     private static final String characters_static =

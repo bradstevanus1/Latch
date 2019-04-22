@@ -1,5 +1,10 @@
 package com.brad.latch.graphics;
 
+/**
+ * Creates sprite objects, which can have a different width
+ * and height. Can be created from a spritesheet or a static color.
+ * A sprite is an array of pixels of different colors.
+ */
 public class Sprite {
 
     static final int ALPHA_COLOUR = 0xFFFF00FF;

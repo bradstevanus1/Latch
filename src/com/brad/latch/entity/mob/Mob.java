@@ -1,10 +1,15 @@
 package com.brad.latch.entity.mob;
 
+import com.brad.latch.Game;
 import com.brad.latch.entity.Entity;
 import com.brad.latch.graphics.AnimatedSprite;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.Sprite;
 
+/**
+ * Mobs are entities that must have sprites, be renderable, and that
+ * will appears as the actual characters in the game.
+ */
 public abstract class Mob extends Entity {
 
     protected String name;
@@ -57,6 +62,14 @@ public abstract class Mob extends Entity {
         }
     }
 
+    /**
+     * Moves the mob in the amount specified in x and y.
+     * Collision checking is done in micro-movements so that
+     * collision detectionworks well with a small amount of
+     * updates per second.
+     * @param xDelta Amount to move in the x direction.
+     * @param yDelta Amount to move in the y direction.
+     */
     public void move(double xDelta, double yDelta) {
         // Use this method, or separate the
         // collision statement below.

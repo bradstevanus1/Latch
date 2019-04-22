@@ -1,10 +1,19 @@
 package com.brad.latch.graphics.ui;
 
-import com.brad.latch.graphics.Screen;
 import com.brad.latch.util.Vector2i;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
+/**
+ * A component of the Graphics UI layer of the game.
+ * It is the superclass for classes such as the UIPanel and
+ * UILabel. However, all components must exist within
+ * a UIPanel. Therefore, their position is relative to
+ * where the panel exists on the screen. To get the
+ * absolute position of the component on the screen,
+ * use the getAbsolutePosition() method.
+ */
 public class UIComponent {
 
     public Vector2i position, size;
@@ -25,6 +34,12 @@ public class UIComponent {
         offset = new Vector2i();
     }
 
+    /**
+     * When called as part of addComponent, sets the
+     * component's panel field to be the panel that is
+     * adding that component.
+     * @param panel The panel that the component belongs to.
+     */
     void init(UIPanel panel) {
         this.panel = panel;
     }

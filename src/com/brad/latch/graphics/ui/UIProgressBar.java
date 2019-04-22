@@ -3,8 +3,13 @@ package com.brad.latch.graphics.ui;
 import com.brad.latch.util.Vector2i;
 import org.w3c.dom.ranges.RangeException;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
+/**
+ * A component that displays any kind of progress bar,
+ * which consists of two colors that display a progress.
+ */
 public class UIProgressBar extends UIComponent {
 
     private int progress; // 0 - 100
@@ -33,6 +38,10 @@ public class UIProgressBar extends UIComponent {
         this.foregroundColor = new Color(color);
     }
 
+    /**
+     * Sets the progress (0 - 100)
+     * @param progress An integer value from 0 - 100
+     */
     public void setProgress(int progress) {
         if (progress < 0 || progress > 100) {
             throw new RangeException(RangeException.BAD_BOUNDARYPOINTS_ERR, "Progress must be between 0.0 and 1.0");

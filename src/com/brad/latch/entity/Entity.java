@@ -8,6 +8,10 @@ import com.brad.latch.level.Level;
 
 import java.util.Random;
 
+/**
+ * Entities are objects that have a position on the level and can be updated.
+ * Additionally, they may have a sprite and they may be renderable.
+ */
 public abstract class Entity implements CustomRenderingEngine, Sprites {
 
     protected double x, y;

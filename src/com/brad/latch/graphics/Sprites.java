@@ -2,8 +2,11 @@ package com.brad.latch.graphics;
 
 import com.brad.latch.level.tile.Tile;
 
-import java.awt.*;
+import java.awt.Color;
 
+/**
+ * Collection of commonly-used sprites.
+ */
 public interface Sprites {
 
 

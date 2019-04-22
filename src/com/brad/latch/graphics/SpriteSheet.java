@@ -4,6 +4,10 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * Creates spritesheet objects, which are large sheets consisting
+ * of many sprites.
+ */
 public class SpriteSheet {
 
     private String path;
