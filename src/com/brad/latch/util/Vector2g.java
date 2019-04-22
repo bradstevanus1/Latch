@@ -3,7 +3,7 @@
 ///**
 // * 2D Vector class with generic number components
 // */
-//public class Vector2g<T extends Number> {
+//public class Vector2g<T extends Number & Comparable<T>> {
 //
 //    public T x;
 //    public T y;

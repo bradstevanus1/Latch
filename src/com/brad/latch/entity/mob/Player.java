@@ -11,14 +11,13 @@ import com.brad.latch.graphics.ui.UIPanel;
 import com.brad.latch.graphics.ui.UIProgressBar;
 import com.brad.latch.input.Keyboard;
 import com.brad.latch.input.Mouse;
+import com.brad.latch.util.ImageUtils;
 import com.brad.latch.util.Vector2i;
-import com.sun.source.doctree.UnknownBlockTagTree;
 
 import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
 import java.io.File;
 import java.io.IOException;
 
@@ -34,8 +33,7 @@ public class Player extends Mob {
     private UIManager ui;
     private UIProgressBar uiHealthBar;
 
-    private BufferedImage playerIconImage, playerIconImageHover,
-                            homeImage, homeImageHover;
+    private BufferedImage playerIconImage, homeImage;
 
     @Deprecated
     public Player(String name, Keyboard input) {
@@ -59,14 +57,14 @@ public class Player extends Mob {
         animatedSpriteLeft = player_left;
         animatedSpriteRight = player_right;
 
-        init();
+        initUI();
     }
 
     /**
      * Does all UI creation after the player has been
      * created.
      */
-    private void init() {
+    private void initUI() {
         int foregroundText = new Color(0xEBEBEB).getRGB();
 
         // There is only one UIManager in the game, which is updated and
@@ -107,53 +105,24 @@ public class Player extends Mob {
             e.printStackTrace();
         }
 
-        // Creates a new buffered image from the old image.
-        playerIconImageHover = new BufferedImage(playerIconImage.getWidth(), playerIconImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        int[] newPixelsPlayer = ((DataBufferInt)playerIconImageHover.getRaster().getDataBuffer()).getData();
-        homeImageHover = new BufferedImage(homeImage.getWidth(), homeImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        int[] newPixelsHome = ((DataBufferInt)homeImageHover.getRaster().getDataBuffer()).getData();
-
-        // Fills the array with the appropriated pixel colors
-        for (int y = 0; y < playerIconImage.getHeight(); y++) {
-            for (int x = 0; x < playerIconImage.getWidth(); x++) {
-                newPixelsPlayer[x + y * playerIconImage.getWidth()] = playerIconImage.getRGB(x, y);
-                newPixelsHome[x + y * homeImage.getWidth()] = homeImage.getRGB(x, y);
-            }
-        }
-
-        // Modifies each pixel in the hover image to have slightly higher brightness.
-        for (int y = 0; y < playerIconImage.getHeight(); y++) {
-            for (int x = 0; x < playerIconImage.getWidth(); x++) {
-                int colorPlayer = newPixelsPlayer[x + y * playerIconImage.getWidth()];
-                int colorHome = newPixelsHome[x + y * homeImage.getWidth()];
-                int r_p = (colorPlayer & 0xFF0000) >> 16;
-                int g_p = (colorPlayer & 0xFF00) >> 8;
-                int b_p = colorPlayer & 0xFF;
-                int r_h = (colorHome & 0xFF0000) >> 16;
-                int g_h = (colorHome & 0xFF00) >> 8;
-                int b_h = colorHome & 0xFF;
-
-                r_p += 25; r_h += 25;
-                g_p += 25; g_h += 25;
-                b_p += 25; b_h += 25;
-
-                colorPlayer &= 0xFF000000;
-                colorHome &= 0xFF000000;
-
-                newPixelsPlayer[x + y * playerIconImage.getWidth()] = colorPlayer | r_p << 16 | g_p << 8 | b_p;
-                newPixelsHome[x + y * homeImage.getWidth()] = colorHome | r_h << 16 | g_h << 8 | b_h;
-            }
-        }
 
         // Creates the button and overrides some methods to use the regular icon
         // or the new brightened icon when appropriate.
         UIButton playerButton = new UIButton(new Vector2i(10, 175), playerIconImage,
                 new UIButtonListener() {
                     public void buttonEntered(UIButton button) {
-                        button.setImage(playerIconImageHover);
+                        button.setImage(ImageUtils.getDifferentBrightnessImage(playerIconImage, 25));
                     }
 
                     public void buttonExited(UIButton button) {
+                        button.setImage(playerIconImage);
+                    }
+
+                    public void buttonPressed(UIButton button) {
+                        button.setImage(ImageUtils.getDifferentBrightnessImage(playerIconImage, 50));
+                    }
+
+                    public void buttonReleased(UIButton button) {
                         button.setImage(playerIconImage);
                     }
                 },
@@ -163,7 +132,7 @@ public class Player extends Mob {
         UIButton homeButton = new UIButton(new Vector2i(10, 245), homeImage,
                 new UIButtonListener() {
                     public void buttonEntered(UIButton button) {
-                        button.setImage(homeImageHover);
+                        button.setImage(ImageUtils.getDifferentBrightnessImage(homeImage, 25));
                     }
 
                     public void buttonExited(UIButton button) {
@@ -173,8 +142,7 @@ public class Player extends Mob {
                 () -> {
                     System.out.println("Home button pressed! Exiting");
                     System.exit(0);
-                }
-                );
+                });
         panel.addComponent(homeButton);
     }
 
@@ -236,6 +204,8 @@ public class Player extends Mob {
 
     // FIXME Player's projectile gets stuck in the wall if shooting while there is a collide-able tile above
     private void updateShooting() {
+        if (Mouse.getX() > 660)
+            return;
         if (Mouse.getButton() == 1 && fireRate <= 0) {
             double dx = Mouse.getX() - xRelativeToScreen;
             double dy = Mouse.getY() - yRelativeToScreen;
