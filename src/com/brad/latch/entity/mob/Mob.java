@@ -80,28 +80,23 @@ public abstract class Mob extends Entity {
     protected void updateHealth() {
         // Check if the player is colliding with a projectile that can damage them.
         for (Projectile projectile : level.getProjectiles()) {
-            if (projectile.getShooter().getDamagedMobs().contains(this) || projectile.getShooter().equals(this)) {
+            if (projectile.getShooter().getDamagedMobs().contains(this) || projectile.getShooter().equals(this))
                 continue;
-            }
-            if (inRange((int) x, (int) projectile.getX(), 8) &&
-                    inRange((int) y, (int) projectile.getY(), 8)) {
+            if (inRange(this, projectile, 8)) {
                 health -= projectile.getDamage();
                 projectile.getShooter().getDamagedMobs().add(this);
             }
         }
-
         // Check if the player is colliding with another mob that can damage them.
         for (Entity entity : level.getEntitiesInRange(this, size)) {
             if (!(entity instanceof Mob)) continue;
             Mob mob = (Mob) entity;
             if (!mob.hasMelee || mob.getDamagedMobs().contains(this)) continue;
-            if (inRange((int) x, (int) mob.getX(), size) &&
-                    inRange((int) y, (int) mob.getY(), size)) {
+            if (inRange(this, mob, size)) {
                 health -= mob.meleeDamage;
                 mob.getDamagedMobs().add(this);
             }
         }
-
         if (health < 0) health = 0;
     }
 

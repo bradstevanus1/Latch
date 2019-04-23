@@ -1,5 +1,7 @@
 package com.brad.latch.util;
 
+import com.brad.latch.entity.Entity;
+
 public class MathUtils {
 
     private MathUtils() {}
@@ -26,6 +28,24 @@ public class MathUtils {
         else if (value.compareTo(max) > 0)
             return max;
         return value;
+    }
+
+    /**
+     * Returns true if the entities are within a
+     * specified radius of eachother. Returns
+     * false otherwise.
+     * @param entity1   First entity.
+     * @param entity2   Second entity.
+     * @param radius    Search radius.
+     * @return          True if the entities are within range of
+     *                  eachother, false otherwise.
+     */
+    public static boolean inRange(Entity entity1, Entity entity2, int radius) {
+        if (inRange((int) entity1.getX(), (int) entity2.getX(), radius) &&
+                inRange((int) entity1.getY(), (int) entity2.getY(), radius)) {
+            return true;
+        }
+        return false;
     }
 
     public static boolean inRange(int num1, int num2, int range) {

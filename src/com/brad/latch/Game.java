@@ -33,10 +33,12 @@ import java.awt.image.DataBufferInt;
 public class Game extends Canvas implements Runnable {
 
     private static final long serialVersionUID = 1L;
+    private static final String title = "Latch";
     private static final int width = 300 - 80;
     private static final int height = 168;
     private static final int scale = 3;
-    private static final String title = "Latch";
+    private static final double UPDATES_PER_SECOND = 60;
+    private static final double FRAME_RATE = 120;
 
     private Thread thread;
     private final JFrame frame;
@@ -111,25 +113,34 @@ public class Game extends Canvas implements Runnable {
          * Basically, it runs update() 60 times per second, while render is run
          * as often as possible.
          */
-        long lastTime = System.nanoTime();
-        long timer = System.currentTimeMillis();
-        final double ns = 1000000000.0 / 60.0;
-        double delta = 0;
+        long timer = System.currentTimeMillis(); // For coutning FPS and UPS
+
+        long last_time = System.nanoTime();
+        final double update_ns = 1000000000.0 / UPDATES_PER_SECOND;
+        double update_delta = 0;
+
+        final double render_ns = 1000000000.0 / FRAME_RATE;
+        double render_delta = 0;
+
         int frames = 0;     // For counting frames/s
         int updates = 0;    // For counting updates/s
         requestFocus();     // Put focus on the game
+
         while (running) {
             long now = System.nanoTime();
-            delta += (now - lastTime) / ns;
-            lastTime = now;
-            while (delta >= 1) {
+            update_delta += (now - last_time) / update_ns;
+            render_delta += (now - last_time) / render_ns;
+            last_time = now;
+            while (update_delta >= 1) {
                 update();
                 updates++;
-                delta--;
+                update_delta--;
             }
-            render();
-            frames++;
-
+            while (render_delta >= 1) {
+                render();
+                frames++;
+                render_delta--;
+            }
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
                 frame.setTitle(title + " | " + updates + " ups, " + frames + " fps");
