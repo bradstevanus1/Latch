@@ -31,6 +31,14 @@ public class UILabel extends UIComponent {
         color = new Color(0xFFFF00FF);
     }
 
+    public String getText() {
+        return this.text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
     public UILabel setFont(Font font) {
         this.font = font;
         return this;

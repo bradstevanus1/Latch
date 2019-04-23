@@ -32,6 +32,7 @@ public class Player extends Mob {
 
     private UIManager ui;
     private UIProgressBar uiHealthBar;
+    private UILabel uiHealthLabel;
 
     private BufferedImage playerIconImage, homeImage;
 
@@ -93,10 +94,10 @@ public class Player extends Mob {
         uiHealthBar.setForegroundColor(Color.RED.getRGB());
         panel.addComponent(uiHealthBar);
 
-        UILabel hpLabel = new UILabel(new Vector2i(uiHealthBar.position).add(2, 16), "HP");
-        hpLabel.setColor(foregroundText);
-        hpLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
-        panel.addComponent(hpLabel);
+        uiHealthLabel = new UILabel(new Vector2i(uiHealthBar.position).add(2, 16), String.format("HP - %d", health));
+        uiHealthLabel.setColor(foregroundText);
+        uiHealthLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
+        panel.addComponent(uiHealthLabel);
 
         UIButton testButton = new UIButton(new Vector2i(50, 245), new Vector2i(100, 30),
                 new UIButtonListener() {},
@@ -181,9 +182,10 @@ public class Player extends Mob {
         clear();
         updatePosRelativeToScreen();
         updateShooting();
+        updateDamagedTargets();
         updateHealth();
         uiHealthBar.setProgress(health);
-        updateDamagedTargets();
+        uiHealthLabel.setText(String.format("HP - %d", health));
     }
 
     protected void shoot(double x, double y, double dir) {

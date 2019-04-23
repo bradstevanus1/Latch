@@ -96,7 +96,7 @@ public class UIButton extends UIComponent implements UIButtonListener {
         if (text.equals(""))
             label.active = false;
         else
-            label.text = text;
+            label.setText(text);
     }
 
     public void performAction() {

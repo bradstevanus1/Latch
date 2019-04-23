@@ -91,7 +91,6 @@ public abstract class Mob extends Entity {
         }
 
         // Check if the player is colliding with another mob that can damage them.
-        System.out.println(level.getEntitiesInRange(level.getClientPlayer(), size));
         for (Entity entity : level.getEntitiesInRange(this, size)) {
             if (!(entity instanceof Mob)) continue;
             Mob mob = (Mob) entity;
