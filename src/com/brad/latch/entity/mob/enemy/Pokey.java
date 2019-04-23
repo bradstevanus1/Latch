@@ -8,6 +8,7 @@ public class Pokey extends AdvancedChaser {
         super(x << 4, y << 4);
 
         health = 8;
+        maxHealth = health;
         hasMelee = true;
         meleeDamage = 8;
         aggroRadius = 500;

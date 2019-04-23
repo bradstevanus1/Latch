@@ -38,7 +38,9 @@ public class Game extends Canvas implements Runnable {
     private static final int height = 168;
     private static final int scale = 3;
     private static final double UPDATES_PER_SECOND = 60;
+    private static final boolean VSYNC = false;
     private static final double FRAME_RATE = 120;
+    private static final int PARTICLE_LIFE = 8 * 60;
 
     private Thread thread;
     private final JFrame frame;
@@ -117,7 +119,7 @@ public class Game extends Canvas implements Runnable {
 
         long last_time = System.nanoTime();
         final double update_ns = 1000000000.0 / UPDATES_PER_SECOND;
-        double update_delta = 0;
+        double delta = 0;
 
         final double render_ns = 1000000000.0 / FRAME_RATE;
         double render_delta = 0;
@@ -126,26 +128,47 @@ public class Game extends Canvas implements Runnable {
         int updates = 0;    // For counting updates/s
         requestFocus();     // Put focus on the game
 
-        while (running) {
-            long now = System.nanoTime();
-            update_delta += (now - last_time) / update_ns;
-            render_delta += (now - last_time) / render_ns;
-            last_time = now;
-            while (update_delta >= 1) {
-                update();
-                updates++;
-                update_delta--;
+        if (VSYNC) {
+            while (running) {
+                long now = System.nanoTime();
+                delta += (now - last_time) / update_ns;
+                render_delta += (now - last_time) / render_ns;
+                last_time = now;
+                while (delta >= 1) {
+                    update();
+                    updates++;
+                    delta--;
+                }
+                while (render_delta >= 1) {
+                    render();
+                    frames++;
+                    render_delta--;
+                }
+                if (System.currentTimeMillis() - timer > 1000) {
+                    timer += 1000;
+                    frame.setTitle(title + " | " + updates + " ups, " + frames + " fps");
+                    updates = 0;
+                    frames = 0;
+                }
             }
-            while (render_delta >= 1) {
+        } else {
+            while (running) {
+                long now = System.nanoTime();
+                delta += (now - last_time) / update_ns;
+                last_time = now;
+                while (delta >= 1) {
+                    update();
+                    updates++;
+                    delta--;
+                }
                 render();
                 frames++;
-                render_delta--;
-            }
-            if (System.currentTimeMillis() - timer > 1000) {
-                timer += 1000;
-                frame.setTitle(title + " | " + updates + " ups, " + frames + " fps");
-                updates = 0;
-                frames = 0;
+                if (System.currentTimeMillis() - timer > 1000) {
+                    timer += 1000;
+                    frame.setTitle(title + " | " + updates + " ups, " + frames + " fps");
+                    updates = 0;
+                    frames = 0;
+                }
             }
         }
         stop();
@@ -222,6 +245,10 @@ public class Game extends Canvas implements Runnable {
 
     public static UIManager getUIManager() {
         return uiManager;
+    }
+
+    public static int getParticleLife() {
+        return PARTICLE_LIFE;
     }
 
     /**

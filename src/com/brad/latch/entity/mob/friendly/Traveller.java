@@ -7,12 +7,13 @@ public class Traveller extends Peaceful {
         super(x << 4, y << 4);
 
         health = 100;
+        maxHealth = health;
         hasMelee = false;
         meleeDamage = 0;
         aggroRadius = 0;
         fireRate = 0;
         moveSpeed = 0.7;
-        attackInvincTime = 0;
+        attackInvincTime = 1.0;
 
         name = "Traveller";
         sprite = traveller_down.getSprite();

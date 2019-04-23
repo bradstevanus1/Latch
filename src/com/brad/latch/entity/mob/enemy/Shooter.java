@@ -2,16 +2,16 @@ package com.brad.latch.entity.mob.enemy;
 
 import com.brad.latch.entity.Entity;
 import com.brad.latch.entity.mob.Mob;
+import com.brad.latch.entity.mob.Player;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.entity.projectile.SpearProjectile;
-import com.brad.latch.graphics.Sprite;
 import com.brad.latch.util.Vector2i;
 
 import java.util.List;
 
 public abstract class Shooter extends Mob {
 
-    protected Entity randomEntity = null;
+    protected Entity randomPlayer = null;
 
     public Shooter(int x, int y) {
         super(x, y);
@@ -19,41 +19,39 @@ public abstract class Shooter extends Mob {
 
     @Override
     public void update() {
+        super.update();
+
         if (attackTimer > 0) attackTimer--;
         time++;
-        shootRandom();
-        updateHealth();
-        updateDamagedTargets();
+        shootRandomPlayer();
     }
 
-    private void shootRandom() {
+    private void shootRandomPlayer() {
         if (time % (60 + random.nextInt(61)) == 0) {
-            List<Entity> entities = level.getEntitiesInRange(this, aggroRadius);
-            entities.addAll(level.getPlayersInRange(this, aggroRadius));
-            if (entities.size() != 0) {
-                int index = random.nextInt(entities.size());
-                randomEntity = entities.get(index);
+            List<Player> players = level.getPlayersInRange(this, aggroRadius);
+            if (players.size() != 0) {
+                int index = random.nextInt(players.size());
+                randomPlayer = players.get(index);
             } else {
-                randomEntity = null;
+                randomPlayer = null;
             }
         }
-        shootAt(randomEntity);
+        shootAt(randomPlayer);
     }
 
-    private void shootClosest() {
-        List<Entity> entities = level.getEntitiesInRange(this, aggroRadius);
-        entities.addAll(level.getPlayersInRange(this, aggroRadius));
+    private void shootClosestPlayer() {
+        List<Player> players = level.getPlayersInRange(this, aggroRadius);
         double min = 0;
-        Entity closestEntity = null;
-        for (int i = 0; i < entities.size(); i++) {
-            Entity entity = entities.get(i);
-            double distance = new Vector2i((int) x, (int) y).distanceTo(new Vector2i((int) entity.getX(), (int) entity.getY()));
+        Player closestPlayer = null;
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            double distance = new Vector2i((int) x, (int) y).distanceTo(new Vector2i((int) player.getX(), (int) player.getY()));
             if (distance < min || i == 0) {
                 min = distance;
-                closestEntity = entity;
+                closestPlayer = player;
             }
         }
-        shootAt(closestEntity);
+        shootAt(closestPlayer);
     }
 
     protected void shootAt(Entity entity) {

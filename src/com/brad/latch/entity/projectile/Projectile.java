@@ -1,8 +1,12 @@
 package com.brad.latch.entity.projectile;
 
+import com.brad.latch.Game;
 import com.brad.latch.entity.Entity;
 import com.brad.latch.entity.mob.Mob;
+import com.brad.latch.entity.spawner.ParticleSpawner;
+import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.Sprite;
+import com.brad.latch.level.tile.Tile;
 
 import java.util.Random;
 
@@ -30,9 +34,7 @@ public abstract class Projectile extends Entity {
         this.shooter = shooter;
     }
 
-    public abstract void update();
-
-    public Entity getShooter() {
+    public Mob getShooter() {
         return shooter;
     }
 
@@ -52,11 +54,29 @@ public abstract class Projectile extends Entity {
         return sprite.SIZE;
     }
 
-    protected void move() {
-
-    }
-
     protected int getDistance() {
         return (int) Math.sqrt( (x - xOrigin)*(x - xOrigin) + (y - yOrigin)*(y - yOrigin) );
+    }
+
+    public void update() {
+        if (level.tileCollision((int) (x + xDelta), (int) (y + yDelta), size, 5, 2)) {
+            // 420, 50
+            ParticleSpawner projectileHit = new ParticleSpawner((int) x, (int) y);
+            level.add(projectileHit);
+            projectileHit.spawn(50, Game.getParticleLife());
+            projectileHit.remove();
+            remove();
+        }
+        move();
+    }
+
+    protected void move() {
+        x += xDelta;
+        y += yDelta;
+        if (getDistance() > range) remove();
+    }
+
+    public void render(Screen screen) {
+        screen.renderProjectile((int) x - Tile.getTileSize()/2, (int) y - Tile.getTileSize()/2, this);
     }
 }

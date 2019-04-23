@@ -1,10 +1,15 @@
 package com.brad.latch.entity.mob;
 
+import com.brad.latch.Game;
 import com.brad.latch.entity.Entity;
+import com.brad.latch.entity.mob.enemy.Halbird;
 import com.brad.latch.entity.projectile.Projectile;
+import com.brad.latch.entity.spawner.ParticleSpawner;
 import com.brad.latch.graphics.AnimatedSprite;
 import com.brad.latch.graphics.Screen;
-import com.brad.latch.graphics.Sprite;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.brad.latch.util.MathUtils.*;
 
@@ -17,13 +22,18 @@ public abstract class Mob extends Entity {
     // Variable mob attributes
     protected String name;
     protected int health;
+    protected int maxHealth;
     protected boolean hasMelee;
     protected int meleeDamage;
     protected int aggroRadius;
     protected int fireRate;
     protected double moveSpeed;
+    protected double attackInvincTime; // Amount of invincibility given after being hit
 
     // Technical fields
+    protected Set<Mob> damagedMobs = new HashSet<>(); // Mobs that this entity has damaged
+    protected int invincTimer; // Timer invincibility time
+    protected int attackTimer; // Timer for projectile fire rate
     protected double xDelta = 0; // Speed in x
     protected double yDelta = 0; // Speed in y
     protected boolean moving = false;
@@ -48,7 +58,62 @@ public abstract class Mob extends Entity {
         super(x, y);
     }
 
-    public abstract void update();
+    public void update() {
+        updateHealth();
+        updateDamagedTargets();
+    }
+
+    /**
+     * Checks to see if the mob should take damage this tick.
+     * Damage could come from projectiles or melee.
+     */
+    protected void updateHealth() {
+
+        // Check if the mob is colliding with a projectile that can damage them.
+        for (Projectile projectile : level.getProjectiles()) {
+            if (projectile.getShooter().equals(this) || projectile.getShooter().getDamagedMobs().contains(this))
+                continue;
+            if (inRange(this, projectile, 8)) {
+                takeDamage(projectile.getDamage());
+                projectile.getShooter().getDamagedMobs().add(this);
+
+            }
+        }
+        // Check if the player is colliding with another mob that can damage them.
+        if (this instanceof Player) {
+            for (Mob mob : level.getMobsInRange(this, size)) {
+                if (!mob.hasMelee || mob.getDamagedMobs().contains(this)) continue;
+                if (inRange(this, mob, size)) {
+                    takeDamage(mob.meleeDamage);
+                    mob.getDamagedMobs().add(this);
+                }
+            }
+        }
+        if (health < 0) health = 0;
+    }
+
+    private void takeDamage(final int damage) {
+        int initialHealth = health;
+        health -= damage;
+        int healthLost = Math.abs(health - initialHealth);
+        int bloodAmount = percentageOf(healthLost, maxHealth);
+        ParticleSpawner bloodyHit = new ParticleSpawner((int) x, (int) y);
+        level.add(bloodyHit);
+        bloodyHit.spawn(bloodAmount, Game.getParticleLife(), particle_blood);
+        bloodyHit.remove();
+    }
+
+    /**
+     * Removes mobs from the list of damaged targets
+     * if this mob's attacks' invicinbility timer has expired.
+     */
+    public void updateDamagedTargets() {
+        if (invincTimer > 0) invincTimer--;
+        if (invincTimer == 0) {
+            damagedMobs.clear();
+            invincTimer = (int) (attackInvincTime * 60);
+        }
+    }
 
     protected abstract void shoot(double x, double y, double dir);
 
@@ -73,32 +138,6 @@ public abstract class Mob extends Entity {
         this.attackInvincTime = attackInvincTime;
     }
 
-    /**
-     * Checks to see if the mob should take damage this tick.
-     * Damage could come from projectiles or melee.
-     */
-    protected void updateHealth() {
-        // Check if the player is colliding with a projectile that can damage them.
-        for (Projectile projectile : level.getProjectiles()) {
-            if (projectile.getShooter().getDamagedMobs().contains(this) || projectile.getShooter().equals(this))
-                continue;
-            if (inRange(this, projectile, 8)) {
-                health -= projectile.getDamage();
-                projectile.getShooter().getDamagedMobs().add(this);
-            }
-        }
-        // Check if the player is colliding with another mob that can damage them.
-        for (Entity entity : level.getEntitiesInRange(this, size)) {
-            if (!(entity instanceof Mob)) continue;
-            Mob mob = (Mob) entity;
-            if (!mob.hasMelee || mob.getDamagedMobs().contains(this)) continue;
-            if (inRange(this, mob, size)) {
-                health -= mob.meleeDamage;
-                mob.getDamagedMobs().add(this);
-            }
-        }
-        if (health < 0) health = 0;
-    }
 
     /**
      * Moves the mob in the amount specified in x and y.
@@ -221,12 +260,8 @@ public abstract class Mob extends Entity {
         screen.renderMob((int) (x - size/2), (int) (y - size/2), this);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public Set<Mob> getDamagedMobs() {
+        return damagedMobs;
     }
 
 }

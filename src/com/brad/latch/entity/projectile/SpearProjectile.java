@@ -21,22 +21,6 @@ public class SpearProjectile extends Projectile {
         yDelta = speed * Math.sin(angle);
     }
 
-    public void update() {
-        if (level.tileCollision((int) (x + xDelta), (int) (y + yDelta), size, 5, 2)) {
-            level.add(new ParticleSpawner((int) x, (int) y, 420, 50, level));
-            remove();
-        }
-        move();
-    }
 
-    protected void move() {
-        x += xDelta;
-        y += yDelta;
-        if (getDistance() > range) remove();
-    }
-
-    public void render(Screen screen) {
-        screen.renderProjectile((int) x - Tile.getTileSize()/2, (int) y - Tile.getTileSize()/2, this);
-    }
 
 }

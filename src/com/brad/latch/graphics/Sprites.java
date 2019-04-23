@@ -98,6 +98,7 @@ public interface Sprites {
     // Particle sprites
 
     Sprite particle_normal = new Sprite(3, new Color(0xAAAAAA).getRGB());
+    Sprite particle_blood = new Sprite(2, new Color(0x9B0000).getRGB());
 
     // Font sprites
 

@@ -18,8 +18,9 @@ public abstract class AdvancedChaser extends Mob {
 
     @Override
     public void update() {
-        time++;
+        super.update();
 
+        time++;
         List<Player> playersInRange = level.getPlayersInRange(this, aggroRadius);
         if (playersInRange.size() > 0) {
             Player player = playersInRange.get(0);  // First player is client
@@ -51,8 +52,6 @@ public abstract class AdvancedChaser extends Mob {
             randomDirection();
         }
         moveToDirection();
-        updateHealth();
-        updateDamagedTargets();
     }
 
 }

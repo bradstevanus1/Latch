@@ -21,6 +21,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import static com.brad.latch.util.MathUtils.percentageOf;
+
 /* TODO:
        * Make a UI button for returning to the level spawn
        * Make a UI button for closing the right-hand drawer
@@ -50,12 +52,13 @@ public class Player extends Mob {
 
         // Player default attributes
         health = 100;
+        maxHealth = health;
         hasMelee = false;
         meleeDamage = 0;
         aggroRadius = 0;
         fireRate = SpearProjectile.fireRate;
         moveSpeed = 1;
-        attackInvincTime = 0;
+        attackInvincTime = 0.0;
 
         size = 32;
         sprite = player_down;
@@ -155,6 +158,12 @@ public class Player extends Mob {
     }
 
     public void update() {
+        super.update();
+        updatePosRelativeToScreen();
+        updateShooting();
+        uiHealthBar.setProgress(percentageOf(health, maxHealth));
+        uiHealthLabel.setText(String.format("HP - %d", health));
+
         if (moving) animatedSprite.update();
         else animatedSprite.setFrame(0);
         if (fireRate > 0) fireRate--;
@@ -179,13 +188,6 @@ public class Player extends Mob {
         } else {
             moving = false;
         }
-        clear();
-        updatePosRelativeToScreen();
-        updateShooting();
-        updateDamagedTargets();
-        updateHealth();
-        uiHealthBar.setProgress(health);
-        uiHealthLabel.setText(String.format("HP - %d", health));
     }
 
     protected void shoot(double x, double y, double dir) {
@@ -193,15 +195,6 @@ public class Player extends Mob {
         level.add(p);
     }
 
-    private void clear() {
-        for (int i = 0; i < level.getProjectiles().size(); i++) {
-            Projectile p = level.getProjectiles().get(i);
-            if (p.isRemoved()) {
-                level.getProjectiles().remove(i);
-                i--;
-            }
-        }
-    }
 
     private void updatePosRelativeToScreen() {
         if (Game.lockedScreen) {

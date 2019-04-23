@@ -1,7 +1,6 @@
 package com.brad.latch.entity.spawner;
 
 import com.brad.latch.entity.Entity;
-import com.brad.latch.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +15,11 @@ public abstract class Spawner extends Entity {
 
     protected Type type;
 
-    public Spawner(int x, int y, Type type, int amount, Level level) {
+    public Spawner(int x, int y, Type type) {
         super(x, y);
-        init(level);
         this.type = type;
     }
+
+    public abstract void spawn(int amount);
 
 }

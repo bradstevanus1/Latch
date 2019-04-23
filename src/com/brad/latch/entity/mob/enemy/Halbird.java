@@ -7,7 +7,8 @@ public class Halbird extends Shooter {
     public Halbird(int x, int y) {
         super(x << 4, y << 4);
 
-        health = 100;
+        health = 500;
+        maxHealth = health;
         hasMelee = true;
         meleeDamage = 20;
         aggroRadius = 200;

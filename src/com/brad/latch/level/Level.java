@@ -1,6 +1,7 @@
 package com.brad.latch.level;
 
 import com.brad.latch.entity.Entity;
+import com.brad.latch.entity.mob.Mob;
 import com.brad.latch.entity.mob.Player;
 import com.brad.latch.entity.particle.Particle;
 import com.brad.latch.entity.projectile.Projectile;
@@ -22,7 +23,8 @@ public class Level implements Tiles {
     private final List<Entity> entities = new ArrayList<>();
     private final List<Projectile> projectiles = new ArrayList<>();
     private final List<Particle> particles = new ArrayList<>();
-    public final List<Player> players = new ArrayList<>();
+    private final List<Mob> mobs = new ArrayList<>();
+    private final List<Player> players = new ArrayList<>();
 
     //  Overrides "compare" in the functional interface "comparator"
     private final Comparator<Node> nodeSorter = (n0, n1) -> {
@@ -62,6 +64,9 @@ public class Level implements Tiles {
         for (Particle particle : particles) {
             particle.update();
         }
+        for (Mob mob : mobs) {
+            mob.update();
+        }
         for (Player player : players) {
             player.update();
         }
@@ -87,6 +92,11 @@ public class Level implements Tiles {
                 i--;
             }
         }
+        for (Mob mob : mobs) {
+            if (mob.isRemoved()) {
+                mobs.remove(mob);
+            }
+        }
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).isRemoved()) {
                 i--;
@@ -104,13 +114,12 @@ public class Level implements Tiles {
             int nextTileX = (x - c % 2 * size + xOffset) >> Tile.getTileSizeSqrt();
             int nextTileY = (y - c / 2 * size + yOffset) >> Tile.getTileSizeSqrt();
             if (getTile(nextTileX, nextTileY).solid()) solid = true;
-
         }
         return solid;
     }
 
     // Render the level
-    // tileSizeDiv4 is 4 in the case of size 16 tiles.
+    // tileSizeSqrt is 4 in the case of size 16 tiles.
     @SuppressWarnings("Duplicates")
     public void render(int xScroll, int yScroll, Screen screen) {
         screen.setOffset(xScroll, yScroll);
@@ -134,6 +143,9 @@ public class Level implements Tiles {
         for (Particle particle : particles) {
             particle.render(screen);
         }
+        for (Mob mob : mobs) {
+            mob.render(screen);
+        }
         for (Player player : players) {
             player.render(screen);
         }
@@ -147,6 +159,8 @@ public class Level implements Tiles {
             projectiles.add((Projectile) e);
         } else if (e instanceof Player) {
             players.add((Player) e);
+        } else if (e instanceof  Mob) {
+            mobs.add((Mob) e);
         } else {
             entities.add(e);
         }
@@ -163,6 +177,10 @@ public class Level implements Tiles {
 
     public Player getClientPlayer() {
         return players.get(0);
+    }
+
+    public List<Mob> getMobs() {
+        return mobs;
     }
 
     /**
@@ -222,33 +240,55 @@ public class Level implements Tiles {
         return false;
     }
 
+    /**
+     * Gets the entities (in the level entities list, not all
+     * entities!) that are in range of the entity specified.
+     * @param e         Given entity
+     * @param radius    Radius of search
+     * @return          List of entities in the level list
+     *                  that are in range
+     */
     @SuppressWarnings("Duplicates")
     public List<Entity> getEntitiesInRange(Entity e, int radius) {
         int ex = (int) e.getX();
         int ey = (int) e.getY();
-        List<Entity> result = new ArrayList<>();
-        for (Entity entity : entities) {
+        List<Entity> entities = new ArrayList<>();
+        for (Entity entity : this.entities) {
             if (entity.equals(e)) continue;
             int x = (int) entity.getX();
             int y = (int) entity.getY();
             double distance = Math.sqrt((x - ex)*(x - ex) + (y - ey)*(y - ey));
-            if (distance <= radius) result.add(entity);
+            if (distance <= radius) entities.add(entity);
         }
-        return result;
+        return entities;
+    }
+
+    @SuppressWarnings("Duplicates")
+    public List<Mob> getMobsInRange(Entity e, int radius) {
+        int ex = (int) e.getX();
+        int ey = (int) e.getY();
+        List<Mob> mobs = new ArrayList<>();
+        for (Mob mob : this.mobs) {
+            int x = (int) mob.getX();
+            int y = (int) mob.getY();
+            double distance = Math.sqrt((x - ex)*(x - ex) + (y - ey)*(y - ey));
+            if (distance <= radius) mobs.add(mob);
+        }
+        return mobs;
     }
 
     @SuppressWarnings("Duplicates")
     public List<Player> getPlayersInRange(Entity e, int radius) {
         int ex = (int) e.getX();
         int ey = (int) e.getY();
-        List<Player> result = new ArrayList<>();
-        for (Player player : players) {
+        List<Player> players = new ArrayList<>();
+        for (Player player : this.players) {
             int x = (int) player.getX();
             int y = (int) player.getY();
             double distance = Math.sqrt((x - ex)*(x - ex) + (y - ey)*(y - ey));
-            if (distance <= radius) result.add(player);
+            if (distance <= radius) players.add(player);
         }
-        return result;
+        return players;
     }
 
     /*

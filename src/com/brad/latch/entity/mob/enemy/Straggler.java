@@ -6,12 +6,13 @@ public class Straggler extends Chaser {
         super(x << 4, y << 4);
 
         health = 50;
+        maxHealth = health;
         hasMelee = true;
         meleeDamage = 5;
         aggroRadius = 500;
         fireRate = 0;
         moveSpeed = 0.7;
-        attackInvincTime = 0.7;
+        attackInvincTime = 1.0;
 
         name = "Straggler";
         sprite = straggler_down.getSprite();

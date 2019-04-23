@@ -14,6 +14,8 @@ public abstract class Chaser extends Mob {
 
     @Override
     public void update() {
+        super.update();
+
         time++;
         List<Player> playersInRange = level.getPlayersInRange(this, aggroRadius);
         if (playersInRange.size() > 0) {
@@ -28,9 +30,6 @@ public abstract class Chaser extends Mob {
             randomDirection();
         }
         moveToDirection();
-        updateHealth();
-        updateDamagedTargets();
-
     }
 
 }

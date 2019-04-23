@@ -22,12 +22,23 @@ public class MathUtils {
      * @param <T>   A Comparable Number.
      * @return      A Comparable Number.
      */
-    public static <T extends Number & Comparable<T>> T clamp(T value, T min, T max) {
+    public static <T extends Number & Comparable<T>> T clamp(final T value, final T min, final T max) {
         if (value.compareTo(min) < 0)
             return min;
         else if (value.compareTo(max) > 0)
             return max;
         return value;
+    }
+
+    /**
+     * Returns the value as a percentage of the max,
+     * in the range 0 - 100
+     * @param value The value.
+     * @param max   The maximum.
+     * @return      The percentage.
+     */
+    public static int percentageOf(final int value, final int max) {
+        return (int) (value/((double)max) * 100);
     }
 
     /**
@@ -40,7 +51,7 @@ public class MathUtils {
      * @return          True if the entities are within range of
      *                  eachother, false otherwise.
      */
-    public static boolean inRange(Entity entity1, Entity entity2, int radius) {
+    public static boolean inRange(final Entity entity1, final Entity entity2, final int radius) {
         if (inRange((int) entity1.getX(), (int) entity2.getX(), radius) &&
                 inRange((int) entity1.getY(), (int) entity2.getY(), radius)) {
             return true;
@@ -48,7 +59,7 @@ public class MathUtils {
         return false;
     }
 
-    public static boolean inRange(int num1, int num2, int range) {
+    public static boolean inRange(final int num1, final int num2, final int range) {
         int max = num1 + range;
         int min = num1 - range;
         if (num2 >= min && num2 <= max)

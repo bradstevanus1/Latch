@@ -11,10 +11,11 @@ public abstract class Peaceful extends Mob {
 
     @Override
     public void update() {
+        super.update();
+
         time++;
         randomDirection();
         moveToDirection();
-        updateHealth();
     }
 
 
