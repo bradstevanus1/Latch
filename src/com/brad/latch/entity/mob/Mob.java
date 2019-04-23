@@ -1,10 +1,12 @@
 package com.brad.latch.entity.mob;
 
-import com.brad.latch.Game;
 import com.brad.latch.entity.Entity;
+import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.graphics.AnimatedSprite;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.Sprite;
+
+import static com.brad.latch.util.MathUtils.*;
 
 /**
  * Mobs are entities that must have sprites, be renderable, and that
@@ -12,18 +14,21 @@ import com.brad.latch.graphics.Sprite;
  */
 public abstract class Mob extends Entity {
 
+    // Variable mob attributes
     protected String name;
-    protected int health = 100;
-    protected int fireRate = 0;
+    protected int health;
+    protected boolean hasMelee;
+    protected int meleeDamage;
+    protected int aggroRadius;
+    protected int fireRate;
+    protected double moveSpeed;
 
+    // Technical fields
     protected double xDelta = 0; // Speed in x
     protected double yDelta = 0; // Speed in y
     protected boolean moving = false;
-    protected double moveSpeed;
     protected Direction dir;
-    protected int time = 0;
     protected static int size;
-    protected int aggroRadius;
 
     protected AnimatedSprite animatedSprite;
     protected AnimatedSprite animatedSpriteDown;
@@ -39,27 +44,66 @@ public abstract class Mob extends Entity {
         this.moveSpeed = moveSpeed;
     }
 
-    public Mob(int x, int y, double moveSpeed) {
+    public Mob(int x, int y) {
         super(x, y);
-        this.moveSpeed = moveSpeed;
-    }
-
-    public Mob(int x, int y, Sprite sprite, double moveSpeed) {
-        super(x, y, sprite);
-        this.moveSpeed = moveSpeed;
     }
 
     public abstract void update();
 
     protected abstract void shoot(double x, double y, double dir);
 
-    protected void shootAt(Entity entity) {
-        if (entity != null) {
-            double dx = entity.getX() - x;
-            double dy = entity.getY() - y;
-            double dir = Math.atan2(dy, dx);
-            shoot(x, y, dir);
+    /**
+     * Sets important mob attributes.
+     * @param health            The mob's health.
+     * @param hasMelee          If the mob can use melee attacks.
+     * @param meleeDamage       Damage the mob inflicts with melee attacks.
+     * @param aggroRadius       Radius at which the mob will attack an enemy.
+     * @param fireRate          Rate at which the mob fires
+     * @param moveSpeed         Speed at which the mob moves.
+     * @param attackInvincTime  How long the mob leaves enemies invincible for.
+     */
+    public void setAttributes(int health, boolean hasMelee, int meleeDamage, int aggroRadius,
+                              int fireRate, double moveSpeed, double attackInvincTime) {
+        this.health = health;
+        this.hasMelee = hasMelee;
+        this.meleeDamage = meleeDamage;
+        this.aggroRadius = aggroRadius;
+        this.fireRate = fireRate;
+        this.moveSpeed = moveSpeed;
+        this.attackInvincTime = attackInvincTime;
+    }
+
+    /**
+     * Checks to see if the mob should take damage this tick.
+     * Damage could come from projectiles or melee.
+     */
+    protected void updateHealth() {
+        // Check if the player is colliding with a projectile that can damage them.
+        for (Projectile projectile : level.getProjectiles()) {
+            if (projectile.getShooter().getDamagedMobs().contains(this) || projectile.getShooter().equals(this)) {
+                continue;
+            }
+            if (inRange((int) x, (int) projectile.getX(), 8) &&
+                    inRange((int) y, (int) projectile.getY(), 8)) {
+                health -= projectile.getDamage();
+                projectile.getShooter().getDamagedMobs().add(this);
+            }
         }
+
+        // Check if the player is colliding with another mob that can damage them.
+        System.out.println(level.getEntitiesInRange(level.getClientPlayer(), size));
+        for (Entity entity : level.getEntitiesInRange(this, size)) {
+            if (!(entity instanceof Mob)) continue;
+            Mob mob = (Mob) entity;
+            if (!mob.hasMelee || mob.getDamagedMobs().contains(this)) continue;
+            if (inRange((int) x, (int) mob.getX(), size) &&
+                    inRange((int) y, (int) mob.getY(), size)) {
+                health -= mob.meleeDamage;
+                mob.getDamagedMobs().add(this);
+            }
+        }
+
+        if (health < 0) health = 0;
     }
 
     /**

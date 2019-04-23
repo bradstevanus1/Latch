@@ -8,8 +8,8 @@ import java.util.List;
 
 public abstract class Chaser extends Mob {
 
-    public Chaser(int x, int y, Sprite sprite, double moveSpeed) {
-        super(x, y, sprite, moveSpeed);
+    public Chaser(int x, int y) {
+        super(x, y);
     }
 
     @Override
@@ -28,6 +28,9 @@ public abstract class Chaser extends Mob {
             randomDirection();
         }
         moveToDirection();
+        updateHealth();
+        updateDamagedTargets();
+
     }
 
 }

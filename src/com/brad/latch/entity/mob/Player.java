@@ -43,14 +43,21 @@ public class Player extends Mob {
     }
 
     public Player(String name, int x, int y, Keyboard input) {
-        super(x, y, player_down, 1);
+        super(x, y);
         this.input = input;
         this.name = name;
 
         // Player default attributes
         health = 100;
-        fireRate = SpearProjectile.rateOfFire;
+        hasMelee = false;
+        meleeDamage = 0;
+        aggroRadius = 0;
+        fireRate = SpearProjectile.fireRate;
+        moveSpeed = 1;
+        attackInvincTime = 0;
+
         size = 32;
+        sprite = player_down;
         animatedSprite = player_down;
         animatedSpriteDown = player_down;
         animatedSpriteUp = player_up;
@@ -174,11 +181,13 @@ public class Player extends Mob {
         clear();
         updatePosRelativeToScreen();
         updateShooting();
+        updateHealth();
         uiHealthBar.setProgress(health);
+        updateDamagedTargets();
     }
 
     protected void shoot(double x, double y, double dir) {
-        Projectile p = new SpearProjectile(x, y, dir);
+        Projectile p = new SpearProjectile(x, y, dir, this);
         level.add(p);
     }
 
@@ -211,7 +220,7 @@ public class Player extends Mob {
             double dy = Mouse.getY() - yRelativeToScreen;
             double dir = Math.atan2(dy, dx);
             shoot(x, y, dir);
-            fireRate = SpearProjectile.rateOfFire;
+            fireRate = SpearProjectile.fireRate;
         }
     }
 

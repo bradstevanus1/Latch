@@ -1,7 +1,5 @@
 package com.brad.latch.util;
 
-import java.util.Comparator;
-
 public class MathUtils {
 
     private MathUtils() {}
@@ -30,4 +28,11 @@ public class MathUtils {
         return value;
     }
 
+    public static boolean inRange(int num1, int num2, int range) {
+        int max = num1 + range;
+        int min = num1 - range;
+        if (num2 >= min && num2 <= max)
+            return true;
+        return false;
+    }
 }

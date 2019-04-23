@@ -5,8 +5,8 @@ import com.brad.latch.graphics.Sprite;
 
 public abstract class Peaceful extends Mob {
 
-    public Peaceful(int x, int y, Sprite sprite, double moveSpeed) {
-        super(x, y, sprite, moveSpeed);
+    public Peaceful(int x, int y) {
+        super(x, y);
     }
 
     @Override
@@ -14,6 +14,7 @@ public abstract class Peaceful extends Mob {
         time++;
         randomDirection();
         moveToDirection();
+        updateHealth();
     }
 
 

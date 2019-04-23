@@ -13,14 +13,17 @@ public abstract class Shooter extends Mob {
 
     protected Entity randomEntity = null;
 
-    public Shooter(int x, int y, Sprite sprite, double moveSpeed) {
-        super(x, y, sprite, moveSpeed);
+    public Shooter(int x, int y) {
+        super(x, y);
     }
 
     @Override
     public void update() {
+        if (attackTimer > 0) attackTimer--;
         time++;
         shootRandom();
+        updateHealth();
+        updateDamagedTargets();
     }
 
     private void shootRandom() {
@@ -53,9 +56,19 @@ public abstract class Shooter extends Mob {
         shootAt(closestEntity);
     }
 
+    protected void shootAt(Entity entity) {
+        if (entity != null && attackTimer <= 0) {
+            double dx = entity.getX() - x;
+            double dy = entity.getY() - y;
+            double dir = Math.atan2(dy, dx);
+            shoot(x, y, dir);
+            attackTimer = fireRate;
+        }
+    }
+
     @Override
     protected void shoot(double x, double y, double dir) {
-        Projectile p = new SpearProjectile(x, y, dir);
+        Projectile p = new SpearProjectile(x, y, dir, this);
         level.add(p);
     }
 }
