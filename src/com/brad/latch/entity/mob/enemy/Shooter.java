@@ -21,7 +21,7 @@ public abstract class Shooter extends Mob {
     public void update() {
         super.update();
 
-        if (attackTimer > 0) attackTimer--;
+        if (projectileTimer > 0) projectileTimer--;
         time++;
         shootRandomPlayer();
     }
@@ -55,12 +55,12 @@ public abstract class Shooter extends Mob {
     }
 
     protected void shootAt(Entity entity) {
-        if (entity != null && attackTimer <= 0) {
+        if (entity != null && projectileTimer <= 0) {
             double dx = entity.getX() - x;
             double dy = entity.getY() - y;
             double dir = Math.atan2(dy, dx);
             shoot(x, y, dir);
-            attackTimer = fireRate;
+            projectileTimer = (int) (60 / projectileRate);
         }
     }
 

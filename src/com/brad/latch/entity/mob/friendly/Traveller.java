@@ -11,9 +11,9 @@ public class Traveller extends Peaceful {
         hasMelee = false;
         meleeDamage = 0;
         aggroRadius = 0;
-        fireRate = 0;
+        projectileRate = 0;
         moveSpeed = 0.7;
-        attackInvincTime = 1.0;
+        meleeRate = 1.0;
 
         name = "Traveller";
         sprite = traveller_down.getSprite();

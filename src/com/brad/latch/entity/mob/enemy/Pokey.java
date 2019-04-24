@@ -1,7 +1,5 @@
 package com.brad.latch.entity.mob.enemy;
 
-import com.brad.latch.graphics.Sprite;
-
 public class Pokey extends AdvancedChaser {
 
     public Pokey(int x, int y) {
@@ -12,9 +10,9 @@ public class Pokey extends AdvancedChaser {
         hasMelee = true;
         meleeDamage = 8;
         aggroRadius = 500;
-        fireRate = 0;
-        moveSpeed = 0.7;
-        attackInvincTime = 1.0;
+        projectileRate = 0;
+        moveSpeed = 0.5;
+        meleeRate = 4.0;
 
         name = "Pokey";
         sprite = pokey_down.getSprite();

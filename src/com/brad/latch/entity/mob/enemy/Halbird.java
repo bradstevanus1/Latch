@@ -12,9 +12,9 @@ public class Halbird extends Shooter {
         hasMelee = true;
         meleeDamage = 20;
         aggroRadius = 200;
-        fireRate = SpearProjectile.fireRate;
+        projectileRate = SpearProjectile.projectileRate;
         moveSpeed = 0.7;
-        attackInvincTime = 1.0;
+        meleeRate = 1.0;
 
         name = "Hal Bird";
         sprite = pokey_down.getSprite();

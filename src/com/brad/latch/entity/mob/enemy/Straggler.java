@@ -10,9 +10,9 @@ public class Straggler extends Chaser {
         hasMelee = true;
         meleeDamage = 5;
         aggroRadius = 500;
-        fireRate = 0;
-        moveSpeed = 0.7;
-        attackInvincTime = 1.0;
+        projectileRate = 0;
+        moveSpeed = 0.5;
+        meleeRate = 1.0;
 
         name = "Straggler";
         sprite = straggler_down.getSprite();

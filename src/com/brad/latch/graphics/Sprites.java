@@ -32,11 +32,11 @@ public interface Sprites {
     SpriteSheet traveller_left_sheet = new SpriteSheet(traveller, 2, 0, 1, 3, 32);
     SpriteSheet traveller_right_sheet = new SpriteSheet(traveller, 3, 0, 1, 3, 32);
 
-    SpriteSheet straggler = new SpriteSheet("/textures/sheets/entities/mobs/straggler.png", 128, 96);
-    SpriteSheet straggler_down_sheet = new SpriteSheet(straggler, 0, 0, 1, 3, 32);
-    SpriteSheet straggler_up_sheet = new SpriteSheet(straggler, 1, 0, 1, 3, 32);
-    SpriteSheet straggler_left_sheet = new SpriteSheet(straggler, 2, 0, 1, 3, 32);
-    SpriteSheet straggler_right_sheet = new SpriteSheet(straggler, 3, 0, 1, 3, 32);
+    SpriteSheet straggler = new SpriteSheet("/textures/sheets/entities/mobs/straggler.png", 128);
+    SpriteSheet straggler_down_sheet = new SpriteSheet(straggler, 0, 0, 1, 4, 32);
+    SpriteSheet straggler_up_sheet = new SpriteSheet(straggler, 1, 0, 1, 4, 32);
+    SpriteSheet straggler_left_sheet = new SpriteSheet(straggler, 2, 0, 1, 4, 32);
+    SpriteSheet straggler_right_sheet = new SpriteSheet(straggler, 3, 0, 1, 4, 32);
 
     SpriteSheet pokey = new SpriteSheet("/textures/sheets/entities/mobs/straggler.png", 128, 96);
     SpriteSheet pokey_down_sheet = new SpriteSheet(pokey, 0, 0, 1, 3, 32);
@@ -71,25 +71,25 @@ public interface Sprites {
 
     // Mob sprites
 
-    AnimatedSprite player_down = new AnimatedSprite(player_down_sheet, 32, 32, 3);
-    AnimatedSprite player_up = new AnimatedSprite(player_up_sheet, 32, 32, 3);
-    AnimatedSprite player_left = new AnimatedSprite(player_left_sheet, 32, 32, 3);
-    AnimatedSprite player_right = new AnimatedSprite(player_right_sheet, 32, 32, 3);
+    AnimatedSprite player_down = new AnimatedSprite(player_down_sheet, 32, 32, 3, 20);
+    AnimatedSprite player_up = new AnimatedSprite(player_up_sheet, 32, 32, 3, 20);
+    AnimatedSprite player_left = new AnimatedSprite(player_left_sheet, 32, 32, 3, 20);
+    AnimatedSprite player_right = new AnimatedSprite(player_right_sheet, 32, 32, 3, 20);
 
-    AnimatedSprite traveller_down = new AnimatedSprite(traveller_down_sheet, 32, 32, 3);
-    AnimatedSprite traveller_up = new AnimatedSprite(traveller_up_sheet, 32, 32, 3);
-    AnimatedSprite traveller_left = new AnimatedSprite(traveller_left_sheet, 32, 32, 3);
-    AnimatedSprite traveller_right = new AnimatedSprite(traveller_right_sheet, 32, 32, 3);
+    AnimatedSprite traveller_down = new AnimatedSprite(traveller_down_sheet, 32, 32, 3, 20);
+    AnimatedSprite traveller_up = new AnimatedSprite(traveller_up_sheet, 32, 32, 3, 20);
+    AnimatedSprite traveller_left = new AnimatedSprite(traveller_left_sheet, 32, 32, 3, 20);
+    AnimatedSprite traveller_right = new AnimatedSprite(traveller_right_sheet, 32, 32, 3, 20);
 
-    AnimatedSprite straggler_down = new AnimatedSprite(straggler_down_sheet, 32, 32, 3);
-    AnimatedSprite straggler_up = new AnimatedSprite(straggler_up_sheet, 32, 32, 3);
-    AnimatedSprite straggler_left = new AnimatedSprite(straggler_left_sheet, 32, 32, 3);
-    AnimatedSprite straggler_right = new AnimatedSprite(straggler_right_sheet, 32, 32, 3);
+    AnimatedSprite straggler_down = new AnimatedSprite(straggler_down_sheet, 32, 32, 4, 30);
+    AnimatedSprite straggler_up = new AnimatedSprite(straggler_up_sheet, 32, 32, 4, 30);
+    AnimatedSprite straggler_left = new AnimatedSprite(straggler_left_sheet, 32, 32, 4, 30);
+    AnimatedSprite straggler_right = new AnimatedSprite(straggler_right_sheet, 32, 32, 4, 30);
 
-    AnimatedSprite pokey_down = new AnimatedSprite(pokey_down_sheet, 32, 32, 3);
-    AnimatedSprite pokey_up = new AnimatedSprite(pokey_up_sheet, 32, 32, 3);
-    AnimatedSprite pokey_left = new AnimatedSprite(pokey_left_sheet, 32, 32, 3);
-    AnimatedSprite pokey_right = new AnimatedSprite(pokey_right_sheet, 32, 32, 3);
+    AnimatedSprite pokey_down = new AnimatedSprite(pokey_down_sheet, 32, 32, 3, 20);
+    AnimatedSprite pokey_up = new AnimatedSprite(pokey_up_sheet, 32, 32, 3, 20);
+    AnimatedSprite pokey_left = new AnimatedSprite(pokey_left_sheet, 32, 32, 3, 20);
+    AnimatedSprite pokey_right = new AnimatedSprite(pokey_right_sheet, 32, 32, 3, 20);
 
     // Projectile sprites
 

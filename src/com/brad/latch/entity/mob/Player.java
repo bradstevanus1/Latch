@@ -51,15 +51,15 @@ public class Player extends Mob {
         this.name = name;
 
         // Player default attributes
-        health = 100;
-        maxHealth = health;
+        maxHealth = 100;
+        moveSpeed = 1;
         hasMelee = false;
         meleeDamage = 0;
+        meleeRate = 60;
+        projectileRate = SpearProjectile.projectileRate; // later
         aggroRadius = 0;
-        fireRate = SpearProjectile.fireRate;
-        moveSpeed = 1;
-        attackInvincTime = 0.0;
 
+        health = maxHealth;
         size = 32;
         sprite = player_down;
         animatedSprite = player_down;
@@ -110,12 +110,11 @@ public class Player extends Mob {
 
         // Loads the images for an icon-style button.
         try {
-            playerIconImage = ImageIO.read(new File("res/ui/buttons/player_icon.png"));
-            homeImage = ImageIO.read(new File("res/ui/buttons/home.png"));
+            playerIconImage = ImageIO.read(Player.class.getResource("/ui/buttons/player_icon.png"));
+            homeImage = ImageIO.read(Player.class.getResource("/ui/buttons/home.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         // Creates the button and overrides some methods to use the regular icon
         // or the new brightened icon when appropriate.
@@ -166,7 +165,7 @@ public class Player extends Mob {
 
         if (moving) animatedSprite.update();
         else animatedSprite.setFrame(0);
-        if (fireRate > 0) fireRate--;
+        if (projectileTimer > 0) projectileTimer--;
         double xDelta = 0, yDelta = 0;
         if (input.up) {
             animatedSprite = player_up;
@@ -210,12 +209,12 @@ public class Player extends Mob {
     private void updateShooting() {
         if (Mouse.getX() > 660)
             return;
-        if (Mouse.getButton() == 1 && fireRate <= 0) {
+        if (Mouse.getButton() == 1 && projectileTimer <= 0) {
             double dx = Mouse.getX() - xRelativeToScreen;
             double dy = Mouse.getY() - yRelativeToScreen;
             double dir = Math.atan2(dy, dx);
             shoot(x, y, dir);
-            fireRate = SpearProjectile.fireRate;
+            projectileTimer = (int) (60 / projectileRate);
         }
     }
 

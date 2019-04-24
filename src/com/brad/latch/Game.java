@@ -108,6 +108,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     // This runs when the new thread is started
+    @SuppressWarnings("Duplicates")
     public void run() {
         /*
          * Variables to capture updates/frames per second, and
@@ -115,7 +116,7 @@ public class Game extends Canvas implements Runnable {
          * Basically, it runs update() 60 times per second, while render is run
          * as often as possible.
          */
-        long timer = System.currentTimeMillis(); // For coutning FPS and UPS
+        long timer = System.currentTimeMillis(); // For counting FPS and UPS
 
         long last_time = System.nanoTime();
         final double update_ns = 1000000000.0 / UPDATES_PER_SECOND;
