@@ -4,6 +4,7 @@ import com.brad.latch.Game;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.entity.projectile.SpearProjectile;
 import com.brad.latch.graphics.ui.UIButton;
+import com.brad.latch.graphics.ui.UIButtonHoverImpl;
 import com.brad.latch.graphics.ui.UIButtonListener;
 import com.brad.latch.graphics.ui.UILabel;
 import com.brad.latch.graphics.ui.UIManager;
@@ -119,49 +120,20 @@ public class Player extends Mob {
         // Creates the button and overrides some methods to use the regular icon
         // or the new brightened icon when appropriate.
         UIButton playerButton = new UIButton(new Vector2i(10, 175), playerIconImage,
-                new UIButtonListener() {
-                    public void buttonEntered(UIButton button) {
-                        button.setImage(ImageUtils.getDifferentBrightnessImage(playerIconImage, 25));
-                    }
-
-                    public void buttonExited(UIButton button) {
-                        button.setImage(playerIconImage);
-                    }
-
-                    public void buttonPressed(UIButton button) {
-                        button.setImage(ImageUtils.getDifferentBrightnessImage(playerIconImage, 50));
-                    }
-
-                    public void buttonReleased(UIButton button) {
-                        button.setImage(playerIconImage);
-                    }
-                },
-                () -> System.out.println("Player icon pressed!"));
+                new UIButtonHoverImpl(playerIconImage), this::playerIconPressed);
         panel.addComponent(playerButton);
 
         UIButton homeButton = new UIButton(new Vector2i(10, 245), homeImage,
-                new UIButtonListener() {
-                    public void buttonEntered(UIButton button) {
-                        button.setImage(ImageUtils.getDifferentBrightnessImage(homeImage, 25));
-                    }
-
-                    public void buttonExited(UIButton button) {
-                        button.setImage(homeImage);
-                    }
-                },
-                () -> {
-                    System.out.println("Home button pressed! Exiting");
-                    System.exit(0);
-                });
+                new UIButtonHoverImpl(homeImage), this::recall);
         panel.addComponent(homeButton);
     }
 
     public void update() {
         super.update();
-        updatePosRelativeToScreen();
-        updateShooting();
         uiHealthBar.setProgress(percentageOf(health, maxHealth));
         uiHealthLabel.setText(String.format("HP - %d", health));
+        updatePosRelativeToScreen();
+        updateShooting();
 
         if (moving) animatedSprite.update();
         else animatedSprite.setFrame(0);
@@ -187,6 +159,24 @@ public class Player extends Mob {
         } else {
             moving = false;
         }
+
+        if (health == 0) {
+            death();
+        }
+    }
+
+    private void death() {
+        recall();
+        health = maxHealth;
+    }
+
+    private void recall() {
+        x = level.spawnPoint.getX();
+        y = level.spawnPoint.getY();
+    }
+
+    private void playerIconPressed() {
+        System.out.println("Player icon pressed!");
     }
 
     protected void shoot(double x, double y, double dir) {

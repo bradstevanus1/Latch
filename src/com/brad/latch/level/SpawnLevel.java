@@ -4,6 +4,8 @@ import com.brad.latch.entity.mob.enemy.Halbird;
 import com.brad.latch.entity.mob.enemy.Pokey;
 import com.brad.latch.entity.mob.enemy.Straggler;
 import com.brad.latch.entity.mob.friendly.Traveller;
+import com.brad.latch.level.tile.TileCoordinate;
+import com.brad.latch.util.Vector2i;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -13,6 +15,7 @@ public class SpawnLevel extends Level {
 
     public SpawnLevel(String path) {
         super(path);
+        spawnPoint = new TileCoordinate(19, 62);
     }
 
     protected void loadLevel(String path) {

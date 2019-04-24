@@ -5,11 +5,12 @@ import com.brad.latch.util.Vector2i;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 
 /**
  * Creates a button in the UI.
@@ -21,7 +22,7 @@ public class UIButton extends UIComponent implements UIButtonListener {
     private UIButtonListener buttonListener;
     private UIActionListener actionListener;
 
-    private Image image;
+    protected BufferedImage image;
 
     private boolean inside = false;
     private boolean pressed = false;
@@ -77,7 +78,7 @@ public class UIButton extends UIComponent implements UIButtonListener {
      * Sets the image for the button.
      * @param image The button to put in the button.
      */
-    public void setImage(Image image) {
+    public void setImage(BufferedImage image) {
         this.image = image;
     }
 

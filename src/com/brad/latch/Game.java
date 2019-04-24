@@ -8,6 +8,7 @@ import com.brad.latch.input.Mouse;
 import com.brad.latch.level.Level;
 import com.brad.latch.level.SpawnLevel;
 import com.brad.latch.level.tile.TileCoordinate;
+import com.brad.latch.util.Vector2i;
 
 import javax.swing.JFrame;
 import java.awt.Canvas;
@@ -57,7 +58,7 @@ public class Game extends Canvas implements Runnable {
     public static double x, y; // For unlocked camera
 
     // Levels
-    private static final Level spawn = new SpawnLevel("/levels/spawn.png");
+    private static final Level SPAWN_LEVEL = new SpawnLevel("/levels/spawn.png");
 
     // BufferedImage extends java.awt.Image and describes this parent class with an
     // accessible buffer of image data.
@@ -77,8 +78,8 @@ public class Game extends Canvas implements Runnable {
         frame = new JFrame();
         key = new Keyboard();
         Mouse mouse = new Mouse();
-        level = spawn;
-        TileCoordinate playerSpawn = new TileCoordinate(19, 62);
+        level = SPAWN_LEVEL;
+        TileCoordinate playerSpawn = SPAWN_LEVEL.spawnPoint;
         player = new Player("Centrix", playerSpawn.getX(), playerSpawn.getY(), key);
         level.add(player);
         x = player.getX() - screen.width / 2.0;

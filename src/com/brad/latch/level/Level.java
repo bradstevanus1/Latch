@@ -7,6 +7,7 @@ import com.brad.latch.entity.particle.Particle;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.level.tile.Tile;
+import com.brad.latch.level.tile.TileCoordinate;
 import com.brad.latch.level.tile.Tiles;
 import com.brad.latch.util.Vector2i;
 
@@ -16,6 +17,7 @@ import java.util.List;
 
 public class Level implements Tiles {
 
+    public TileCoordinate spawnPoint;
     protected int width, height;
     protected int[] tilesInt;
     protected int[] tiles;
