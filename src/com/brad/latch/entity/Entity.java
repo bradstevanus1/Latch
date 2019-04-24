@@ -64,7 +64,7 @@ public abstract class Entity implements CustomRenderingEngine, Sprites {
      */
     protected void updateHealth() {
         // Check if the mob is colliding with a projectile that can damage them.
-        for (Projectile projectile : level.getProjectiles()) {
+        for (Projectile projectile : level.getProjectilesInRange(this, Mob.size*2)) {
             if (projectile.getShooter().equals(this) || projectile.damagedEntities.containsKey(this)) continue;
             if (inRange(this, projectile, 8)) {
                 takeDamage(projectile.getDamage());

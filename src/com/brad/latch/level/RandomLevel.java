@@ -1,5 +1,7 @@
 package com.brad.latch.level;
 
+import com.brad.latch.level.tile.TileCoordinate;
+
 import java.util.Random;
 
 public class RandomLevel extends Level {
@@ -8,6 +10,7 @@ public class RandomLevel extends Level {
 
     public RandomLevel(int width, int height) {
         super(width, height);
+        spawnPoint = new TileCoordinate(0, 0);
     }
 
     protected void generateLevel() {

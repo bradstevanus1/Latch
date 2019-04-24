@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class Level implements Tiles {
+public abstract class Level implements Tiles {
 
     public TileCoordinate spawnPoint;
     protected int width, height;
@@ -243,6 +243,31 @@ public class Level implements Tiles {
     }
 
     /**
+     * Gets all objects that are entities (not just those in the entities
+     * level ArrayList) that are in range of the entity specified.
+     * @param e         Given entity
+     * @param radius    Radius of search
+     * @return          List of all entities that are in range
+     */
+    public List<Entity> getAllEntitiesInRange(Entity e, int radius) {
+        int ex = (int) e.getX();
+        int ey = (int) e.getY();
+        List<Entity> result = new ArrayList<>();
+        List<Entity> allEntities = entities;
+        allEntities.addAll(projectiles);
+        allEntities.addAll(particles);
+        allEntities.addAll(mobs);
+        allEntities.addAll(players);
+        for (Entity entity : allEntities) {
+            int x = (int) entity.getX();
+            int y = (int) entity.getY();
+            double distance = Math.sqrt((x - ex)*(x - ex) + (y - ey)*(y - ey));
+            if (distance <= radius) result.add(entity);
+        }
+        return result;
+    }
+
+    /**
      * Gets the entities (in the level entities list, not all
      * entities!) that are in range of the entity specified.
      * @param e         Given entity
@@ -291,6 +316,19 @@ public class Level implements Tiles {
             if (distance <= radius) players.add(player);
         }
         return players;
+    }
+
+    public List<Projectile> getProjectilesInRange(Entity e, int radius) {
+        int ex = (int) e.getX();
+        int ey = (int) e.getY();
+        List<Projectile> projectiles = new ArrayList<>();
+        for (Projectile projectile : this.projectiles) {
+            int x = (int) projectile.getX();
+            int y = (int) projectile.getY();
+            double distance = Math.sqrt((x - ex)*(x - ex) + (y - ey)*(y - ey));
+            if (distance <= radius) projectiles.add(projectile);
+        }
+        return projectiles;
     }
 
     /*

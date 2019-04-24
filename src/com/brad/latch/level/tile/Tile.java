@@ -3,7 +3,7 @@ package com.brad.latch.level.tile;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.Sprite;
 
-public class Tile {
+public abstract class Tile {
 
     public Sprite sprite;
     private static final int TILE_SIZE = 16;
