@@ -33,8 +33,8 @@ public class SpawnLevel extends Level {
         add(new Straggler(15, 55));
         add(new Halbird(20, 55));
         add(new Pokey(25, 55));
-        for (int i = 0; i < 1; i++) {
-            add(new Traveller(15, 56));
+        for (int i = 0; i < 10; i++) {
+            add(new Traveller(15, 12));
         }
     }
 

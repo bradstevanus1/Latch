@@ -16,7 +16,14 @@ public abstract class Peaceful extends Mob {
         time++;
         randomDirection();
         moveToDirection();
+
+        if (health == 0) {
+            death();
+        }
     }
 
+    private void death() {
+        remove();
+    }
 
 }

@@ -196,7 +196,7 @@ public class Game extends Canvas implements Runnable {
 
     public void render() {
 
-        // Sets equal to the buffer strategy of the super, which is canvas
+        // Sets equal to the buffer strategy of the super, which is canvasZ
         BufferStrategy bs = getBufferStrategy();
 
         // If there is not a buffer strategy already, create one

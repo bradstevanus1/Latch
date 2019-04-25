@@ -8,7 +8,7 @@ import com.brad.latch.util.Vector2i;
 
 import java.util.List;
 
-public abstract class AdvancedChaser extends Mob {
+public abstract class AdvancedChaser extends Enemy {
 
     private List<Node> path = null;
 

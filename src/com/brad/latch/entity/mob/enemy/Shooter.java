@@ -9,7 +9,7 @@ import com.brad.latch.util.Vector2i;
 
 import java.util.List;
 
-public abstract class Shooter extends Mob {
+public abstract class Shooter extends Enemy {
 
     protected Entity randomPlayer = null;
 

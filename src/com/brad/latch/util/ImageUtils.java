@@ -27,7 +27,6 @@ public class ImageUtils {
         int offset = 0;
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
-                System.out.println(offset);
                 int a = Byte.toUnsignedInt(imagePixels[offset++]);
                 int r = Byte.toUnsignedInt(imagePixels[offset++]);
                 int g = Byte.toUnsignedInt(imagePixels[offset++]);

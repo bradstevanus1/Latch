@@ -6,7 +6,7 @@ import com.brad.latch.graphics.Sprite;
 
 import java.util.List;
 
-public abstract class Chaser extends Mob {
+public abstract class Chaser extends Enemy {
 
     public Chaser(int x, int y) {
         super(x, y);

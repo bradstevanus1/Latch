@@ -12,6 +12,7 @@ import com.brad.latch.level.tile.Tiles;
 import com.brad.latch.util.Vector2i;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -75,35 +76,13 @@ public abstract class Level implements Tiles {
         remove();
     }
 
+    // Removes objects from the list their field isRemoved equals true.
     private void remove() {
-        for (int i = 0; i < entities.size(); i++) {
-            if (entities.get(i).isRemoved()) {
-                entities.remove(i);
-                i--;
-            }
-        }
-        for (int i = 0; i < projectiles.size(); i++) {
-            if (projectiles.get(i).isRemoved()) {
-                projectiles.remove(i);
-                i--;
-            }
-        }
-        for (int i = 0; i < particles.size(); i++) {
-            if (particles.get(i).isRemoved()) {
-                particles.remove(i);
-                i--;
-            }
-        }
-        for (Mob mob : mobs) {
-            if (mob.isRemoved()) {
-                mobs.remove(mob);
-            }
-        }
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).isRemoved()) {
-                i--;
-            }
-        }
+        entities.removeIf(Entity::isRemoved);
+        projectiles.removeIf(Entity::isRemoved);
+        particles.removeIf(Entity::isRemoved);
+        mobs.removeIf(Entity::isRemoved);
+        players.removeIf(Entity::isRemoved);
     }
 
     public List<Projectile> getProjectiles() {
