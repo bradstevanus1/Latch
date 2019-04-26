@@ -42,7 +42,7 @@ public class Font implements Sprites {
             int charIndex = characters_static.indexOf(currentChar);
 
             if (charIndex == -1) continue;
-            screen.renderCharacter(x + xOffset, y + line * 20 + yOffset,
+            screen.renderTextCharacter(x + xOffset, y + line * 20 + yOffset,
                     characters[charIndex], colour, false);
         }
     }

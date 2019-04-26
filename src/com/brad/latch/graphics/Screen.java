@@ -1,9 +1,9 @@
 package com.brad.latch.graphics;
 
+import com.brad.latch.entity.mob.player.ClientPlayer;
 import com.brad.latch.entity.mob.Mob;
-import com.brad.latch.entity.mob.Player;
-import com.brad.latch.entity.mob.enemy.Pokey;
-import com.brad.latch.entity.mob.enemy.Straggler;
+import com.brad.latch.entity.mob.enemy.advancedchaser.Pokey;
+import com.brad.latch.entity.mob.enemy.chaser.Straggler;
 import com.brad.latch.entity.mob.friendly.Traveller;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.level.tile.Tile;
@@ -56,7 +56,7 @@ public class Screen {
     }
 
     @SuppressWarnings("Duplicates")
-    public void renderCharacter(int xOrigin, int yOrigin, Sprite sprite, int colour, boolean fixed) {
+    public void renderTextCharacter(int xOrigin, int yOrigin, Sprite sprite, int colour, boolean fixed) {
         if (fixed) {
             xOrigin -= xOffset;
             yOrigin -= yOffset;
@@ -104,13 +104,13 @@ public class Screen {
     public void renderMob(int xOrigin, int yOrigin, Mob mob) {
         xOrigin -= xOffset;
         yOrigin -= yOffset;
-        for (int y = 0; y < Player.getSize(); y++) {
+        for (int y = 0; y < ClientPlayer.getSize(); y++) {
             int yScreen = y + yOrigin;
-            for (int x = 0; x < Player.getSize(); x++) {
+            for (int x = 0; x < ClientPlayer.getSize(); x++) {
                 int xScreen = x + xOrigin;
-                if (xScreen < -Player.getSize() || xScreen >= width || yScreen < 0 || yScreen >= height) break;
+                if (xScreen < -ClientPlayer.getSize() || xScreen >= width || yScreen < 0 || yScreen >= height) break;
                 if (xScreen < 0) xScreen = 0;
-                int colour = mob.getSprite().pixels[x + y * Player.getSize()];
+                int colour = mob.getSprite().pixels[x + y * ClientPlayer.getSize()];
                 if (mob instanceof Traveller && colour == 0xFF2084CC) colour = 0xFF36B72A;
                 else if (mob instanceof Straggler && colour == 0xFF2084CC) colour = 0xFFF70E1A;
                 else if (mob instanceof Pokey && colour == 0xFF2084CC) colour = 0xFFFF47A9;
@@ -135,6 +135,22 @@ public class Screen {
             if (x > 0) pixels[x + (y + yp) * this.width] = colour;
             if (x + width >= this.width) continue;
             if (x + width > 0) pixels[(x + width) + (y + yp) * this.width] = colour;
+        }
+    }
+
+    public void fillRect(int x, int y, int width, int height, int colour, boolean fixed) {
+        if (fixed) {
+            x -= xOffset;
+            y -= yOffset;
+        }
+        for (int y1 = 0; y1 < height; y1++) {
+            int yo = y + y1;
+            if (yo < 0 || yo >= this.height) continue;
+            for (int x1 = 0; x1 < width; x1++) {
+                int xo = x + x1;
+                if (xo < 0 || xo >= this.width) continue;
+                pixels[xo + yo * this.width] = colour;
+            }
         }
     }
 

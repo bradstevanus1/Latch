@@ -1,5 +1,6 @@
 package com.brad.latch.graphics.ui;
 
+import com.brad.latch.graphics.layers.Layer;
 import com.brad.latch.util.Vector2i;
 
 import java.awt.Color;

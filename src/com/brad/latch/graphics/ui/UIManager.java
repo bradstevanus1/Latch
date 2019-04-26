@@ -1,7 +1,15 @@
 package com.brad.latch.graphics.ui;
 
+import com.brad.latch.events.Event;
+import com.brad.latch.events.EventDispatcher;
+import com.brad.latch.events.types.MousePressedEvent;
+import com.brad.latch.events.types.MouseReleasedEvent;
+import com.brad.latch.graphics.layers.Layer;
+
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
 /**
@@ -11,7 +19,7 @@ import java.util.List;
  * of components must be added to panels to be updated
  * and rendered.
  */
-public class UIManager {
+public class UIManager extends Layer implements EventListener {
 
     private List<UIPanel> panels = new ArrayList<>();
 

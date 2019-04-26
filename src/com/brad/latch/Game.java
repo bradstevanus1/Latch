@@ -1,14 +1,17 @@
 package com.brad.latch;
 
-import com.brad.latch.entity.mob.Player;
+import com.brad.latch.entity.mob.player.ClientPlayer;
+import com.brad.latch.events.Event;
+import com.brad.latch.events.EventListener;
 import com.brad.latch.graphics.Screen;
+import com.brad.latch.graphics.layers.Layer;
 import com.brad.latch.graphics.ui.UIManager;
 import com.brad.latch.input.Keyboard;
 import com.brad.latch.input.Mouse;
 import com.brad.latch.level.Level;
 import com.brad.latch.level.SpawnLevel;
 import com.brad.latch.level.tile.TileCoordinate;
-import com.brad.latch.util.Vector2i;
+import com.brad.latch.net.player.NetPlayer;
 
 import javax.swing.JFrame;
 import java.awt.Canvas;
@@ -17,6 +20,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.ArrayList;
+import java.util.List;
 
 // Canvas is part of JFrame.
 // Implements runnable to instantiate a thread.
@@ -31,7 +36,7 @@ import java.awt.image.DataBufferInt;
  * @version 1.0
  * @since 2019
  */
-public class Game extends Canvas implements Runnable {
+public class Game extends Canvas implements Runnable, EventListener {
 
     private static final long serialVersionUID = 1L;
     private static final String title = "Latch";
@@ -47,7 +52,7 @@ public class Game extends Canvas implements Runnable {
     private final JFrame frame;
     private final Keyboard key;
     private Level level;
-    private Player player;
+    private ClientPlayer clientPlayer;
     private boolean running = false;
 
     private static UIManager uiManager;
@@ -69,6 +74,8 @@ public class Game extends Canvas implements Runnable {
     // of this data buffer. Note: this is only one way to implement graphics.
     private final int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 
+    private List<Layer> layerStack = new ArrayList<>();
+
     public Game() {
         Dimension size = new Dimension(width*scale + 80 * 3, height*scale);
         setPreferredSize(size);
@@ -77,17 +84,27 @@ public class Game extends Canvas implements Runnable {
         uiManager = new UIManager();
         frame = new JFrame();
         key = new Keyboard();
-        Mouse mouse = new Mouse();
+        Mouse mouse = new Mouse(this);
         level = SPAWN_LEVEL;
+        addLayer(uiManager);    // Add event layers from first (top) to last (bottom)
+        addLayer(level);
         TileCoordinate playerSpawn = SPAWN_LEVEL.spawnPoint;
-        player = new Player("Centrix", playerSpawn.getX(), playerSpawn.getY(), key);
-        level.add(player);
-        x = player.getX() - screen.width / 2.0;
-        y = player.getY() - screen.height / 2.0;
+        clientPlayer = new ClientPlayer("Centrix", playerSpawn.getX(), playerSpawn.getY(), key);
+        level.add(clientPlayer);
+        level.add(new NetPlayer(19*16, 45*16));
+        x = clientPlayer.getX() - screen.width / 2.0;
+        y = clientPlayer.getY() - screen.height / 2.0;
 
         addKeyListener(key);
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
+    }
+
+    @Override
+    public void onEvent(Event event) {
+        for (int i = layerStack.size() - 1; i >= 0; i--) {
+            layerStack.get(i).onEvent(event);
+        }
     }
 
 
@@ -176,22 +193,24 @@ public class Game extends Canvas implements Runnable {
         stop();
     }
 
-
     public void update() {
         if (key.screenLockToggle && keyReleased) {
             lockedScreen = !lockedScreen;
-            x = player.getX() - screen.width / 2.0;
-            y = player.getY() - screen.height / 2.0;
+            x = clientPlayer.getX() - screen.width / 2.0;
+            y = clientPlayer.getY() - screen.height / 2.0;
             keyReleased = false;
         }
         if (!(key.screenLockToggle || keyReleased)) keyReleased = true;
         if (key.centerCameraOnPlayer) {
-            x = player.getX() - screen.width / 2.0;
-            y = player.getY() - screen.height / 2.0;
+            x = clientPlayer.getX() - screen.width / 2.0;
+            y = clientPlayer.getY() - screen.height / 2.0;
         }
         key.update();
-        level.update();
-        uiManager.update();
+
+        // Update layers here
+        for (int i = 0; i < layerStack.size(); i++) {
+            layerStack.get(i).update();
+        }
     }
 
     public void render() {
@@ -207,15 +226,26 @@ public class Game extends Canvas implements Runnable {
 
         screen.clear();
 
-        double xScroll = (lockedScreen) ? player.getX() - screen.width / 2.0 : x;
-        double yScroll = (lockedScreen) ? player.getY() - screen.height / 2.0 : y;
+        int xScroll = (lockedScreen) ? (int) (clientPlayer.getX() - screen.width / 2) : (int) x;
+        int yScroll = (lockedScreen) ? (int) (clientPlayer.getY() - screen.height / 2) : (int) y;
 
         /* Elements to draw begin here */
 
 
         // Render all the elements, like how update updates the level, player, and keyboard
-        level.render((int) xScroll, (int) yScroll, screen);
+        level.setScroll(xScroll, yScroll);
 
+        // Render layers here
+        Graphics g = bs.getDrawGraphics();
+
+        for (int i = 0; i < layerStack.size(); i++) {
+            Layer layer = layerStack.get(i);
+            if (layer instanceof UIManager) {
+                ((UIManager) layer).render(g);
+            } else {
+                layer.render(screen);
+            }
+        }
 
         /* Elements to draw end here */
 
@@ -225,9 +255,8 @@ public class Game extends Canvas implements Runnable {
         System.arraycopy(screen.pixels, 0, pixels, 0, pixels.length);
 
         // Returns a graphics context for the drawing buffer and draws everything
-        Graphics g = bs.getDrawGraphics();
         g.drawImage(image, 0, 0, width * scale, height * scale, null);
-        uiManager.render(g);
+        //uiManager.render(g);
         g.dispose();
         bs.show();
 
@@ -251,6 +280,10 @@ public class Game extends Canvas implements Runnable {
 
     public static int getParticleLife() {
         return PARTICLE_LIFE;
+    }
+
+    public void addLayer(Layer layer) {
+        layerStack.add(layer);
     }
 
     /**

@@ -1,32 +1,38 @@
 package com.brad.latch.level;
 
 import com.brad.latch.entity.Entity;
-import com.brad.latch.entity.mob.Mob;
-import com.brad.latch.entity.mob.Player;
+import com.brad.latch.entity.mob.enemy.Enemy;
+import com.brad.latch.entity.mob.friendly.Friendly;
+import com.brad.latch.entity.mob.player.ClientPlayer;
+import com.brad.latch.entity.mob.player.Player;
 import com.brad.latch.entity.particle.Particle;
 import com.brad.latch.entity.projectile.Projectile;
+import com.brad.latch.events.Event;
 import com.brad.latch.graphics.Screen;
+import com.brad.latch.graphics.layers.Layer;
 import com.brad.latch.level.tile.Tile;
 import com.brad.latch.level.tile.TileCoordinate;
 import com.brad.latch.level.tile.Tiles;
 import com.brad.latch.util.Vector2i;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public abstract class Level implements Tiles {
+public abstract class Level extends Layer implements Tiles {
 
     public TileCoordinate spawnPoint;
     protected int width, height;
     protected int[] tilesInt;
     protected int[] tiles;
 
+    private int xScroll, yScroll;
+
     private final List<Entity> entities = new ArrayList<>();
     private final List<Projectile> projectiles = new ArrayList<>();
     private final List<Particle> particles = new ArrayList<>();
-    private final List<Mob> mobs = new ArrayList<>();
+    private final List<Enemy> enemies = new ArrayList<>();
+    private final List<Friendly> friendlies = new ArrayList<>();
     private final List<Player> players = new ArrayList<>();
 
     //  Overrides "compare" in the functional interface "comparator"
@@ -67,8 +73,11 @@ public abstract class Level implements Tiles {
         for (Particle particle : particles) {
             particle.update();
         }
-        for (Mob mob : mobs) {
-            mob.update();
+        for (Enemy enemy : enemies) {
+            enemy.update();
+        }
+        for (Friendly friendly : friendlies) {
+            friendly.update();
         }
         for (Player player : players) {
             player.update();
@@ -76,12 +85,18 @@ public abstract class Level implements Tiles {
         remove();
     }
 
+    @Override
+    public void onEvent(Event event) {
+        getClientPlayer().onEvent(event);
+    }
+
     // Removes objects from the list their field isRemoved equals true.
     private void remove() {
         entities.removeIf(Entity::isRemoved);
         projectiles.removeIf(Entity::isRemoved);
         particles.removeIf(Entity::isRemoved);
-        mobs.removeIf(Entity::isRemoved);
+        enemies.removeIf(Entity::isRemoved);
+        friendlies.removeIf(Entity::isRemoved);
         players.removeIf(Entity::isRemoved);
     }
 
@@ -99,10 +114,15 @@ public abstract class Level implements Tiles {
         return solid;
     }
 
+    public void setScroll(int xScroll, int yScroll) {
+        this.xScroll = xScroll;
+        this.yScroll = yScroll;
+    }
+
     // Render the level
     // tileSizeSqrt is 4 in the case of size 16 tiles.
     @SuppressWarnings("Duplicates")
-    public void render(int xScroll, int yScroll, Screen screen) {
+    public void render(Screen screen) {
         screen.setOffset(xScroll, yScroll);
         int x0 = xScroll >> Tile.getTileSizeSqrt();
         int x1 = (xScroll + screen.width + Tile.getTileSize()) >> Tile.getTileSizeSqrt();
@@ -124,8 +144,11 @@ public abstract class Level implements Tiles {
         for (Particle particle : particles) {
             particle.render(screen);
         }
-        for (Mob mob : mobs) {
-            mob.render(screen);
+        for (Enemy enemy : enemies) {
+            enemy.render(screen);
+        }
+        for (Friendly friendly : friendlies) {
+            friendly.render(screen);
         }
         for (Player player : players) {
             player.render(screen);
@@ -140,14 +163,16 @@ public abstract class Level implements Tiles {
             projectiles.add((Projectile) e);
         } else if (e instanceof Player) {
             players.add((Player) e);
-        } else if (e instanceof  Mob) {
-            mobs.add((Mob) e);
+        } else if (e instanceof Enemy) {
+            enemies.add((Enemy) e);
+        } else if (e instanceof Friendly) {
+            friendlies.add((Friendly) e);
         } else {
             entities.add(e);
         }
     }
 
-    // This can be return an ArrayList of players when multiplayer is implemented.
+    // This can be return an ArrayList of players when multi-player is implemented.
     public List<Player> getPlayers() {
         return players;
     }
@@ -156,12 +181,16 @@ public abstract class Level implements Tiles {
         return players.get(index);
     }
 
-    public Player getClientPlayer() {
-        return players.get(0);
+    public ClientPlayer getClientPlayer() {
+        return (ClientPlayer) players.get(0);
     }
 
-    public List<Mob> getMobs() {
-        return mobs;
+    public List<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public List<Friendly> getFriendlies() {
+        return friendlies;
     }
 
     /**
@@ -228,6 +257,7 @@ public abstract class Level implements Tiles {
      * @param radius    Radius of search
      * @return          List of all entities that are in range
      */
+    @SuppressWarnings("Duplicates")
     public List<Entity> getAllEntitiesInRange(Entity e, int radius) {
         int ex = (int) e.getX();
         int ey = (int) e.getY();
@@ -235,7 +265,8 @@ public abstract class Level implements Tiles {
         List<Entity> allEntities = entities;
         allEntities.addAll(projectiles);
         allEntities.addAll(particles);
-        allEntities.addAll(mobs);
+        allEntities.addAll(enemies);
+        allEntities.addAll(friendlies);
         allEntities.addAll(players);
         for (Entity entity : allEntities) {
             int x = (int) entity.getX();
@@ -270,17 +301,31 @@ public abstract class Level implements Tiles {
     }
 
     @SuppressWarnings("Duplicates")
-    public List<Mob> getMobsInRange(Entity e, int radius) {
+    public List<Enemy> getEnemiesInRange(Entity e, int radius) {
         int ex = (int) e.getX();
         int ey = (int) e.getY();
-        List<Mob> mobs = new ArrayList<>();
-        for (Mob mob : this.mobs) {
-            int x = (int) mob.getX();
-            int y = (int) mob.getY();
+        List<Enemy> enemies = new ArrayList<>();
+        for (Enemy enemy : this.enemies) {
+            int x = (int) enemy.getX();
+            int y = (int) enemy.getY();
             double distance = Math.sqrt((x - ex)*(x - ex) + (y - ey)*(y - ey));
-            if (distance <= radius) mobs.add(mob);
+            if (distance <= radius) enemies.add(enemy);
         }
-        return mobs;
+        return enemies;
+    }
+
+    @SuppressWarnings("Duplicates")
+    public List<Friendly> getFrendliesInRange(Entity e, int radius) {
+        int ex = (int) e.getX();
+        int ey = (int) e.getY();
+        List<Friendly> friendlies = new ArrayList<>();
+        for (Friendly friendly : this.friendlies) {
+            int x = (int) friendly.getX();
+            int y = (int) friendly.getY();
+            double distance = Math.sqrt((x - ex)*(x - ex) + (y - ey)*(y - ey));
+            if (distance <= radius) friendlies.add(friendly);
+        }
+        return friendlies;
     }
 
     @SuppressWarnings("Duplicates")
@@ -297,6 +342,7 @@ public abstract class Level implements Tiles {
         return players;
     }
 
+    @SuppressWarnings("Duplicates")
     public List<Projectile> getProjectilesInRange(Entity e, int radius) {
         int ex = (int) e.getX();
         int ey = (int) e.getY();

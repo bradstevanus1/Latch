@@ -1,14 +1,14 @@
 package com.brad.latch.entity.mob.friendly;
 
 
-public class Traveller extends Peaceful {
+public class Traveller extends Friendly {
 
     public Traveller(int x, int y) {
         super(x << 4, y << 4);
 
         health = 100;
         maxHealth = health;
-        hasMelee = false;
+        melee = false;
         meleeDamage = 0;
         aggroRadius = 0;
         projectileRate = 0;

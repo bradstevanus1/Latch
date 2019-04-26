@@ -1,4 +1,4 @@
-package com.brad.latch.entity.mob.enemy;
+package com.brad.latch.entity.mob.enemy.shooter;
 
 import com.brad.latch.entity.projectile.SpearProjectile;
 
@@ -9,7 +9,7 @@ public class Halbird extends Shooter {
 
         health = 500;
         maxHealth = health;
-        hasMelee = true;
+        melee = true;
         meleeDamage = 20;
         aggroRadius = 200;
         projectileRate = SpearProjectile.projectileRate;

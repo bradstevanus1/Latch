@@ -1,4 +1,4 @@
-package com.brad.latch.entity.mob.enemy;
+package com.brad.latch.entity.mob.enemy.chaser;
 
 public class Straggler extends Chaser {
 
@@ -7,7 +7,7 @@ public class Straggler extends Chaser {
 
         health = 50;
         maxHealth = health;
-        hasMelee = true;
+        melee = true;
         meleeDamage = 5;
         aggroRadius = 500;
         projectileRate = 0;

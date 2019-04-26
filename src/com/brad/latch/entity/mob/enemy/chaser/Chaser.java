@@ -1,8 +1,8 @@
-package com.brad.latch.entity.mob.enemy;
+package com.brad.latch.entity.mob.enemy.chaser;
 
 import com.brad.latch.entity.mob.Mob;
-import com.brad.latch.entity.mob.Player;
-import com.brad.latch.graphics.Sprite;
+import com.brad.latch.entity.mob.enemy.Enemy;
+import com.brad.latch.entity.mob.player.Player;
 
 import java.util.List;
 

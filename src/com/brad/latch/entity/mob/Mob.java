@@ -4,8 +4,6 @@ import com.brad.latch.entity.Entity;
 import com.brad.latch.graphics.AnimatedSprite;
 import com.brad.latch.graphics.Screen;
 
-import java.util.Map;
-
 /**
  * Mobs are entities that must have sprites, be renderable, and that
  * will appears as the actual characters in the game.
@@ -62,7 +60,7 @@ public abstract class Mob extends Entity {
     public void setAttributes(int health, boolean hasMelee, int meleeDamage, int aggroRadius,
                               int projectileRate, double moveSpeed, double attackInvincTime) {
         this.health = health;
-        this.hasMelee = hasMelee;
+        this.melee = hasMelee;
         this.meleeDamage = meleeDamage;
         this.aggroRadius = aggroRadius;
         this.projectileRate = projectileRate;

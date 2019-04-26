@@ -1,8 +1,13 @@
-package com.brad.latch.entity.mob;
+package com.brad.latch.entity.mob.player;
 
 import com.brad.latch.Game;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.entity.projectile.SpearProjectile;
+import com.brad.latch.events.Event;
+import com.brad.latch.events.EventDispatcher;
+import com.brad.latch.events.EventListener;
+import com.brad.latch.events.types.MousePressedEvent;
+import com.brad.latch.events.types.MouseReleasedEvent;
 import com.brad.latch.graphics.ui.UIButton;
 import com.brad.latch.graphics.ui.UIButtonHoverImpl;
 import com.brad.latch.graphics.ui.UIButtonListener;
@@ -12,14 +17,13 @@ import com.brad.latch.graphics.ui.UIPanel;
 import com.brad.latch.graphics.ui.UIProgressBar;
 import com.brad.latch.input.Keyboard;
 import com.brad.latch.input.Mouse;
-import com.brad.latch.util.ImageUtils;
 import com.brad.latch.util.Vector2i;
 
 import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import static com.brad.latch.util.MathUtils.percentageOf;
@@ -29,24 +33,19 @@ import static com.brad.latch.util.MathUtils.percentageOf;
        * Make a UI button for closing the right-hand drawer
  */
 
-public class Player extends Mob {
+public class ClientPlayer extends Player implements EventListener {
 
     private Keyboard input;
+    private boolean shooting = false;
 
     private UIManager ui;
+    private UIPanel panel;
     private UIProgressBar uiHealthBar;
     private UILabel uiHealthLabel;
 
     private BufferedImage playerIconImage, homeImage;
 
-    @Deprecated
-    public Player(String name, Keyboard input) {
-        this(name, 0, 0, input);
-        ui = Game.getUIManager();
-        this.name = name;
-    }
-
-    public Player(String name, int x, int y, Keyboard input) {
+    public ClientPlayer(String name, int x, int y, Keyboard input) {
         super(x, y);
         this.input = input;
         this.name = name;
@@ -54,7 +53,7 @@ public class Player extends Mob {
         // Player default attributes
         maxHealth = 100;
         moveSpeed = 1;
-        hasMelee = false;
+        melee = false;
         meleeDamage = 0;
         meleeRate = 60;
         projectileRate = SpearProjectile.projectileRate; // later
@@ -83,7 +82,7 @@ public class Player extends Mob {
         // rendered by the Game class. All other uses must be static
         // gets of this instance.
         ui = Game.getUIManager();
-        UIPanel panel = (UIPanel) new UIPanel(
+        panel = (UIPanel) new UIPanel(
                 new Vector2i((300 - 80) * 3, 0), new Vector2i(80 * 3, 168 * 3)).setColor(0x4f4f4f);
         ui.addPanel(panel);
 
@@ -111,8 +110,8 @@ public class Player extends Mob {
 
         // Loads the images for an icon-style button.
         try {
-            playerIconImage = ImageIO.read(Player.class.getResource("/ui/buttons/player_icon.png"));
-            homeImage = ImageIO.read(Player.class.getResource("/ui/buttons/home.png"));
+            playerIconImage = ImageIO.read(ClientPlayer.class.getResource("/ui/buttons/player_icon.png"));
+            homeImage = ImageIO.read(ClientPlayer.class.getResource("/ui/buttons/home.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -133,6 +132,9 @@ public class Player extends Mob {
         uiHealthBar.setProgress(percentageOf(health, maxHealth));
         uiHealthLabel.setText(String.format("HP - %d", health));
         updatePosRelativeToScreen();
+        if (health == 0) {
+            death();
+        }
         updateShooting();
 
         if (moving) animatedSprite.update();
@@ -159,10 +161,38 @@ public class Player extends Mob {
         } else {
             moving = false;
         }
+    }
 
-        if (health == 0) {
-            death();
+    private void updateShooting() {
+        if (!shooting || projectileTimer > 0) return;
+        double dx = Mouse.getX() - xRelativeToScreen;
+        double dy = Mouse.getY() - yRelativeToScreen;
+        double dir = Math.atan2(dy, dx);
+        shoot(x, y, dir);
+        projectileTimer = (int) (60 / projectileRate);
+    }
+
+    @Override
+    public void onEvent(Event event) {
+        EventDispatcher dispatcher = new EventDispatcher(event);
+        dispatcher.dispatch(Event.Type.MOUSE_PRESSED, event1 -> onMousePressed((MousePressedEvent)event1));
+        dispatcher.dispatch(Event.Type.MOUSE_RELEASED, event1 -> onMouseReleased((MouseReleasedEvent)event1));
+    }
+
+    //FIXME Player's projectile gets stuck in wall if firing from too close to a top surface
+    public boolean onMousePressed(MousePressedEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            shooting = true;
+            return true;
         }
+        return false;
+    }
+
+    public boolean onMouseReleased(MouseReleasedEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            shooting = false;
+        }
+        return false;
     }
 
     private void death() {
@@ -195,20 +225,11 @@ public class Player extends Mob {
         }
     }
 
-    // FIXME Player's projectile gets stuck in the wall if shooting while there is a collide-able tile above
-    private void updateShooting() {
-        if (Mouse.getX() > 660)
-            return;
-        if (Mouse.getButton() == 1 && projectileTimer <= 0) {
-            double dx = Mouse.getX() - xRelativeToScreen;
-            double dy = Mouse.getY() - yRelativeToScreen;
-            double dir = Math.atan2(dy, dx);
-            shoot(x, y, dir);
-            projectileTimer = (int) (60 / projectileRate);
-        }
-    }
-
     public static int getSize() {
         return size;
+    }
+
+    public UIPanel getPanel() {
+        return panel;
     }
 }

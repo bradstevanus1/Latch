@@ -3,8 +3,6 @@ package com.brad.latch.entity;
 import com.brad.latch.CustomRenderingEngine;
 import com.brad.latch.Game;
 import com.brad.latch.entity.mob.Mob;
-import com.brad.latch.entity.mob.Player;
-import com.brad.latch.entity.mob.friendly.Peaceful;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.entity.spawner.ParticleSpawner;
 import com.brad.latch.graphics.Screen;
@@ -27,7 +25,7 @@ public abstract class Entity implements CustomRenderingEngine, Sprites {
 
     // Attributes
     protected int maxHealth;
-    protected boolean hasMelee;
+    protected boolean melee;
     protected int meleeDamage;
     protected double meleeRate; // Times per second
 
@@ -58,6 +56,11 @@ public abstract class Entity implements CustomRenderingEngine, Sprites {
         updateDamagedTargets();
     }
 
+    public void render(Screen screen) {
+        if (sprite != null) screen.renderSprite((int) x, (int) y, sprite, true);
+    }
+
+
     /**
      * Checks to see if the mob should take damage this tick.
      * Damage could come from projectiles or melee.
@@ -72,21 +75,10 @@ public abstract class Entity implements CustomRenderingEngine, Sprites {
 
             }
         }
-        // Check if a player for friendly is colliding with another mob that can damage them.
-        if (this instanceof Player || this instanceof Peaceful) {
-            for (Mob mob : level.getMobsInRange(this, Mob.size)) {
-                if (!mob.hasMelee || mob.damagedEntities.containsKey(this)) continue;
-                if (inRange(this, mob, size)) {
-                    takeDamage(mob.meleeDamage);
-                    mob.damagedEntities.put(
-                            this, (int) (60 / mob.meleeRate));
-                }
-            }
-        }
         if (health < 0) health = 0;
     }
 
-    private void takeDamage(final int damage) {
+    protected void takeDamage(final int damage) {
         int initialHealth = health;
         health -= damage;
         int healthLost = Math.abs(health - initialHealth);
@@ -143,8 +135,43 @@ public abstract class Entity implements CustomRenderingEngine, Sprites {
         return y;
     }
 
-    public void render(Screen screen) {
-        if (sprite != null) screen.renderSprite((int) x, (int) y, sprite, true);
+    public int getMaxHealth() {
+        return maxHealth;
     }
 
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    public boolean isMelee() {
+        return melee;
+    }
+
+    public void setMelee(boolean melee) {
+        this.melee = melee;
+    }
+
+    public int getMeleeDamage() {
+        return meleeDamage;
+    }
+
+    public void setMeleeDamage(int meleeDamage) {
+        this.meleeDamage = meleeDamage;
+    }
+
+    public double getMeleeRate() {
+        return meleeRate;
+    }
+
+    public void setMeleeRate(double meleeRate) {
+        this.meleeRate = meleeRate;
+    }
+
+    public Map<Entity, Integer> getDamagedEntities() {
+        return damagedEntities;
+    }
+
+    public void setDamagedEntities(Map<Entity, Integer> damagedEntities) {
+        this.damagedEntities = damagedEntities;
+    }
 }

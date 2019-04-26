@@ -1,8 +1,9 @@
-package com.brad.latch.entity.mob.enemy;
+package com.brad.latch.entity.mob.enemy.shooter;
 
 import com.brad.latch.entity.Entity;
 import com.brad.latch.entity.mob.Mob;
-import com.brad.latch.entity.mob.Player;
+import com.brad.latch.entity.mob.enemy.Enemy;
+import com.brad.latch.entity.mob.player.Player;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.entity.projectile.SpearProjectile;
 import com.brad.latch.util.Vector2i;

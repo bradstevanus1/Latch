@@ -1,11 +1,10 @@
 package com.brad.latch.level;
 
-import com.brad.latch.entity.mob.enemy.Halbird;
-import com.brad.latch.entity.mob.enemy.Pokey;
-import com.brad.latch.entity.mob.enemy.Straggler;
+import com.brad.latch.entity.mob.enemy.shooter.Halbird;
+import com.brad.latch.entity.mob.enemy.advancedchaser.Pokey;
+import com.brad.latch.entity.mob.enemy.chaser.Straggler;
 import com.brad.latch.entity.mob.friendly.Traveller;
 import com.brad.latch.level.tile.TileCoordinate;
-import com.brad.latch.util.Vector2i;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
