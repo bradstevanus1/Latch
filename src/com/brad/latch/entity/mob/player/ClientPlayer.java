@@ -33,7 +33,7 @@ import static com.brad.latch.util.MathUtils.percentageOf;
        * Make a UI button for closing the right-hand drawer
  */
 
-public class ClientPlayer extends Player implements EventListener {
+public class ClientPlayer extends Player {
 
     private Keyboard input;
     private boolean shooting = false;
@@ -172,28 +172,6 @@ public class ClientPlayer extends Player implements EventListener {
         projectileTimer = (int) (60 / projectileRate);
     }
 
-    @Override
-    public void onEvent(Event event) {
-        EventDispatcher dispatcher = new EventDispatcher(event);
-        dispatcher.dispatch(Event.Type.MOUSE_PRESSED, event1 -> onMousePressed((MousePressedEvent)event1));
-        dispatcher.dispatch(Event.Type.MOUSE_RELEASED, event1 -> onMouseReleased((MouseReleasedEvent)event1));
-    }
-
-    //FIXME Player's projectile gets stuck in wall if firing from too close to a top surface
-    public boolean onMousePressed(MousePressedEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1) {
-            shooting = true;
-            return true;
-        }
-        return false;
-    }
-
-    public boolean onMouseReleased(MouseReleasedEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1) {
-            shooting = false;
-        }
-        return false;
-    }
 
     private void death() {
         recall();
@@ -231,5 +209,13 @@ public class ClientPlayer extends Player implements EventListener {
 
     public UIPanel getPanel() {
         return panel;
+    }
+
+    public boolean isShooting() {
+        return shooting;
+    }
+
+    public void setShooting(boolean shooting) {
+        this.shooting = shooting;
     }
 }

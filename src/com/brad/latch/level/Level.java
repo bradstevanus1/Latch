@@ -8,6 +8,10 @@ import com.brad.latch.entity.mob.player.Player;
 import com.brad.latch.entity.particle.Particle;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.events.Event;
+import com.brad.latch.events.EventDispatcher;
+import com.brad.latch.events.EventListener;
+import com.brad.latch.events.types.MousePressedEvent;
+import com.brad.latch.events.types.MouseReleasedEvent;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.layers.Layer;
 import com.brad.latch.level.tile.Tile;
@@ -15,11 +19,12 @@ import com.brad.latch.level.tile.TileCoordinate;
 import com.brad.latch.level.tile.Tiles;
 import com.brad.latch.util.Vector2i;
 
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public abstract class Level extends Layer implements Tiles {
+public abstract class Level extends Layer implements Tiles, EventListener {
 
     public TileCoordinate spawnPoint;
     protected int width, height;
@@ -85,9 +90,39 @@ public abstract class Level extends Layer implements Tiles {
         remove();
     }
 
+    /**
+     * Handles dispatching mouse pressed and released events for
+     * the player. If the mouse pressed OR released methods return
+     * false, that means that the mouse has not been pressed or released
+     * in the LEVEL layer of the layerStack, and the event will be dispatched
+     * to the next layer. If either method returns true, then the event has
+     * been handled, the method returns true, and it is not dispatched
+     * to the next layer in the layerStack.
+     * @param event
+     */
     @Override
+    @SuppressWarnings("Duplicates")
     public void onEvent(Event event) {
-        getClientPlayer().onEvent(event);
+        EventDispatcher dispatcher = new EventDispatcher(event);
+        dispatcher.dispatch(Event.Type.MOUSE_PRESSED, event1 -> onMousePressed((MousePressedEvent)event1));
+        dispatcher.dispatch(Event.Type.MOUSE_RELEASED, event1 -> onMouseReleased((MouseReleasedEvent)event1));
+    }
+
+    //FIXME Player's projectile gets stuck in wall if firing from too close to a top surface
+    public boolean onMousePressed(MousePressedEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            getClientPlayer().setShooting(true);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean onMouseReleased(MouseReleasedEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            getClientPlayer().setShooting(false);
+            return true;
+        }
+        return false;
     }
 
     // Removes objects from the list their field isRemoved equals true.

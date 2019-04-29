@@ -15,7 +15,6 @@ import java.util.List;
 public class UIPanel extends UIComponent {
 
     private List<UIComponent> components = new ArrayList<>();
-    private Vector2i size;
 
     /**
      * Creates a panel at an absolute vector position in pixels,
@@ -47,7 +46,6 @@ public class UIPanel extends UIComponent {
      */
     public void update() {
         for (UIComponent component : components) {
-            component.setOffset(position);
             component.update();
         }
     }

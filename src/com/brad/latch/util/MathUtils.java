@@ -2,6 +2,8 @@ package com.brad.latch.util;
 
 import com.brad.latch.entity.Entity;
 
+import java.awt.Rectangle;
+
 public class MathUtils {
 
     private MathUtils() {}
@@ -65,5 +67,10 @@ public class MathUtils {
         if (num2 >= min && num2 <= max)
             return true;
         return false;
+    }
+
+    public static boolean containsPoint(Vector2i point, Rectangle rectangle) {
+        return ((point.x >= rectangle.x && point.x <= (rectangle.x + rectangle.width)) &&
+                (point.y >= rectangle.y && point.y <= (rectangle.y + rectangle.height)));
     }
 }

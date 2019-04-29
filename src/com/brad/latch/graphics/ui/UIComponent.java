@@ -26,13 +26,11 @@ public class UIComponent {
 
     public UIComponent(Vector2i position) {
         this.position = position;
-        offset = new Vector2i();
     }
 
     public UIComponent(Vector2i position, Vector2i size) {
         this.position = position;
         this.size = size;
-        offset = new Vector2i();
     }
 
     /**
@@ -43,6 +41,7 @@ public class UIComponent {
      */
     void init(UIPanel panel) {
         this.panel = panel;
+        offset = new Vector2i(panel.position);
     }
 
     public UIComponent setColor(int color) {

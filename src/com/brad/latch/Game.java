@@ -3,6 +3,7 @@ package com.brad.latch;
 import com.brad.latch.entity.mob.player.ClientPlayer;
 import com.brad.latch.events.Event;
 import com.brad.latch.events.EventListener;
+import com.brad.latch.events.types.MouseMovedEvent;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.layers.Layer;
 import com.brad.latch.graphics.ui.UIManager;
@@ -12,6 +13,8 @@ import com.brad.latch.level.Level;
 import com.brad.latch.level.SpawnLevel;
 import com.brad.latch.level.tile.TileCoordinate;
 import com.brad.latch.net.player.NetPlayer;
+import com.brad.latch.util.MathUtils;
+import com.brad.latch.util.Vector2i;
 
 import javax.swing.JFrame;
 import java.awt.Canvas;
@@ -81,13 +84,13 @@ public class Game extends Canvas implements Runnable, EventListener {
         setPreferredSize(size);
 
         screen = new Screen(width, height);
-        uiManager = new UIManager();
         frame = new JFrame();
         key = new Keyboard();
         Mouse mouse = new Mouse(this);
         level = SPAWN_LEVEL;
-        addLayer(uiManager);    // Add event layers from first (top) to last (bottom)
+        uiManager = new UIManager(level);
         addLayer(level);
+        addLayer(uiManager);    // Add event layers from first (top) to last (bottom)
         TileCoordinate playerSpawn = SPAWN_LEVEL.spawnPoint;
         clientPlayer = new ClientPlayer("Centrix", playerSpawn.getX(), playerSpawn.getY(), key);
         level.add(clientPlayer);
@@ -99,6 +102,11 @@ public class Game extends Canvas implements Runnable, EventListener {
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
     }
+
+    // Changing the level requires you to re-init:
+    // all entities
+    // uiManager
+
 
     @Override
     public void onEvent(Event event) {
@@ -209,7 +217,8 @@ public class Game extends Canvas implements Runnable, EventListener {
 
         // Update layers here
         for (int i = 0; i < layerStack.size(); i++) {
-            layerStack.get(i).update();
+            Layer layer = layerStack.get(i);
+            if (!(layer instanceof UIManager)) layer.update();
         }
     }
 
