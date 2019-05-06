@@ -1,19 +1,19 @@
-package com.brad.latch.entity.mob.enemy.advancedchaser;
+package com.brad.latch.entity.mob.enemy;
 
-import com.brad.latch.entity.mob.Mob;
-import com.brad.latch.entity.mob.enemy.Enemy;
 import com.brad.latch.entity.mob.player.Player;
+import com.brad.latch.graphics.Sprites;
 import com.brad.latch.level.Node;
+import com.brad.latch.level.tile.TileCoordinate;
 import com.brad.latch.util.Vector2i;
 
 import java.util.List;
 
-public abstract class AdvancedChaser extends Enemy {
+public class AdvancedChaser extends Enemy {
 
     private List<Node> path = null;
 
-    public AdvancedChaser(final int x, final int y) {
-        super(x, y);
+    public AdvancedChaser(final TileCoordinate tileCoordinate) {
+        super(tileCoordinate);
     }
 
     @Override
@@ -52,6 +52,35 @@ public abstract class AdvancedChaser extends Enemy {
             randomDirection();
         }
         moveToDirection();
+    }
+
+    @Override
+    protected void shoot(double x, double y, double dir) {
+
+    }
+
+    public static AdvancedChaser Pokey(TileCoordinate tileCoordinate) {
+        AdvancedChaser mob = new AdvancedChaser(tileCoordinate);
+
+        mob.health = 8;
+        mob.maxHealth = mob.health;
+        mob.melee = true;
+        mob.meleeDamage = 8;
+        mob.aggroRadius = 500;
+        mob.projectileRate = 0;
+        mob.moveSpeed = 0.5;
+        mob.meleeRate = 4.0;
+
+        mob.name = "Pokey";
+        mob.sprite = Sprites.pokey_down.getSprite();
+        size = 32;
+        mob.animatedSprite = Sprites.pokey_down;
+        mob.animatedSpriteDown = Sprites.pokey_down;
+        mob.animatedSpriteUp = Sprites.pokey_up;
+        mob.animatedSpriteLeft = Sprites.pokey_left;
+        mob.animatedSpriteRight = Sprites.pokey_right;
+
+        return mob;
     }
 
 }

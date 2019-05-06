@@ -2,13 +2,14 @@ package com.brad.latch.entity.mob.player;
 
 import com.brad.latch.entity.mob.Mob;
 import com.brad.latch.entity.mob.enemy.Enemy;
+import com.brad.latch.level.tile.TileCoordinate;
 
 import static com.brad.latch.util.MathUtils.inRange;
 
 public abstract class Player extends Mob {
 
-    public Player(int x, int y) {
-        super(x, y);
+    public Player(TileCoordinate tileCoordinate) {
+        super(tileCoordinate);
     }
 
     @Override

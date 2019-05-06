@@ -3,13 +3,14 @@ package com.brad.latch.net.player;
 import com.brad.latch.entity.mob.player.Player;
 import com.brad.latch.entity.projectile.SpearProjectile;
 import com.brad.latch.graphics.Screen;
+import com.brad.latch.level.tile.TileCoordinate;
 
 import java.awt.Color;
 
 public class NetPlayer extends Player {
 
-    public NetPlayer(int x, int y) {
-        super(x, y);
+    public NetPlayer(TileCoordinate tileCoordinate) {
+        super(tileCoordinate);
 
         maxHealth = 100;
         moveSpeed = 1;
@@ -28,6 +29,7 @@ public class NetPlayer extends Player {
         animatedSpriteLeft = player_left;
         animatedSpriteRight = player_right;
     }
+
 
     public void update() {
         super.update();

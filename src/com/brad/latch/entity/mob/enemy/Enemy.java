@@ -1,11 +1,12 @@
 package com.brad.latch.entity.mob.enemy;
 
 import com.brad.latch.entity.mob.Mob;
+import com.brad.latch.level.tile.TileCoordinate;
 
 public abstract class Enemy extends Mob {
 
-    public Enemy(int x, int y) {
-        super(x, y);
+    public Enemy(TileCoordinate tileCoordinate) {
+        super(tileCoordinate);
     }
 
     @Override

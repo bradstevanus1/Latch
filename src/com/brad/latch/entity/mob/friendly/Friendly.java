@@ -3,13 +3,14 @@ package com.brad.latch.entity.mob.friendly;
 import com.brad.latch.entity.mob.Mob;
 import com.brad.latch.entity.mob.enemy.Enemy;
 import com.brad.latch.graphics.Sprite;
+import com.brad.latch.level.tile.TileCoordinate;
 
 import static com.brad.latch.util.MathUtils.inRange;
 
 public abstract class Friendly extends Mob {
 
-    public Friendly(int x, int y) {
-        super(x, y);
+    public Friendly(TileCoordinate tileCoordinate) {
+        super(tileCoordinate);
     }
 
     @Override

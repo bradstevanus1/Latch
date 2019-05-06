@@ -3,6 +3,7 @@ package com.brad.latch.entity.mob;
 import com.brad.latch.entity.Entity;
 import com.brad.latch.graphics.AnimatedSprite;
 import com.brad.latch.graphics.Screen;
+import com.brad.latch.level.tile.TileCoordinate;
 
 /**
  * Mobs are entities that must have sprites, be renderable, and that
@@ -37,8 +38,8 @@ public abstract class Mob extends Entity {
         this.moveSpeed = moveSpeed;
     }
 
-    public Mob(int x, int y) {
-        super(x, y);
+    public Mob(TileCoordinate tileCoordinate) {
+        super(tileCoordinate.getX(), tileCoordinate.getY());
     }
 
     public void update() {

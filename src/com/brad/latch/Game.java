@@ -92,9 +92,9 @@ public class Game extends Canvas implements Runnable, EventListener {
         addLayer(level);
         addLayer(uiManager);    // Add event layers from first (top) to last (bottom)
         TileCoordinate playerSpawn = SPAWN_LEVEL.spawnPoint;
-        clientPlayer = new ClientPlayer("Centrix", playerSpawn.getX(), playerSpawn.getY(), key);
+        clientPlayer = new ClientPlayer("Centrix", playerSpawn, key);
         level.add(clientPlayer);
-        level.add(new NetPlayer(19*16, 45*16));
+        level.add(new NetPlayer(new TileCoordinate(19, 45)));
         x = clientPlayer.getX() - screen.width / 2.0;
         y = clientPlayer.getY() - screen.height / 2.0;
 

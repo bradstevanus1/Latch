@@ -4,7 +4,7 @@ package com.brad.latch.level.tile;
 public class TileCoordinate {
 
     private int x, y;
-    private final int TILE_SIZE  = Tile.getTileSize();
+    private static final int TILE_SIZE  = Tile.getTileSize();
 
     public TileCoordinate(int x, int y) {
         this.x = x * TILE_SIZE;
@@ -22,4 +22,13 @@ public class TileCoordinate {
     public int[] xy() {
         return new int[]{x, y};
     }
+
+    public static int getTileX(int x) {
+        return x * TILE_SIZE;
+    }
+
+    public static int getTileY(int y) {
+        return y * TILE_SIZE;
+    }
+
 }

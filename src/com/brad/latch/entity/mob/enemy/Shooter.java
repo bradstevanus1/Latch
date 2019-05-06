@@ -1,21 +1,20 @@
-package com.brad.latch.entity.mob.enemy.shooter;
+package com.brad.latch.entity.mob.enemy;
 
 import com.brad.latch.entity.Entity;
-import com.brad.latch.entity.mob.Mob;
-import com.brad.latch.entity.mob.enemy.Enemy;
 import com.brad.latch.entity.mob.player.Player;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.entity.projectile.SpearProjectile;
+import com.brad.latch.level.tile.TileCoordinate;
 import com.brad.latch.util.Vector2i;
 
 import java.util.List;
 
-public abstract class Shooter extends Enemy {
+public class Shooter extends Enemy {
 
     protected Entity randomPlayer = null;
 
-    public Shooter(int x, int y) {
-        super(x, y);
+    public Shooter(TileCoordinate tileCoordinate) {
+        super(tileCoordinate);
     }
 
     @Override
@@ -69,5 +68,29 @@ public abstract class Shooter extends Enemy {
     protected void shoot(double x, double y, double dir) {
         Projectile p = new SpearProjectile(x, y, dir, this);
         level.add(p);
+    }
+
+    public static Shooter halbird(TileCoordinate tileCoordinate) {
+        Shooter mob = new Shooter(tileCoordinate);
+
+        mob.health = 500;
+        mob.maxHealth = mob.health;
+        mob.melee = true;
+        mob.meleeDamage = 20;
+        mob.aggroRadius = 200;
+        mob.projectileRate = SpearProjectile.projectileRate;
+        mob.moveSpeed = 0.7;
+        mob.meleeRate = 1.0;
+
+        mob.name = "Hal Bird";
+        mob.sprite = pokey_down.getSprite();
+        size = 32;
+        mob.animatedSprite = pokey_down;
+        mob.animatedSpriteDown = pokey_down;
+        mob.animatedSpriteUp = pokey_up;
+        mob.animatedSpriteLeft = pokey_left;
+        mob.animatedSpriteRight = pokey_right;
+
+        return mob;
     }
 }

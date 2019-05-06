@@ -2,9 +2,6 @@ package com.brad.latch.graphics;
 
 import com.brad.latch.entity.mob.player.ClientPlayer;
 import com.brad.latch.entity.mob.Mob;
-import com.brad.latch.entity.mob.enemy.advancedchaser.Pokey;
-import com.brad.latch.entity.mob.enemy.chaser.Straggler;
-import com.brad.latch.entity.mob.friendly.Traveller;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.level.tile.Tile;
 
@@ -111,9 +108,6 @@ public class Screen {
                 if (xScreen < -ClientPlayer.getSize() || xScreen >= width || yScreen < 0 || yScreen >= height) break;
                 if (xScreen < 0) xScreen = 0;
                 int colour = mob.getSprite().pixels[x + y * ClientPlayer.getSize()];
-                if (mob instanceof Traveller && colour == 0xFF2084CC) colour = 0xFF36B72A;
-                else if (mob instanceof Straggler && colour == 0xFF2084CC) colour = 0xFFF70E1A;
-                else if (mob instanceof Pokey && colour == 0xFF2084CC) colour = 0xFFFF47A9;
                 if (colour != Sprite.ALPHA_COLOUR) pixels[xScreen + yScreen * width] = colour;
             }
         }

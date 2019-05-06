@@ -1,10 +1,11 @@
 package com.brad.latch.entity.mob.friendly;
 
+import com.brad.latch.level.tile.TileCoordinate;
 
 public class Traveller extends Friendly {
 
-    public Traveller(int x, int y) {
-        super(x << 4, y << 4);
+    public Traveller(TileCoordinate tileCoordinate) {
+        super(tileCoordinate);
 
         health = 100;
         maxHealth = health;

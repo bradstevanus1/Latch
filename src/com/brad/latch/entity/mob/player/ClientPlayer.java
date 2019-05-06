@@ -17,6 +17,7 @@ import com.brad.latch.graphics.ui.UIPanel;
 import com.brad.latch.graphics.ui.UIProgressBar;
 import com.brad.latch.input.Keyboard;
 import com.brad.latch.input.Mouse;
+import com.brad.latch.level.tile.TileCoordinate;
 import com.brad.latch.util.Vector2i;
 
 import javax.imageio.ImageIO;
@@ -45,8 +46,8 @@ public class ClientPlayer extends Player {
 
     private BufferedImage playerIconImage, homeImage;
 
-    public ClientPlayer(String name, int x, int y, Keyboard input) {
-        super(x, y);
+    public ClientPlayer(String name, TileCoordinate tileCoordinate, Keyboard input) {
+        super(tileCoordinate);
         this.input = input;
         this.name = name;
 
