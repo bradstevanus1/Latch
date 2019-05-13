@@ -36,26 +36,28 @@ public class Chaser extends Enemy {
 
     }
 
-    public static Chaser straggler(TileCoordinate tileCoordinate) {
+    public static Chaser Straggler(TileCoordinate tileCoordinate) {
         Chaser mob = new Chaser(tileCoordinate);
 
-        mob.health = 50;
-        mob.maxHealth = mob.health;
-        mob.melee = true;
-        mob.meleeDamage = 5;
-        mob.aggroRadius = 500;
-        mob.projectileRate = 0;
-        mob.moveSpeed = 0.5;
-        mob.meleeRate = 1.0;
-
-        mob.name = "Straggler";
         mob.sprite = straggler_down.getSprite();
-        size = 32;
         mob.animatedSprite = straggler_down;
         mob.animatedSpriteDown = straggler_down;
         mob.animatedSpriteUp = straggler_up;
         mob.animatedSpriteLeft = straggler_left;
         mob.animatedSpriteRight = straggler_right;
+
+        mob.health = 50;
+        mob.maxHealth = mob.health;
+        mob.setMoveSpeed(0.5);
+        mob.melee = true;
+        mob.meleeDamage = 5;
+        mob.meleeRate = 1.0;
+        mob.projectileRate = 0;
+        mob.aggroRadius = 500;
+
+        mob.name = "Straggler";
+        size = 32;
+
 
         return mob;
     }

@@ -14,31 +14,31 @@ public interface Sprites {
 
     // Tile sheets
 
-    SpriteSheet tiles = new SpriteSheet("/textures/sheets/tiles/spritesheet.png", 256);
-    SpriteSheet spawn_level = new SpriteSheet("/textures/sheets/tiles/spawn_level.png", 48);
-    SpriteSheet projectile_spear_sheet = new SpriteSheet("/textures/sheets/entities/projectiles/spear.png", 48);
+    SpriteSheet tiles = new SpriteSheet("/textures/tiles/spritesheet.png", 256);
+    SpriteSheet spawn_level = new SpriteSheet("/textures/tiles/spawn_level.png", 48);
+    SpriteSheet projectile_spear_sheet = new SpriteSheet("/textures/entities/projectiles/spear.png", 48);
 
     // Entity sheets
 
-    SpriteSheet player = new SpriteSheet("/textures/sheets/entities/mobs/player.png", 128, 96);
-    SpriteSheet player_down_sheet = new SpriteSheet(player, 0, 0, 1, 3, 32);
-    SpriteSheet player_up_sheet = new SpriteSheet(player, 1, 0, 1, 3, 32);
-    SpriteSheet player_left_sheet = new SpriteSheet(player, 2, 0, 1, 3, 32);
-    SpriteSheet player_right_sheet = new SpriteSheet(player, 3, 0, 1, 3, 32);
+    SpriteSheet player = new SpriteSheet("/textures/entities/mobs/player.png", 128);
+    SpriteSheet player_down_sheet = new SpriteSheet(player, 0, 0, 1, 4, 32);
+    SpriteSheet player_up_sheet = new SpriteSheet(player, 1, 0, 1, 4, 32);
+    SpriteSheet player_left_sheet = new SpriteSheet(player, 2, 0, 1, 4, 32);
+    SpriteSheet player_right_sheet = new SpriteSheet(player, 3, 0, 1, 4, 32);
 
-    SpriteSheet traveller = new SpriteSheet("/textures/sheets/entities/mobs/traveller.png", 128, 96);
+    SpriteSheet traveller = new SpriteSheet("/textures/entities/mobs/traveller.png", 128, 96);
     SpriteSheet traveller_down_sheet = new SpriteSheet(traveller, 0, 0, 1, 3, 32);
     SpriteSheet traveller_up_sheet = new SpriteSheet(traveller, 1, 0, 1, 3, 32);
     SpriteSheet traveller_left_sheet = new SpriteSheet(traveller, 2, 0, 1, 3, 32);
     SpriteSheet traveller_right_sheet = new SpriteSheet(traveller, 3, 0, 1, 3, 32);
 
-    SpriteSheet straggler = new SpriteSheet("/textures/sheets/entities/mobs/straggler.png", 128);
+    SpriteSheet straggler = new SpriteSheet("/textures/entities/mobs/straggler.png", 128);
     SpriteSheet straggler_down_sheet = new SpriteSheet(straggler, 0, 0, 1, 4, 32);
     SpriteSheet straggler_up_sheet = new SpriteSheet(straggler, 1, 0, 1, 4, 32);
     SpriteSheet straggler_left_sheet = new SpriteSheet(straggler, 2, 0, 1, 4, 32);
     SpriteSheet straggler_right_sheet = new SpriteSheet(straggler, 3, 0, 1, 4, 32);
 
-    SpriteSheet pokey = new SpriteSheet("/textures/sheets/entities/mobs/straggler.png", 128, 96);
+    SpriteSheet pokey = new SpriteSheet("/textures/entities/mobs/straggler.png", 128, 96);
     SpriteSheet pokey_down_sheet = new SpriteSheet(pokey, 0, 0, 1, 3, 32);
     SpriteSheet pokey_up_sheet = new SpriteSheet(pokey, 1, 0, 1, 3, 32);
     SpriteSheet pokey_left_sheet = new SpriteSheet(pokey, 2, 0, 1, 3, 32);
@@ -46,7 +46,7 @@ public interface Sprites {
 
     // Font sheets
 
-    SpriteSheet font = new SpriteSheet("/textures/sheets/fonts/arial.png", 16);
+    SpriteSheet font = new SpriteSheet("/textures/fonts/arial.png", 16);
 
 
     /** Sprites */
@@ -71,10 +71,10 @@ public interface Sprites {
 
     // Mob sprites
 
-    AnimatedSprite player_down = new AnimatedSprite(player_down_sheet, 32, 32, 3, 20);
-    AnimatedSprite player_up = new AnimatedSprite(player_up_sheet, 32, 32, 3, 20);
-    AnimatedSprite player_left = new AnimatedSprite(player_left_sheet, 32, 32, 3, 20);
-    AnimatedSprite player_right = new AnimatedSprite(player_right_sheet, 32, 32, 3, 20);
+    AnimatedSprite player_down = new AnimatedSprite(player_down_sheet, 32, 32, 4, 15);
+    AnimatedSprite player_up = new AnimatedSprite(player_up_sheet, 32, 32, 4, 15);
+    AnimatedSprite player_left = new AnimatedSprite(player_left_sheet, 32, 32, 4, 15);
+    AnimatedSprite player_right = new AnimatedSprite(player_right_sheet, 32, 32, 4, 15);
 
     AnimatedSprite traveller_down = new AnimatedSprite(traveller_down_sheet, 32, 32, 3, 20);
     AnimatedSprite traveller_up = new AnimatedSprite(traveller_up_sheet, 32, 32, 3, 20);

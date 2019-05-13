@@ -7,7 +7,7 @@ import com.brad.latch.level.tile.TileCoordinate;
 
 import static com.brad.latch.util.MathUtils.inRange;
 
-public abstract class Friendly extends Mob {
+public class Friendly extends Mob {
 
     public Friendly(TileCoordinate tileCoordinate) {
         super(tileCoordinate);
@@ -27,6 +27,11 @@ public abstract class Friendly extends Mob {
     }
 
     @Override
+    protected void shoot(double x, double y, double dir) {
+
+    }
+
+    @Override
     @SuppressWarnings("Duplicates")
     protected void updateHealth() {
         super.updateHealth();
@@ -43,6 +48,32 @@ public abstract class Friendly extends Mob {
 
     private void death() {
         remove();
+    }
+
+    public static Friendly Traveller(TileCoordinate tileCoordinate) {
+        Friendly mob = new Friendly(tileCoordinate);
+
+        mob.sprite = traveller_down.getSprite();
+        mob.animatedSprite = traveller_down;
+        mob.animatedSpriteDown = traveller_down;
+        mob.animatedSpriteUp = traveller_up;
+        mob.animatedSpriteLeft = traveller_left;
+        mob.animatedSpriteRight = traveller_right;
+
+        mob.health = 100;
+        mob.maxHealth = mob.health;
+        mob.setMoveSpeed(0.7);
+        mob.melee = false;
+        mob.meleeDamage = 0;
+        mob.meleeRate = 1.0;
+        mob.projectileRate = 0;
+        mob.aggroRadius = 0;
+
+        mob.name = "Traveller";
+        size = 32;
+
+
+        return mob;
     }
 
 }

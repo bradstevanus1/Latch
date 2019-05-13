@@ -70,26 +70,28 @@ public class Shooter extends Enemy {
         level.add(p);
     }
 
-    public static Shooter halbird(TileCoordinate tileCoordinate) {
+    public static Shooter Halbird(TileCoordinate tileCoordinate) {
         Shooter mob = new Shooter(tileCoordinate);
 
-        mob.health = 500;
-        mob.maxHealth = mob.health;
-        mob.melee = true;
-        mob.meleeDamage = 20;
-        mob.aggroRadius = 200;
-        mob.projectileRate = SpearProjectile.projectileRate;
-        mob.moveSpeed = 0.7;
-        mob.meleeRate = 1.0;
-
-        mob.name = "Hal Bird";
         mob.sprite = pokey_down.getSprite();
-        size = 32;
         mob.animatedSprite = pokey_down;
         mob.animatedSpriteDown = pokey_down;
         mob.animatedSpriteUp = pokey_up;
         mob.animatedSpriteLeft = pokey_left;
         mob.animatedSpriteRight = pokey_right;
+
+        mob.health = 500;
+        mob.maxHealth = mob.health;
+        mob.setMoveSpeed(0.7);
+        mob.melee = true;
+        mob.meleeDamage = 20;
+        mob.meleeRate = 1.0;
+        mob.projectileRate = SpearProjectile.projectileRate;
+        mob.aggroRadius = 200;
+
+        mob.name = "Hal Bird";
+        size = 32;
+
 
         return mob;
     }

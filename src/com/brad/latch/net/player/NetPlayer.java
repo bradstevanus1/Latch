@@ -17,7 +17,7 @@ public class NetPlayer extends Player {
         melee = false;
         meleeDamage = 0;
         meleeRate = 60;
-        projectileRate = SpearProjectile.projectileRate; // later
+        projectileRate = SpearProjectile.projectileRate;  // later
         aggroRadius = 0;
 
         health = maxHealth;
@@ -29,7 +29,6 @@ public class NetPlayer extends Player {
         animatedSpriteLeft = player_left;
         animatedSpriteRight = player_right;
     }
-
 
     public void update() {
         super.update();

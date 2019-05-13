@@ -15,6 +15,10 @@ import com.brad.latch.level.tile.TileCoordinate;
 import com.brad.latch.net.player.NetPlayer;
 import com.brad.latch.util.MathUtils;
 import com.brad.latch.util.Vector2i;
+import com.brad.latchConnect.serialization.data.LCData;
+import com.brad.latchConnect.serialization.data.LCDatabase;
+import com.brad.latchConnect.serialization.data.LCField;
+import com.brad.latchConnect.serialization.data.LCObject;
 
 import javax.swing.JFrame;
 import java.awt.Canvas;
@@ -43,9 +47,9 @@ public class Game extends Canvas implements Runnable, EventListener {
 
     private static final long serialVersionUID = 1L;
     private static final String title = "Latch";
-    private static final int width = 300 - 80;
-    private static final int height = 168;
-    private static final int scale = 3;
+    private static int width = 300 - 80;
+    private static int height = 168;
+    private static int scale = 3;
     private static final double UPDATES_PER_SECOND = 60;
     private static final boolean VSYNC = false;
     private static final double FRAME_RATE = 120;
@@ -70,18 +74,18 @@ public class Game extends Canvas implements Runnable, EventListener {
 
     // BufferedImage extends java.awt.Image and describes this parent class with an
     // accessible buffer of image data.
-    private final BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    private BufferedImage image;
 
     // Gets the raster of the image object. Then, gets the data buffer associated with that raster.
     // Then, casts the data buffer to a DataBufferInt object. Then, gets the integer array
     // of this data buffer. Note: this is only one way to implement graphics.
-    private final int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+    private int[] pixels;
 
     private List<Layer> layerStack = new ArrayList<>();
 
     public Game() {
-        Dimension size = new Dimension(width*scale + 80 * 3, height*scale);
-        setPreferredSize(size);
+
+        setSize();
 
         screen = new Screen(width, height);
         frame = new JFrame();
@@ -101,6 +105,34 @@ public class Game extends Canvas implements Runnable, EventListener {
         addKeyListener(key);
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
+
+        save();
+    }
+
+    private void setSize() {
+        LCDatabase db = LCDatabase.DeserializeFromFile("res/data/screen.bin");
+        if (db != null) {
+            LCObject obj = db.findObject("Resolution");
+            width = obj.findField("width").getInt();
+            height = obj.findField("height").getInt();
+            scale = obj.findField("scale").getInt();
+        }
+        Dimension size = new Dimension(width*scale + 80 * 3, height*scale);
+        setPreferredSize(size);
+
+        image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+    }
+
+    private void save() {
+        LCDatabase db = new LCDatabase("Screen");
+        LCObject obj = new LCObject("Resolution");
+        obj.addField(LCField.Integer("width", width));
+        obj.addField(LCField.Integer("height", height));
+        obj.addField(LCField.Integer("scale", scale));
+        db.addObject(obj);
+
+        db.serializeToFile("res/data/screen.bin");
     }
 
     // Changing the level requires you to re-init:

@@ -12,8 +12,6 @@ import com.brad.latch.level.tile.Tile;
  */
 public class Screen {
 
-    // TODO Refactor to make all objects be rendered by renderSprite
-
     public int width, height;
     public int[] pixels;
     public int xOffset, yOffset;

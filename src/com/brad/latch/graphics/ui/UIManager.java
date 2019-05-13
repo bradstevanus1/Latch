@@ -27,6 +27,7 @@ import java.util.List;
 public class UIManager extends Layer implements EventListener {
 
     private List<UIPanel> panels = new ArrayList<>();
+    private List<UIComponent> components = new ArrayList<>();
     protected Level level;
 
     public UIManager(Level level) {
@@ -45,15 +46,25 @@ public class UIManager extends Layer implements EventListener {
         panels.add(panel);
     }
 
+    public void addComponent(UIComponent component) {
+        components.add(component);
+    }
+
     public void update() {
         for (UIPanel panel : panels) {
             panel.update();
+        }
+        for (UIComponent component : components) {
+            component.update();
         }
     }
 
     public void render(Graphics g) {
         for (UIPanel panel : panels) {
             panel.render(g);
+        }
+        for (UIComponent component : components) {
+            component.render(g);
         }
     }
 
@@ -62,6 +73,9 @@ public class UIManager extends Layer implements EventListener {
     public void onEvent(Event event) {
         for (UIPanel panel : panels) {
             panel.update();
+        }
+        for (UIComponent component : components) {
+            component.update();
         }
         EventDispatcher dispatcher = new EventDispatcher(event);
         dispatcher.dispatch(Event.Type.MOUSE_PRESSED, event1 -> onMousePressed((MousePressedEvent)event1));

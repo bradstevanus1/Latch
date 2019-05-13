@@ -3,11 +3,6 @@ package com.brad.latch.entity.mob.player;
 import com.brad.latch.Game;
 import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.entity.projectile.SpearProjectile;
-import com.brad.latch.events.Event;
-import com.brad.latch.events.EventDispatcher;
-import com.brad.latch.events.EventListener;
-import com.brad.latch.events.types.MousePressedEvent;
-import com.brad.latch.events.types.MouseReleasedEvent;
 import com.brad.latch.graphics.ui.UIButton;
 import com.brad.latch.graphics.ui.UIButtonHoverImpl;
 import com.brad.latch.graphics.ui.UIButtonListener;
@@ -23,7 +18,6 @@ import com.brad.latch.util.Vector2i;
 import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -41,6 +35,7 @@ public class ClientPlayer extends Player {
 
     private UIManager ui;
     private UIPanel panel;
+    private UIPanel mousePanel;
     private UIProgressBar uiHealthBar;
     private UILabel uiHealthLabel;
 
@@ -51,23 +46,24 @@ public class ClientPlayer extends Player {
         this.input = input;
         this.name = name;
 
-        // Player default attributes
-        maxHealth = 100;
-        moveSpeed = 1;
-        melee = false;
-        meleeDamage = 0;
-        meleeRate = 60;
-        projectileRate = SpearProjectile.projectileRate; // later
-        aggroRadius = 0;
-
-        health = maxHealth;
-        size = 32;
         sprite = player_down;
         animatedSprite = player_down;
         animatedSpriteDown = player_down;
         animatedSpriteUp = player_up;
         animatedSpriteLeft = player_left;
         animatedSpriteRight = player_right;
+
+        // Player default attributes
+        maxHealth = 100;
+        health = maxHealth;
+        setMoveSpeed(1.0);
+        melee = false;
+        meleeDamage = 0;
+        meleeRate = 60;
+        projectileRate = SpearProjectile.projectileRate; // later
+        aggroRadius = 0;
+
+        size = 32;
 
         initUI();
     }
@@ -83,9 +79,11 @@ public class ClientPlayer extends Player {
         // rendered by the Game class. All other uses must be static
         // gets of this instance.
         ui = Game.getUIManager();
+
         panel = (UIPanel) new UIPanel(
                 new Vector2i((300 - 80) * 3, 0), new Vector2i(80 * 3, 168 * 3)).setColor(0x4f4f4f);
         ui.addPanel(panel);
+
 
         UILabel nameLabel = new UILabel(new Vector2i(50, 200), name);
         nameLabel.setColor(foregroundText);

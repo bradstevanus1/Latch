@@ -62,23 +62,25 @@ public class AdvancedChaser extends Enemy {
     public static AdvancedChaser Pokey(TileCoordinate tileCoordinate) {
         AdvancedChaser mob = new AdvancedChaser(tileCoordinate);
 
-        mob.health = 8;
-        mob.maxHealth = mob.health;
-        mob.melee = true;
-        mob.meleeDamage = 8;
-        mob.aggroRadius = 500;
-        mob.projectileRate = 0;
-        mob.moveSpeed = 0.5;
-        mob.meleeRate = 4.0;
-
-        mob.name = "Pokey";
         mob.sprite = Sprites.pokey_down.getSprite();
-        size = 32;
         mob.animatedSprite = Sprites.pokey_down;
         mob.animatedSpriteDown = Sprites.pokey_down;
         mob.animatedSpriteUp = Sprites.pokey_up;
         mob.animatedSpriteLeft = Sprites.pokey_left;
         mob.animatedSpriteRight = Sprites.pokey_right;
+
+        mob.health = 8;
+        mob.maxHealth = mob.health;
+        mob.setMoveSpeed(0.5);
+        mob.melee = true;
+        mob.meleeDamage = 8;
+        mob.meleeRate = 4.0;
+        mob.projectileRate = 0;
+        mob.aggroRadius = 500;
+
+        mob.name = "Pokey";
+        size = 32;
+
 
         return mob;
     }

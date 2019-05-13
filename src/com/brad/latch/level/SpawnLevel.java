@@ -3,7 +3,7 @@ package com.brad.latch.level;
 import com.brad.latch.entity.mob.enemy.AdvancedChaser;
 import com.brad.latch.entity.mob.enemy.Chaser;
 import com.brad.latch.entity.mob.enemy.Shooter;
-import com.brad.latch.entity.mob.friendly.Traveller;
+import com.brad.latch.entity.mob.friendly.Friendly;
 import com.brad.latch.level.tile.TileCoordinate;
 
 import javax.imageio.ImageIO;
@@ -30,11 +30,11 @@ public class SpawnLevel extends Level {
         }
 
 
-        add(Chaser.straggler(new TileCoordinate(25, 55)));
-        add(Shooter.halbird(new TileCoordinate(20, 55)));
+        add(Chaser.Straggler(new TileCoordinate(25, 55)));
+        add(Shooter.Halbird(new TileCoordinate(20, 55)));
         add(AdvancedChaser.Pokey(new TileCoordinate(15, 55)));
         for (int i = 0; i < 10; i++) {
-            add(new Traveller(new TileCoordinate(15, 12)));
+            add(Friendly.Traveller(new TileCoordinate(15, 12)));
         }
     }
 

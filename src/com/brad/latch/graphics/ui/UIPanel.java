@@ -57,6 +57,7 @@ public class UIPanel extends UIComponent {
     public void render(Graphics g) {
         g.setColor(color);
         g.fillRect(position.x, position.y, size.x, size.y);
+
         for (UIComponent component : components) {
             component.render(g);
         }

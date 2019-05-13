@@ -69,6 +69,16 @@ public abstract class Mob extends Entity {
         this.meleeRate = attackInvincTime;
     }
 
+    public void setMoveSpeed(double moveSpeed) {
+        this.moveSpeed = moveSpeed;
+        int frameRate = (int) (15/this.moveSpeed);
+        animatedSprite.setFrameRate(frameRate);
+        animatedSpriteDown.setFrameRate(frameRate);
+        animatedSpriteUp.setFrameRate(frameRate);
+        animatedSpriteLeft.setFrameRate(frameRate);
+        animatedSpriteRight.setFrameRate(frameRate);
+    }
+
 
     /**
      * Moves the mob in the amount specified in x and y.

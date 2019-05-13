@@ -23,7 +23,7 @@ public class AnimatedSprite extends Sprite {
     public void update() {
         time++;
         if (time % frameRate == 0) {
-            if (frame >= length - 1) frame = 0;
+            if (frame >= length - 1) frame = 1;  // Frame 0 is for standing still
             else frame++;
             sprite = sheet.getSprites()[frame];
         }
