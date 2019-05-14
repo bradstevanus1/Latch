@@ -21,4 +21,8 @@ public class Layer implements EventListener {
 
     }
 
+    public void render(Graphics g) {
+
+    }
+
 }

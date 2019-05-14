@@ -3,9 +3,11 @@ package com.brad.latch.graphics.ui;
 import com.brad.latch.events.Event;
 import com.brad.latch.events.EventDispatcher;
 import com.brad.latch.events.types.MouseButtonEvent;
+import com.brad.latch.events.types.MouseMovedEvent;
 import com.brad.latch.events.types.MousePressedEvent;
 import com.brad.latch.events.types.MouseReleasedEvent;
 import com.brad.latch.graphics.layers.Layer;
+import com.brad.latch.input.Mouse;
 import com.brad.latch.level.Level;
 import com.brad.latch.util.MathUtils;
 import com.brad.latch.util.Vector2i;
@@ -80,21 +82,26 @@ public class UIManager extends Layer implements EventListener {
         EventDispatcher dispatcher = new EventDispatcher(event);
         dispatcher.dispatch(Event.Type.MOUSE_PRESSED, event1 -> onMousePressed((MousePressedEvent)event1));
         dispatcher.dispatch(Event.Type.MOUSE_RELEASED, event1 -> onMouseReleased((MouseReleasedEvent)event1));
+        dispatcher.dispatch(Event.Type.MOUSE_MOVED, event1 -> onMouseMoved((MouseMovedEvent)event1));
     }
 
-    public boolean onMousePressed(MousePressedEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1 && MouseButtonInAnyPanel(e)) {
-            return true;
-        }
-        return false;
+    private boolean onMousePressed(MousePressedEvent e) {
+        return e.getButton() == MouseEvent.BUTTON1 && MouseButtonInAnyPanel(e);
     }
 
-    public boolean onMouseReleased(MouseReleasedEvent e) {
+    private boolean onMouseReleased(MouseReleasedEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1 && MouseButtonInAnyPanel(e)) {
             level.getClientPlayer().setShooting(false);
             return true;
         }
         return false;
+    }
+
+    public boolean onMouseMoved(MouseMovedEvent e) {
+        UIMouse mousePointer = level.getClientPlayer().getMousePointer();
+        mousePointer.position.x = Mouse.getX();
+        mousePointer.position.y = Mouse.getY();
+        return true;
     }
 
     private boolean MouseButtonInAnyPanel(MouseButtonEvent e) {

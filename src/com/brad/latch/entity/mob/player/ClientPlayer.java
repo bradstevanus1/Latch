@@ -6,6 +6,8 @@ import com.brad.latch.entity.projectile.SpearProjectile;
 import com.brad.latch.graphics.ui.UIButton;
 import com.brad.latch.graphics.ui.UIButtonHoverImpl;
 import com.brad.latch.graphics.ui.UIButtonListener;
+import com.brad.latch.graphics.ui.UIComponent;
+import com.brad.latch.graphics.ui.UIMouse;
 import com.brad.latch.graphics.ui.UILabel;
 import com.brad.latch.graphics.ui.UIManager;
 import com.brad.latch.graphics.ui.UIPanel;
@@ -35,11 +37,11 @@ public class ClientPlayer extends Player {
 
     private UIManager ui;
     private UIPanel panel;
-    private UIPanel mousePanel;
+    private UIMouse mousePointer;
     private UIProgressBar uiHealthBar;
     private UILabel uiHealthLabel;
 
-    private BufferedImage playerIconImage, homeImage;
+    private BufferedImage playerIconImage, homeImage, mouseImage;
 
     public ClientPlayer(String name, TileCoordinate tileCoordinate, Keyboard input) {
         super(tileCoordinate);
@@ -85,6 +87,7 @@ public class ClientPlayer extends Player {
         ui.addPanel(panel);
 
 
+
         UILabel nameLabel = new UILabel(new Vector2i(50, 200), name);
         nameLabel.setColor(foregroundText);
         nameLabel.setFont(new Font("Verdana", Font.PLAIN, 24));
@@ -111,6 +114,7 @@ public class ClientPlayer extends Player {
         try {
             playerIconImage = ImageIO.read(ClientPlayer.class.getResource("/ui/buttons/player_icon.png"));
             homeImage = ImageIO.read(ClientPlayer.class.getResource("/ui/buttons/home.png"));
+            mouseImage = ImageIO.read(ClientPlayer.class.getResource("/ui/cursor.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -124,6 +128,10 @@ public class ClientPlayer extends Player {
         UIButton homeButton = new UIButton(new Vector2i(10, 245), homeImage,
                 new UIButtonHoverImpl(homeImage), this::recall);
         panel.addComponent(homeButton);
+
+        mousePointer = new UIMouse(new Vector2i(Mouse.getX(), Mouse.getY()), new Vector2i(16, 16), mouseImage);
+        ui.addComponent(mousePointer);
+
     }
 
     public void update() {
@@ -216,5 +224,9 @@ public class ClientPlayer extends Player {
 
     public void setShooting(boolean shooting) {
         this.shooting = shooting;
+    }
+
+    public UIMouse getMousePointer() {
+        return this.mousePointer;
     }
 }

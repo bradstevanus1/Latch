@@ -62,7 +62,7 @@ public class UIComponent {
     }
 
     public void render(Graphics g) {
-        g.setColor(color);
+
     }
 
 }

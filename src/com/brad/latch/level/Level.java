@@ -10,10 +10,13 @@ import com.brad.latch.entity.projectile.Projectile;
 import com.brad.latch.events.Event;
 import com.brad.latch.events.EventDispatcher;
 import com.brad.latch.events.EventListener;
+import com.brad.latch.events.types.MouseMovedEvent;
 import com.brad.latch.events.types.MousePressedEvent;
 import com.brad.latch.events.types.MouseReleasedEvent;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.layers.Layer;
+import com.brad.latch.graphics.ui.UIMouse;
+import com.brad.latch.input.Mouse;
 import com.brad.latch.level.tile.Tile;
 import com.brad.latch.level.tile.TileCoordinate;
 import com.brad.latch.level.tile.Tiles;
@@ -109,7 +112,7 @@ public abstract class Level extends Layer implements Tiles, EventListener {
     }
 
     //FIXME Player's projectile gets stuck in wall if firing from too close to a top surface
-    public boolean onMousePressed(MousePressedEvent e) {
+    private boolean onMousePressed(MousePressedEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             getClientPlayer().setShooting(true);
             return true;
@@ -117,13 +120,14 @@ public abstract class Level extends Layer implements Tiles, EventListener {
         return false;
     }
 
-    public boolean onMouseReleased(MouseReleasedEvent e) {
+    private boolean onMouseReleased(MouseReleasedEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             getClientPlayer().setShooting(false);
             return true;
         }
         return false;
     }
+
 
     // Removes objects from the list their field isRemoved equals true.
     private void remove() {

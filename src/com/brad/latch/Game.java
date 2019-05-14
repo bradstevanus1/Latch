@@ -22,8 +22,11 @@ import com.brad.latchConnect.serialization.data.LCObject;
 
 import javax.swing.JFrame;
 import java.awt.Canvas;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -105,6 +108,16 @@ public class Game extends Canvas implements Runnable, EventListener {
         addKeyListener(key);
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
+
+        // Transparent 16 x 16 pixel cursor image.
+        BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+
+        // Create a new blank cursor.
+        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+                cursorImg, new Point(0, 0), "blank cursor");
+
+        // Set the blank cursor to the JFrame.
+        frame.getContentPane().setCursor(blankCursor);
 
         save();
     }
@@ -279,25 +292,22 @@ public class Game extends Canvas implements Runnable, EventListener {
         // Render layers here
         Graphics g = bs.getDrawGraphics();
 
-        for (int i = 0; i < layerStack.size(); i++) {
-            Layer layer = layerStack.get(i);
-            if (layer instanceof UIManager) {
-                ((UIManager) layer).render(g);
-            } else {
-                layer.render(screen);
-            }
-        }
+        // Fill pixel array with appropriate rendered pixels
+        level.render(screen);
 
         /* Elements to draw end here */
 
         // When all rendering is finished in the screen object, transfer
-        // the pixels to this array, which is related to the image object
+        // the pixels to this array, which is related to the image objectd
 
         System.arraycopy(screen.pixels, 0, pixels, 0, pixels.length);
 
         // Returns a graphics context for the drawing buffer and draws everything
         g.drawImage(image, 0, 0, width * scale, height * scale, null);
-        //uiManager.render(g);
+
+        // Render all UI elements on top of the level element, such as the mouse pointer
+        uiManager.render(g);
+
         g.dispose();
         bs.show();
 
