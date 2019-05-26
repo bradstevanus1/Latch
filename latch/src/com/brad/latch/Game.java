@@ -95,6 +95,9 @@ public class Game extends Canvas implements Runnable, EventListener {
         frame = new JFrame();
         key = new Keyboard();
         Mouse mouse = new Mouse(this);
+
+        // TODO: connect to server here!
+
         level = SPAWN_LEVEL;
         uiManager = new UIManager(level);
         addLayer(level);
@@ -124,7 +127,7 @@ public class Game extends Canvas implements Runnable, EventListener {
     }
 
     private void setSize() {
-        LCDatabase db = LCDatabase.DeserializeFromFile("res/data/screen.bin");
+        LCDatabase db = LCDatabase.DeserializeFromFile("/data/screen.bin");
         if (db != null) {
             LCObject obj = db.findObject("Resolution");
             width = obj.findField("width").getInt();
@@ -146,7 +149,7 @@ public class Game extends Canvas implements Runnable, EventListener {
         obj.addField(LCField.Integer("scale", scale));
         db.addObject(obj);
 
-        db.serializeToFile("res/data/screen.bin");
+        db.serializeToFile("/data/screen.bin");
     }
 
     // Changing the level requires you to re-init:

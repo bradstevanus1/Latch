@@ -201,4 +201,6 @@ public abstract class Mob extends Entity {
         screen.renderMob((int) (x - size/2), (int) (y - size/2), this);
     }
 
+
+
 }
