@@ -73,4 +73,19 @@ public class MathUtils {
         return ((point.x >= rectangle.x && point.x <= (rectangle.x + rectangle.width)) &&
                 (point.y >= rectangle.y && point.y <= (rectangle.y + rectangle.height)));
     }
+
+    /**
+     * Returns the exponent that is applied to
+     * base {base} to yield the result {result}.
+     * For example:
+     * base = 2
+     * result = 8
+     * 2^n = 8 => n = 3
+     * @param base      The power base
+     * @param result    The power result
+     * @return          The power exponent
+     */
+    public static int getExponent(int base, int result) {
+        return (int) (Math.log(result)/Math.log(base));
+    }
 }

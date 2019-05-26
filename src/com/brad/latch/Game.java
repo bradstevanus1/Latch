@@ -12,6 +12,7 @@ import com.brad.latch.input.Mouse;
 import com.brad.latch.level.Level;
 import com.brad.latch.level.SpawnLevel;
 import com.brad.latch.level.tile.TileCoordinate;
+import com.brad.latch.net.Client;
 import com.brad.latch.net.player.NetPlayer;
 import com.brad.latch.util.MathUtils;
 import com.brad.latch.util.Vector2i;
@@ -55,7 +56,7 @@ public class Game extends Canvas implements Runnable, EventListener {
     private static int height = 168;
     private static int scale = 3;
     private static final double UPDATES_PER_SECOND = 60;
-    private static final boolean VSYNC = false;
+    private static final boolean VSYNC = true;
     private static final double FRAME_RATE = 120;
     private static final int PARTICLE_LIFE = 8 * 60;
 
@@ -97,6 +98,8 @@ public class Game extends Canvas implements Runnable, EventListener {
         Mouse mouse = new Mouse(this);
 
         // TODO: connect to server here!
+        Client client = new Client("localhost", 8192);
+        client.connect();
 
         level = SPAWN_LEVEL;
         uiManager = new UIManager(level);

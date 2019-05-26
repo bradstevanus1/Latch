@@ -3,21 +3,13 @@ package com.brad.latch.level.tile;
 import com.brad.latch.graphics.Screen;
 import com.brad.latch.graphics.Sprite;
 
+import static com.brad.latch.util.MathUtils.getExponent;
+
 public abstract class Tile {
 
     public Sprite sprite;
     private static final int TILE_SIZE = 16;
-    private static final int TILE_SIZE_EXP_2 = expOfBase2(TILE_SIZE);
-
-    @SuppressWarnings("SameParameterValue")
-    private static int expOfBase2(int num) {
-        int count = 1;
-        while (num != 2) {
-            num /= 2;
-            count++;
-        }
-        return count;
-    }
+    private static final int TILE_SIZE_EXP_2 = getExponent(2, TILE_SIZE);
 
     public Tile(Sprite sprite) {
         this.sprite = sprite;
