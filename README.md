@@ -1,4 +1,2 @@
-Latch, the 2D mechanical story-driven bull-hell game.
-My first foray into Java game creation using Swing.
-Created by Brad Stevanus, copyright 2019.
+Latch is a 2D shooter game tech demo of a custom 2D rendering engine built on AWT and Swing, created with the guidance of TheCherno on Youtube.
 
