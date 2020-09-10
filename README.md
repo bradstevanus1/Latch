@@ -8,4 +8,4 @@ Clone the repository and navigate to its root directory in a terminal. Run `java
 
 ## Building
 
-Alternatively, if you want to download the source and build the latest version of the game, you can open the project in Eclipse or another IDE and make the entry point `Game.java`.
+Alternatively -- if you want to download the source and build the latest version of the game -- you can open the project in Eclipse or another IDE, make the entry point `Game.java`, and then build the project.
